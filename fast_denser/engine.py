@@ -1,9 +1,12 @@
 import os
 import sys, getopt
-from fast_denser.utils import load_config
 from fast_denser.grammar import Grammar
+from fast_denser.utils import Evaluator
 import json
 from pathlib import Path
+from os import makedirs
+import random
+import numpy as np
 from jsmin import jsmin
 
 
@@ -61,9 +64,20 @@ def main(run, dataset, config_file, grammar_path): #pragma: no cover
     #best fitness so far
     best_fitness = None
 
-    
+    makedirs('%s/run_%d/' % (config["EVOLUTIONARY"]["save_path"], run), exist_ok=True)
 
+    #set random seeds
+    random.seed(config["EVOLUTIONARY"]["random_seeds"][run])
+    np.random.seed(config["EVOLUTIONARY"]["numpy_seeds"][run])
 
+    #create evaluator
+    scnn_eval = Evaluator(dataset, config)
+
+    #status variables
+    last_gen = -1
+    total_epochs = 0
+
+    return
 
 def process_input(argv): #pragma: no cover
     """

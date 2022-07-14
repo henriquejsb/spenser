@@ -1,0 +1,15 @@
+1) Read a dataset for testing networks
+    - Study time dimensions and what not
+    - Default to Poisson Encoding at first 
+    - Verifiy dims of resulting dataset
+    - Divide into train validation and test (check if labels are necessary)
+
+2) Try to assemble a network from a grammar
+    - Default to Input as it is 
+    - Simple geno to feno conversion 
+    - Check if you can actually run the network with random weights 
+    - Try to initialize a random population
+
+3) Try to run a trainining / validation testing and collect metrics 
+
+4) Try to pump the engine (seems simple right?)
