@@ -35,11 +35,14 @@
     //network specific parameters
     "NETWORK": {
       //structure to the hidden layers of the network [[non-terminal, min, max], ...]
-      "network_structure": [["features", 1, 10]],
+      "network_structure": [["features", 1, 5]],
   
       //number of layers on initialisation
-      "network_structure_init": {"features":[2,4,12]}
-  
+      "network_structure_init": {"features":[1,1,2]},
+
+      //output layer
+    "output": "classification"
+
     },
   
     //training parameters

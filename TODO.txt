@@ -18,3 +18,8 @@ Maybe add a classification layer (10 neurons?)
  - Study different options for this
  - Unsupervised learning requires different classification tasks
     SOMs ,SVMs, etc.
+
+
+
+Check if it is faster with more threads, CPU etc 
+classification layer

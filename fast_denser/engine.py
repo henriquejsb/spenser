@@ -30,7 +30,6 @@ def load_config(config_file):
         minified = jsmin(js_file.read())
 
     config = json.loads(minified)
-
     #config["TRAINING"]["fitness_metric"] = eval(config["TRAINING"]["fitness_metric"])
     #config["DATASET"]["shape"] = eval(config["DATASET"]["shape"])
     return config
@@ -84,14 +83,14 @@ def main(run, dataset, config_file, grammar_path): #pragma: no cover
         if gen == 0:
             print('[%d] Creating the initial population' % (run))
             print('[%d] Performing generation: %d' % (run, gen))
-            population = [Individual(config["NETWORK"]["network_structure"],\
+            population = [Individual(config["NETWORK"]["network_structure"],config["NETWORK"]["output"],\
                                 _id_).initialise(grammar, config["EVOLUTIONARY"]["MUTATIONS"]["reuse_layer"], config["NETWORK"]["network_structure_init"]) \
                                 for _id_ in range(config["EVOLUTIONARY"]["lambda"])]
             
             population_fits = []
             for idx, ind in enumerate(population):
                 ind.current_time = 0
-                ind.num_epochs = 0
+                ind.num_epochs = 1
                 population_fits.append(ind.evaluate(grammar, scnn_eval,'%s/run_%d/best_%d_%d.hdf5' % (config["EVOLUTIONARY"]["save_path"], run, gen, idx)))
                 ind.id = idx
     return
