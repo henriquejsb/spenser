@@ -1,7 +1,7 @@
 import os
 import sys, getopt
 from fast_denser.grammar import Grammar
-from fast_denser.utils import Evaluator
+from fast_denser.utils import Evaluator, Individual
 import json
 from pathlib import Path
 from os import makedirs
@@ -76,7 +76,24 @@ def main(run, dataset, config_file, grammar_path): #pragma: no cover
     #status variables
     last_gen = -1
     total_epochs = 0
+    for gen in range(last_gen+1, config["EVOLUTIONARY"]["num_generations"]):
 
+        #check the total number of epochs (stop criteria)
+        if total_epochs is not None and total_epochs >= config["EVOLUTIONARY"]["max_epochs"]:
+            break
+        if gen == 0:
+            print('[%d] Creating the initial population' % (run))
+            print('[%d] Performing generation: %d' % (run, gen))
+            population = [Individual(config["NETWORK"]["network_structure"],\
+                                _id_).initialise(grammar, config["EVOLUTIONARY"]["MUTATIONS"]["reuse_layer"], config["NETWORK"]["network_structure_init"]) \
+                                for _id_ in range(config["EVOLUTIONARY"]["lambda"])]
+            
+            population_fits = []
+            for idx, ind in enumerate(population):
+                ind.current_time = 0
+                ind.num_epochs = 0
+                population_fits.append(ind.evaluate(grammar, scnn_eval,'%s/run_%d/best_%d_%d.hdf5' % (config["EVOLUTIONARY"]["save_path"], run, gen, idx)))
+                ind.id = idx
     return
 
 def process_input(argv): #pragma: no cover

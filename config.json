@@ -35,43 +35,17 @@
     //network specific parameters
     "NETWORK": {
       //structure to the hidden layers of the network [[non-terminal, min, max], ...]
-      "network_structure": [["features", 1, 10], ["classification", 1, 10]],
-  
-      //output layer
-      "output": "softmax",
-  
-      //macro blocks: currently only learning
-      "macro_structure": ["learning"],
+      "network_structure": [["features", 1, 10]],
   
       //number of layers on initialisation
-      "network_structure_init": {"features":[2,4,12], "classification":[1]},
+      "network_structure_init": {"features":[2,4,12]}
   
-      //number of levels back for each of the blocks
-      "levels_back": {"features": 1, "classification": 1}
     },
   
     //training parameters
     "TRAINING": {
-      //data augmentation generator for the training data - keras interpretable
-      //set to "None" if no data augmentation is to be used
-      "datagen": "ImageDataGenerator(rescale=1/255.0,preprocessing_function=augmentation,horizontal_flip=True,rotation_range=180)",
-      //"datagen": "None",
-  
-      //data augmentation generator for the validation and testing data - keras interpretable
-      //Has to be similar to datagen but without data augmentation
-      //set to "None" if no data augmentation is to be used
-      "datagen_test": "ImageDataGenerator(rescale=1/255.0)",
-      //"datagen_test": "None",
-      //maximum training time for each network (in seconds)
-      "default_train_time": 600,
-      "batch_size": 32,
-      //fitness assignment metric
-      "fitness_metric": "f1"
-    },
-    //dataset configuration parameters
-    "DATASET": {
-      "color_mode": "L",
-      "shape": "(90,90)",
-      "data_split": 0.2
+      "time":100,
+      "dt":1      
     }
+    
   }

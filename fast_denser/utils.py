@@ -19,8 +19,13 @@ from time import time
 import numpy as np
 import os
 from fast_denser.utilities.data import load_dataset
+from bindsnet.network import Network
+from bindsnet.learning import PostPre
+from bindsnet.network.nodes import DiehlAndCookNodes, Input, LIFNodes
+from bindsnet.network.topology import Connection, Conv1dConnection, SparseConnection
 from multiprocessing import Pool
 import contextlib
+from time import time as t
 
 DEBUG = False
 
@@ -75,7 +80,7 @@ class Evaluator:
                 dataset to be loaded
         """
         self.config = config
-        self.dataset = load_dataset(dataset,config["DATASET"])
+        self.dataset = load_dataset(dataset,config)
       
 
 
@@ -124,53 +129,329 @@ class Evaluator:
 
 
 
-    def assemble_network(self, keras_layers, input_size):
-        """
-            Maps the layers phenotype into a keras model
-
-            Parameters
-            ----------
-            keras_layers : list
-                output from get_layers
-
-            input_size : tuple
-                network input shape
-
-            Returns
-            -------
-            model : keras.models.Model
-                keras trainable model
-        """
-
+    def assemble_network(self, bindsnet_layers, input_size):
+  
+        #create Network object
+        network = Network()
         #input layer
-        inputs = keras.layers.Input(shape=input_size)
+        inputs = Input(n=28 * 28, shape=(1, 28 * 28), traces=True)
+        
 
         #Create layers -- ADD NEW LAYERS HERE
-        layers = []
-        for layer_type, layer_params in keras_layers:
+        layers = [(inputs,None)]
+        for layer_type, layer_params in bindsnet_layers:
             #convolutional layer
             if layer_type == 'conv':
-                conv_layer = keras.layers.Conv2D(filters=int(layer_params['num-filters'][0]),
-                                                 kernel_size=(int(layer_params['filter-shape'][0]), int(layer_params['filter-shape'][0])),
-                                                 strides=(int(layer_params['stride'][0]), int(layer_params['stride'][0])),
-                                                 padding=layer_params['padding'][0],
-                                                 activation=layer_params['act'][0],
-                                                 use_bias=eval(layer_params['bias'][0]),
-                                                 kernel_initializer='he_normal',
-                                                 kernel_regularizer=keras.regularizers.l2(0.0005))
-                layers.append(conv_layer)
+                filters = int(layer_params['num-filters'][0])
+                kernel_size = int(layer_params['kernel-size'][0])
+                padding = layer_params['padding'][0]
+                strides = int(layer_params['strides'][0])
+                conv_size = int((28 * 28 - kernel_size + 2 * padding) / strides) + 1
 
+                conv_layer = LIFNodes(
+                     n=filters * conv_size, 
+                     shape=(filters, conv_size), 
+                     traces=True
+                )
+                
+                conv_conn = Conv1dConnection(
+                    layers[-1][0],
+                    conv_layer,
+                    kernel_size=kernel_size,
+                    stride=strides,
+                    update_rule=PostPre,
+                    norm=0.4 * kernel_size,
+                    nu=[1e-4, 1e-2],
+                    wmax=1.0,
+                )
+                layers.append((conv_layer, conv_conn))
+            elif layer_type == 'fc':
+                fc_layer = LIFNodes(
+                    n=int(layer_params['num-units'][0]),
+                    traces=True
+                )
+                fc_conn = Connection(
+                    source=layers[-1][0],
+                    target=fc_layer,
+                    update_rule=PostPre,
+                )
+                layers.append((fc_layer, fc_conn))
+            elif layer_type == 'sparse':
+                fc_layer = LIFNodes(
+                    n=int(layer_params['num-units'][0]),
+                    traces=True
+                )
+                fc_conn = SparseConnection(
+                    source=layers[-1][0],
+                    target=fc_layer
+                )
+                layers.append((fc_layer, fc_conn))
          
             #END ADD NEW LAYERS
 
+        network.add_layer(inputs, name="X")
+        last_layer = "X"
+        for ind,layer_and_conn in enumerate(layers[1:-1]):
+            layer,conn = layer_and_conn
+            network.add_layer(layer, name=str(ind))               
+            network.add_connection(conn,source=last_layer, target=str(ind))
+            last_layer = str(ind)
 
-       
+
+        network.add_layer(layers[-1][0], name="Y")
+        network.add_connection(layers[-1][1],source=last_layer,target="Y")
         
-        #model = keras.models.Model(inputs=inputs, outputs=data_layers[-1])
+        return network
+
+    def evaluate(self, phenotype, weights_save_path, parent_weights_path,\
+                num_epochs, input_size=(90, 90, 1)): #pragma: no cover
+        
+        model_phenotype = phenotype
+        model_phenotype = model_phenotype.rstrip().lstrip().replace('  ', ' ')
+
+        bindsnet_layers = self.get_layers(model_phenotype)
+       
+
+        model = self.assemble_network(bindsnet_layers, input_size)
+
+        #save final moodel to file
+        #model.save(weights_save_path.replace('.hdf5', '.h5'))
+        print("Begin training.\n")
+        start = t()
+        #measure test performance
+        
         
         if DEBUG:
-            model.summary()
+            print(phenotype, accuracy_test)
 
-        return model
+        #score.history['trainable_parameters'] = trainable_count
+        #score.history['accuracy_test'] = accuracy_test
 
+
+        return {'accuracy':10}
+
+def evaluate(args): #pragma: no cover
+    """
+        Function used to deploy a new process to train a candidate solution.
+        Each candidate solution is trained in a separe process to avoid memory problems.
+
+        Parameters
+        ----------
+        args : tuple
+            cnn_eval : Evaluator
+                network evaluator
+
+            phenotype : str
+                individual phenotype
+
+            load_prev_weights : bool
+                resume training from a previous train or not
+
+            weights_save_path : str
+                path where to save the model weights after training
+
+            parent_weights_path : str
+                path to the weights of the previous training
+
+            train_time : float
+                maximum training time
+
+            num_epochs : int
+                maximum number of epochs
+
+        Returns
+        -------
+        score_history : dict
+            training data: loss and accuracy
+    """
+
+    import torch
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    scnn_eval, phenotype, weights_save_path, parent_weights_path, num_epochs = args
+
+    return scnn_eval.evaluate(phenotype, weights_save_path, parent_weights_path, num_epochs)
+    
+
+
+class Module:
+    """
+        Each of the units of the outer-level genotype
+
+
+        Attributes
+        ----------
+        module : str
+            non-terminal symbol
+
+        min_expansions : int
+            minimum expansions of the block
+
+        max_expansions : int
+            maximum expansions of the block
+
+        levels_back : dict
+            number of previous layers a given layer can receive as input
+
+        layers : list
+            list of layers of the module
+
+        connections : dict
+            list of connetions of each layer
+
+
+        Methods
+        -------
+            initialise(grammar, reuse)
+                Randomly creates a module
+    """
+
+    def __init__(self, module, min_expansions, max_expansions):
+        """
+            Parameters
+            ----------
+            module : str
+                non-terminal symbol
+
+            min_expansions : int
+                minimum expansions of the block
+        
+            max_expansions : int
+                maximum expansions of the block
+
+        """
+
+        self.module = module
+        self.min_expansions = min_expansions
+        self.max_expansions = max_expansions
+        self.layers = []
+
+    def initialise(self, grammar, reuse, init_max):
+        """
+            Randomly creates a module
+
+            Parameters
+            ----------
+            grammar : Grammar
+                grammar instace that stores the expansion rules
+
+            reuse : float
+                likelihood of reusing an existing layer
+
+            Returns
+            -------
+            score_history : dict
+                training data: loss and accuracy
+        """
+
+        num_expansions = random.choice(init_max[self.module])
+
+        #Initialise layers
+        for idx in range(num_expansions):
+            if idx>0 and random.random() <= reuse:
+                r_idx = random.randint(0, idx-1)
+                self.layers.append(self.layers[r_idx])
+            else:
+                self.layers.append(grammar.initialise(self.module))
+
+       
+
+
+
+class Individual:
+   
+    def __init__(self, network_structure, ind_id):
+     
+
+        self.network_structure = network_structure
+        #self.output_rule = output_rule
+        #self.macro_rules = macro_rules
+        self.modules = []
+        self.output = None
+        self.macro = []
+        self.phenotype = None
+        self.fitness = None
+        self.metrics = None
+        self.num_epochs = 0
+        self.trainable_parameters = None
+        self.time = None
+        self.current_time = 0
+        self.train_time = 0
+        self.id = ind_id
+
+    def initialise(self, grammar, reuse, init_max):
+        """
+            Randomly creates a candidate solution
+
+            Parameters
+            ----------
+            grammar : Grammar
+                grammar instaces that stores the expansion rules
+
+
+            reuse : float
+                likelihood of reusing an existing layer
+
+            Returns
+            -------
+            candidate_solution : Individual
+                randomly created candidate solution
+        """
+
+        for non_terminal, min_expansions, max_expansions in self.network_structure:
+            new_module = Module(non_terminal, min_expansions, max_expansions)
+            new_module.initialise(grammar, reuse, init_max)
+
+            self.modules.append(new_module)
+
+
+        return self
+
+
+    def decode(self, grammar):
+        """
+            Maps the genotype to the phenotype
+
+            Parameters
+            ----------
+            grammar : Grammar
+                grammar instaces that stores the expansion rules
+
+            Returns
+            -------
+            phenotype : str
+                phenotype of the individual to be used in the mapping to the keras model.
+        """
+
+        phenotype = ''
+        offset = 0
+        layer_counter = 0
+        for module in self.modules:
+            offset = layer_counter
+            for layer_idx, layer_genotype in enumerate(module.layers):
+                layer_counter += 1
+                phenotype += ' ' + grammar.decode(module.module, layer_genotype)
+
+        self.phenotype = phenotype.rstrip().lstrip()
+        return self.phenotype
+
+    def evaluate(self, grammar, cnn_eval, weights_save_path, parent_weights_path=''): #pragma: no cover
+  
+
+        phenotype = self.decode(grammar)
+        start = time()
+        '''
+        num_pool_workers=1 
+        with contextlib.closing(Pool(num_pool_workers)) as po: 
+            pool_results = po.map_async(evaluate, [(cnn_eval, phenotype,
+                            weights_save_path, parent_weights_path,\
+                            self.num_epochs)])
+            metrics = pool_results.get()[0]
+        '''
+        self.fitness = evaluate((cnn_eval, phenotype,
+                            weights_save_path, parent_weights_path,\
+                            self.num_epochs))
+       
+        return self.fitness
 
