@@ -22,10 +22,13 @@ from fast_denser.utilities.data import load_dataset
 from bindsnet.network import Network
 from bindsnet.learning import PostPre
 from bindsnet.network.nodes import DiehlAndCookNodes, Input, LIFNodes
-from bindsnet.network.topology import Connection, Conv1dConnection, SparseConnection
+from bindsnet.network.topology import Connection, Conv2dConnection, SparseConnection
+from bindsnet.evaluation import all_activity, assign_labels, proportion_weighting
+from bindsnet.network.monitors import Monitor
 from multiprocessing import Pool
 import contextlib
 from time import time as t
+from tqdm import tqdm
 
 DEBUG = False
 
@@ -81,7 +84,8 @@ class Evaluator:
         """
         self.config = config
         self.dataset = load_dataset(dataset,config)
-      
+        self.time = config["TRAINING"]["time"]
+        self.dt = config["TRAINING"]["dt"]
 
 
     def get_layers(self, phenotype):
@@ -134,7 +138,7 @@ class Evaluator:
         #create Network object
         network = Network()
         #input layer
-        inputs = Input(n=28 * 28, shape=(1, 28 * 28), traces=True)
+        inputs = Input(n=28 * 28, shape=(1, 28, 28), traces=True)
         
 
         #Create layers -- ADD NEW LAYERS HERE
@@ -142,29 +146,38 @@ class Evaluator:
         for layer_type, layer_params in bindsnet_layers:
             #convolutional layer
             if layer_type == 'conv':
-                filters = int(layer_params['num-filters'][0])
-                kernel_size = int(layer_params['kernel-size'][0])
-                padding = layer_params['padding'][0]
-                strides = int(layer_params['strides'][0])
-                conv_size = int((28 * 28 - kernel_size + 2 * padding) / strides) + 1
 
-                conv_layer = LIFNodes(
-                     n=filters * conv_size, 
-                     shape=(filters, conv_size), 
-                     traces=True
+                #filters = int(layer_params['num-filters'][0])
+                n_filters = 25
+                #kernel_size = int(layer_params['kernel-size'][0])
+                kernel_size = 16
+                #padding = layer_params['padding'][0]
+                padding = 0
+                #strides = int(layer_params['stride'][0])
+                strides = 4
+
+                
+                conv_size = int((28 - kernel_size + 2 * padding) / strides) + 1
+
+
+                conv_layer = DiehlAndCookNodes(
+                    n=n_filters * conv_size * conv_size,
+                    shape=(n_filters, conv_size, conv_size),
+                    traces=True,
                 )
                 
-                conv_conn = Conv1dConnection(
+                conv_conn = Conv2dConnection(
                     layers[-1][0],
                     conv_layer,
                     kernel_size=kernel_size,
                     stride=strides,
                     update_rule=PostPre,
-                    norm=0.4 * kernel_size,
+                    norm=0.4 * kernel_size**2,
                     nu=[1e-4, 1e-2],
                     wmax=1.0,
                 )
                 layers.append((conv_layer, conv_conn))
+
             elif layer_type == 'fc':
                 fc_layer = LIFNodes(
                     n=int(layer_params['num-units'][0]),
@@ -211,24 +224,171 @@ class Evaluator:
 
         bindsnet_layers = self.get_layers(model_phenotype)
        
-
+        print(model_phenotype)
         model = self.assemble_network(bindsnet_layers, input_size)
+        
+        import torch
 
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        torch.set_num_threads(os.cpu_count() - 1)
+        print("Running on Device = ", device)
+        model.to(device)
+
+       
         #save final moodel to file
-        #model.save(weights_save_path.replace('.hdf5', '.h5'))
+        #model.save(weights_save_path.replace('.hdf5', '.h5'))       
+
+        
+
+        n_train = 60000
+        batch_size = 32
+        n_classes = 10
+        n_neurons = 100
+        n_updates = 50
+        n_workers = 0
+        update_steps = int(n_train / batch_size / n_updates)
+        update_interval = update_steps * batch_size
+
+
+
+        assignments = -torch.ones(n_neurons, device=device)
+        proportions = torch.zeros((n_neurons, n_classes), device=device)
+        rates = torch.zeros((n_neurons, n_classes), device=device)
+
+        # Sequence of accuracy estimates.
+        accuracy = {"all": [], "proportion": []}
+
+
+         #------------------- COPIED FROM SNN EXAMPLE
+
+
+        # Set up monitors for spikes and voltages
+        spikes = {}
+        for layer in set(model.layers):
+            spikes[layer] = Monitor(
+                model.layers[layer], state_vars=["s"], time=int(self.time / self.dt), device=device
+            )
+            model.add_monitor(spikes[layer], name="%s_spikes" % layer)
+
+        voltages = {}
+        for layer in set(model.layers) - {"X"}:
+            voltages[layer] = Monitor(
+                model.layers[layer], state_vars=["v"], time=int(self.time / self.dt), device=device
+            )
+            model.add_monitor(voltages[layer], name="%s_voltages" % layer)
+
+        spike_record = torch.zeros((update_interval, int(self.time / self.dt), n_neurons), device=device)
+
         print("Begin training.\n")
         start = t()
+
+        for epoch in range(num_epochs):
+            
+            labels = []
+
+            dataloader = torch.utils.data.DataLoader(
+                self.dataset["train"], batch_size=batch_size, shuffle=True, num_workers=n_workers, pin_memory=True
+            )
+
+
+            pbar = tqdm(total=n_train)
+
+
+            for step, batch in enumerate(dataloader):
+                
+                # Assign labels to excitatory neurons.
+                if step % update_steps == 0 and step > 0:
+                    # Convert the array of labels into a tensor
+                    label_tensor = torch.tensor(labels, device=device)
+
+                    # Get network predictions.
+                    all_activity_pred = all_activity(
+                        spikes=spike_record, assignments=assignments, n_labels=n_classes
+                    )
+                    proportion_pred = proportion_weighting(
+                        spikes=spike_record,
+                        assignments=assignments,
+                        proportions=proportions,
+                        n_labels=n_classes,
+                    )
+
+                    # Compute network accuracy according to available classification strategies.
+                    accuracy["all"].append(
+                        100
+                        * torch.sum(label_tensor.long() == all_activity_pred).item()
+                        / len(label_tensor)
+                    )
+                    accuracy["proportion"].append(
+                        100
+                        * torch.sum(label_tensor.long() == proportion_pred).item()
+                        / len(label_tensor)
+                    )
+
+                    print(
+                        "\nAll activity accuracy: %.2f (last), %.2f (average), %.2f (best)"
+                        % (
+                            accuracy["all"][-1],
+                            np.mean(accuracy["all"]),
+                            np.max(accuracy["all"]),
+                        )
+                    )
+                    print(
+                        "Proportion weighting accuracy: %.2f (last), %.2f (average), %.2f"
+                        " (best)\n"
+                        % (
+                            accuracy["proportion"][-1],
+                            np.mean(accuracy["proportion"]),
+                            np.max(accuracy["proportion"]),
+                        )
+                    )
+
+                    # Assign labels to excitatory layer neurons.
+                    assignments, proportions, rates = assign_labels(
+                        spikes=spike_record,
+                        labels=label_tensor,
+                        n_labels=n_classes,
+                        rates=rates,
+                    )
+
+                    labels = []
+
+
+
+                inputs = {
+                    "X": batch["encoded_image"].view(int(self.time / self.dt), batch_size, 1, 28, 28).to(device)
+                }
+                inputs = {k: v.cuda() for k, v in inputs.items()}
+
+                # Remember labels.
+                labels.extend(batch["label"].tolist())
+
+                model.run(inputs=inputs, time=self.time, input_time_dim=1)
+                model.reset_state_variables()
+                
+                pbar.set_description_str("Train progress: ")
+                pbar.update(batch_size)
+        
+            pbar.close()
+        #print("Progress: %d / %d (%.4f seconds)" % (epoch + 1, num_epochs, t() - start))
+        print("Training complete.\n")
         #measure test performance
         
+                
+        # Sequence of accuracy estimates.
+        accuracy = {"all": 0, "proportion": 0}
+
+        # Record spikes during the simulation.
+        #spike_record = torch.zeros(1, int(self.time / self.dt), n_neurons, device=device)
         
         if DEBUG:
-            print(phenotype, accuracy_test)
+            pass
+            #print(phenotype, accuracy_test)
 
         #score.history['trainable_parameters'] = trainable_count
         #score.history['accuracy_test'] = accuracy_test
 
 
-        return {'accuracy':10}
+        return {'accuracy_test':10}
 
 def evaluate(args): #pragma: no cover
     """
@@ -265,9 +425,7 @@ def evaluate(args): #pragma: no cover
             training data: loss and accuracy
     """
 
-    import torch
-
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
 
     scnn_eval, phenotype, weights_save_path, parent_weights_path, num_epochs = args
 
@@ -361,11 +519,11 @@ class Module:
 
 class Individual:
    
-    def __init__(self, network_structure, ind_id):
+    def __init__(self, network_structure, output_rule, ind_id):
      
 
         self.network_structure = network_structure
-        #self.output_rule = output_rule
+        self.output_rule = output_rule
         #self.macro_rules = macro_rules
         self.modules = []
         self.output = None
@@ -405,6 +563,7 @@ class Individual:
 
             self.modules.append(new_module)
 
+        self.output = grammar.initialise(self.output_rule)
 
         return self
 
@@ -433,6 +592,10 @@ class Individual:
                 layer_counter += 1
                 phenotype += ' ' + grammar.decode(module.module, layer_genotype)
 
+        phenotype += ' '+grammar.decode(self.output_rule, self.output)
+     
+
+
         self.phenotype = phenotype.rstrip().lstrip()
         return self.phenotype
 
@@ -441,6 +604,8 @@ class Individual:
 
         phenotype = self.decode(grammar)
         start = time()
+
+
         '''
         num_pool_workers=1 
         with contextlib.closing(Pool(num_pool_workers)) as po: 
