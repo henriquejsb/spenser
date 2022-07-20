@@ -13,3 +13,8 @@
 3) Try to run a trainining / validation testing and collect metrics 
 
 4) Try to pump the engine (seems simple right?)
+
+Maybe add a classification layer (10 neurons?)
+ - Study different options for this
+ - Unsupervised learning requires different classification tasks
+    SOMs ,SVMs, etc.
