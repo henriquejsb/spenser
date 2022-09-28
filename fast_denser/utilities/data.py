@@ -7,7 +7,7 @@ from torchvision import transforms
 def load_dataset(dataset, config):
     time = config["TRAINING"]["time"]
     dt = config["TRAINING"]["dt"]
-    intensity = 64
+    intensity = 128
     train = MNIST(
         PoissonEncoder(time=time, dt=dt),
         None,

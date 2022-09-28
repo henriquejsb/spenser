@@ -38,7 +38,7 @@
       "network_structure": [["features", 1, 5]],
   
       //number of layers on initialisation
-      "network_structure_init": {"features":[1,1,2]},
+      "network_structure_init": {"features":[1]},
 
       //output layer
     "output": "classification"

@@ -25,10 +25,20 @@ from bindsnet.network.nodes import DiehlAndCookNodes, Input, LIFNodes
 from bindsnet.network.topology import Connection, Conv2dConnection, SparseConnection
 from bindsnet.evaluation import all_activity, assign_labels, proportion_weighting
 from bindsnet.network.monitors import Monitor
+from bindsnet.analysis.plotting import (
+    plot_assignments,
+    plot_input,
+    plot_performance,
+    plot_spikes,
+    plot_voltages,
+    plot_weights,
+)
+from bindsnet.utils import get_square_assignments, get_square_weights
 from multiprocessing import Pool
 import contextlib
 from time import time as t
 from tqdm import tqdm
+import matplotlib.pyplot as plt
 
 DEBUG = False
 
@@ -136,7 +146,7 @@ class Evaluator:
     def assemble_network(self, bindsnet_layers, input_size):
   
         #create Network object
-        network = Network()
+        network = Network(learning=True)
         #input layer
         inputs = Input(n=28 * 28, shape=(1, 28, 28), traces=True)
         
@@ -159,7 +169,7 @@ class Evaluator:
                 
                 conv_size = int((28 - kernel_size + 2 * padding) / strides) + 1
 
-
+                print("CONV N:",n_filters * conv_size * conv_size)
                 conv_layer = DiehlAndCookNodes(
                     n=n_filters * conv_size * conv_size,
                     shape=(n_filters, conv_size, conv_size),
@@ -172,14 +182,14 @@ class Evaluator:
                     kernel_size=kernel_size,
                     stride=strides,
                     update_rule=PostPre,
-                    norm=0.4 * kernel_size**2,
+                   # norm=0.4 * kernel_size**2,
                     nu=[1e-4, 1e-2],
                     wmax=1.0,
                 )
                 layers.append((conv_layer, conv_conn))
 
             elif layer_type == 'fc':
-                fc_layer = LIFNodes(
+                fc_layer =  LIFNodes(
                     n=int(layer_params['num-units'][0]),
                     traces=True
                 )
@@ -187,6 +197,9 @@ class Evaluator:
                     source=layers[-1][0],
                     target=fc_layer,
                     update_rule=PostPre,
+                    nu=[1e-4, 1e-2],
+                    wmax=1.0
+                    
                 )
                 layers.append((fc_layer, fc_conn))
             elif layer_type == 'sparse':
@@ -206,14 +219,17 @@ class Evaluator:
         last_layer = "X"
         for ind,layer_and_conn in enumerate(layers[1:-1]):
             layer,conn = layer_and_conn
-            network.add_layer(layer, name=str(ind))               
-            network.add_connection(conn,source=last_layer, target=str(ind))
-            last_layer = str(ind)
+            network.add_layer(layer, name=str(ind+1))               
+            network.add_connection(conn,source=last_layer, target=str(ind+1))
+            last_layer = str(ind+1)
+            print(last_layer)
+            print(conn.update_rule)
 
 
         network.add_layer(layers[-1][0], name="Y")
         network.add_connection(layers[-1][1],source=last_layer,target="Y")
-        
+        print(network.connections)
+        #print(network.connections[('X','Y')].update_rule)
         return network
 
     def evaluate(self, phenotype, weights_save_path, parent_weights_path,\
@@ -239,13 +255,13 @@ class Evaluator:
         #model.save(weights_save_path.replace('.hdf5', '.h5'))       
 
         
-
+        plot = True
         n_train = 60000
         batch_size = 32
         n_classes = 10
-        n_neurons = 100
+        n_neurons = 30
         n_updates = 50
-        n_workers = 0
+        n_workers = 20
         update_steps = int(n_train / batch_size / n_updates)
         update_interval = update_steps * batch_size
 
@@ -277,10 +293,22 @@ class Evaluator:
             )
             model.add_monitor(voltages[layer], name="%s_voltages" % layer)
 
+
+        inpt_ims, inpt_axes = None, None
+        spike_ims, spike_axes = None, None
+        weights_im = None
+        assigns_im = None
+        perf_ax = None
+        voltage_axes, voltage_ims = None, None
+
+
         spike_record = torch.zeros((update_interval, int(self.time / self.dt), n_neurons), device=device)
 
         print("Begin training.\n")
         start = t()
+
+        #print(spikes["Y"])
+        #print(spikes["Y"]["s"])
 
         for epoch in range(num_epochs):
             
@@ -298,6 +326,7 @@ class Evaluator:
                 
                 # Assign labels to excitatory neurons.
                 if step % update_steps == 0 and step > 0:
+                    print(spike_record)
                     # Convert the array of labels into a tensor
                     label_tensor = torch.tensor(labels, device=device)
 
@@ -349,22 +378,75 @@ class Evaluator:
                         n_labels=n_classes,
                         rates=rates,
                     )
+                    print(assignments)
 
                     labels = []
-
-
-
+                '''
+                # Get next input sample.
+                inputs = {"X": batch["encoded_image"]}
+                print(inputs["X"].size())
+                inputs = {k: v.cuda() for k, v in inputs.items()}
+                print(inputs["X"].size())
+                '''
                 inputs = {
                     "X": batch["encoded_image"].view(int(self.time / self.dt), batch_size, 1, 28, 28).to(device)
                 }
+                #print(inputs["X"].size())
                 inputs = {k: v.cuda() for k, v in inputs.items()}
-
+                #print(inputs["X"].size())
+                #print("--")
+                #return
                 # Remember labels.
                 labels.extend(batch["label"].tolist())
 
                 model.run(inputs=inputs, time=self.time, input_time_dim=1)
-                model.reset_state_variables()
                 
+
+                # Add to spikes recording.
+                s = spikes["Y"].get("s").permute((1, 0, 2))
+                spike_record[
+                    (step * batch_size)
+                    % update_interval : (step * batch_size % update_interval)
+                    + s.size(0)
+                ] = s
+
+                # Optionally plot various simulation information.
+                if step % update_steps == 0 and step > 0 and plot:
+                    
+
+                    image = batch["image"][ 0].view(28, 28)
+                    inpt = inputs["X"][:,0].view(self.time, 784).sum(0).view(28, 28)
+                    lable = batch["label"][0]
+                    
+                    n_sqrt = int(np.ceil(np.sqrt(n_neurons)))
+                    n_layers = len(model.layers)
+                    last_layer = 'X' if n_layers == 2 else str(n_layers-2)
+                    input_exc_weights = model.connections[(last_layer, "Y")].w
+                    last_sqrt =  int(np.ceil(np.sqrt(model.layers[last_layer].n)))
+                    print("WEIGHTS:")
+                    print(input_exc_weights)
+                    square_weights = get_square_weights(
+                        input_exc_weights.view(model.layers[last_layer].n, n_neurons), n_sqrt, last_sqrt
+                    )
+                    square_assignments = get_square_assignments(assignments, n_sqrt)
+                    
+                    
+                    spikes_ = {
+                        layer: spikes[layer].get("s")[:, 0].contiguous() for layer in spikes
+                    }
+                    inpt_axes, inpt_ims = plot_input(
+                        image, inpt, label=lable, axes=inpt_axes, ims=inpt_ims
+                    )
+                    spike_ims, spike_axes = plot_spikes(spikes_, ims=spike_ims, axes=spike_axes)
+                    weights_im = plot_weights(square_weights, im=weights_im)
+                    assigns_im = plot_assignments(square_assignments, im=assigns_im)
+                    perf_ax = plot_performance(
+                        accuracy, x_scale=update_steps * batch_size, ax=perf_ax
+                    )
+
+                    plt.pause(1e-8)
+                
+                model.reset_state_variables()
                 pbar.set_description_str("Train progress: ")
                 pbar.update(batch_size)
         
