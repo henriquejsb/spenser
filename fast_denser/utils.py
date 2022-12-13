@@ -20,7 +20,14 @@ import numpy as np
 import os
 from fast_denser.utilities.data import load_dataset
 
-
+import torch, torch.nn as nn
+import snntorch as snn
+from snntorch import surrogate
+from snntorch import functional as SF
+from snntorch import utils
+from typing import OrderedDict
+from torch.utils.data import DataLoader
+import tonic
 
 from multiprocessing import Pool
 import contextlib
@@ -81,8 +88,7 @@ class Evaluator:
         """
         self.config = config
         self.dataset = load_dataset(dataset,config)
-        self.time = config["TRAINING"]["time"]
-        self.dt = config["TRAINING"]["dt"]
+       
 
 
     def get_layers(self, phenotype):
@@ -130,9 +136,43 @@ class Evaluator:
 
 
 
-    def assemble_network(self):
-  
-        return []
+    def assemble_network(self, torch_layers, input_size):
+
+        #last_output = input_size[0]*input_size[1]
+        last_output = 34*34*2
+        layers = []
+        idx = 0
+        beta = 0.9  # neuron decay rate
+        spike_grad = surrogate.fast_sigmoid()
+        first_fc = True
+
+        for layer_type, layer_params in torch_layers:
+            if layer_type == 'fc':
+                if first_fc:
+                    layers += [(str(idx),nn.Flatten())]
+                    idx += 1
+                    first_fc = False
+                num_units = int(layer_params['num-units'][0])
+                #Adding layers as tuple (string_id,layer) so that we can assemble them using Sequential(OrderededDict)
+                layers += [(str(idx),nn.Linear(last_output, num_units))]
+                idx += 1
+                layers += [(str(idx),snn.Leaky(beta=beta, spike_grad=spike_grad, init_hidden=True))]
+                idx += 1
+                last_output = num_units
+            elif layer_type == 'conv':
+                pass
+            elif layer_type == 'batch-norm':
+                pass
+            elif layer_type == 'pool-avg':
+                pass
+            elif layer_type == 'pool-max':
+                pass
+            elif layer_type == 'dropout':
+                pass
+        layers[-1][1].output = True
+        model = nn.Sequential(OrderedDict(layers))
+        print(model)
+        return model
 
     def evaluate(self, phenotype, weights_save_path, parent_weights_path,\
                 num_epochs, input_size=(90, 90, 1)): #pragma: no cover
@@ -140,19 +180,67 @@ class Evaluator:
         model_phenotype = phenotype
         model_phenotype = model_phenotype.rstrip().lstrip().replace('  ', ' ')
 
+        torch_layers = self.get_layers(model_phenotype)
         
-        
-        import torch
-
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         torch.set_num_threads(os.cpu_count() - 1)
         print("Running on Device = ", device)
+        model = self.assemble_network(torch_layers, input_size)
         model.to(device)
 
+        optimizer = torch.optim.Adam(model.parameters(), lr=2e-2, betas=(0.9, 0.999))
+        loss_fn = SF.mse_count_loss(correct_rate=0.9, incorrect_rate=0.1)
+        batch_size = 128
 
+        trainloader = DataLoader(self.dataset, batch_size = batch_size, collate_fn = tonic.collation.PadTensors(), shuffle = True)
 
         print("Begin training.\n")
         start = t()
+
+
+        loss_hist = []
+        acc_hist = []
+
+        def forward_pass(net, data):
+            spk_rec = []
+            utils.reset(net)  # resets hidden states for all LIF neurons in net
+            data = data.transpose(0,1)
+            #print("IN FUNCTION ", data.shape)
+            for step in range(data.size(0)):  # data.size(0) = number of time steps
+                #print(data[step].shape)
+                spk_out, mem_out = net(data[step])
+                spk_rec.append(spk_out)
+
+            return torch.stack(spk_rec)
+
+        # training loop
+        for epoch in range(num_epochs):
+            for i, (data, targets) in enumerate(iter(trainloader)):
+                data = data.to(device)
+                targets = targets.to(device)
+                print(data.shape)
+                #print(targets.shape)
+                model.train()
+                #spk_rec = forward_pass(net, data)
+                spk_rec = forward_pass(model, data)
+                #print("IN LOOP ",data.shape)
+                loss_val = loss_fn(spk_rec, targets)
+
+                # Gradient calculation + weight update
+                optimizer.zero_grad()
+                loss_val.backward()
+                optimizer.step()
+
+                # Store loss history for future plotting
+                loss_hist.append(loss_val.item())
+
+                print(f"Epoch {epoch}, Iteration {i} \nTrain Loss: {loss_val.item():.2f}")
+
+                acc = SF.accuracy_rate(spk_rec, targets)
+                acc_hist.append(acc)
+                print(f"Accuracy: {acc * 100:.2f}%\n")
+
+
 
         return {'accuracy_test':10}
 

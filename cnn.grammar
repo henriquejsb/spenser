@@ -1,5 +1,3 @@
-<features> ::= <convolution>
-<convolution> ::= layer:conv [num-filters,int,1,32,256] [filter-shape,int,1,2,7] [stride,int,1,1,3]
+<features> ::= <fully-connected>
 <fully-connected> ::= layer:fc [num-units,int,1,32,128]
-<classification> ::= layer:fc num-units:100
-<sparsely-connected> ::= layer:sparse [num-units,int,1,128,2048]
+<classification> ::= layer:fc num-units:10
