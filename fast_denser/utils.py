@@ -140,6 +140,7 @@ class Evaluator:
 
         #last_output = input_size[0]*input_size[1]
         last_output = 34*34*2
+        #TODO 
         layers = []
         idx = 0
         beta = 0.9  # neuron decay rate
