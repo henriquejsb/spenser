@@ -7,7 +7,7 @@ from snntorch import spikegen
 from sklearn.model_selection import train_test_split
 import numpy as np
 # Training Parameters
-batch_size=128
+batch_size=32
 data_path='./data/mnist'
 num_classes = 10  # MNIST has 10 output classes
 

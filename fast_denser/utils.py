@@ -141,7 +141,7 @@ class Evaluator:
     def assemble_network(self, torch_layers, input_size):
 
         #last_output = input_size[0]*input_size[1]
-        last_output = 28*28
+        last_output = (1,28,28)
         #TODO 
         layers = []
         idx = 0
@@ -155,23 +155,62 @@ class Evaluator:
                     layers += [(str(idx),nn.Flatten())]
                     idx += 1
                     first_fc = False
+                    last_output = last_output[0] * last_output[1] * last_output[2]
                 num_units = int(layer_params['num-units'][0])
+                
                 #Adding layers as tuple (string_id,layer) so that we can assemble them using Sequential(OrderededDict)
-                layers += [(str(idx),nn.Linear(last_output, num_units))]
+                fc = nn.Linear(last_output, num_units)
+                activation = snn.Leaky(beta=beta, spike_grad=spike_grad, init_hidden=True)
+                
+                layers += [(str(idx),fc)]
                 idx += 1
-                layers += [(str(idx),snn.Leaky(beta=beta, spike_grad=spike_grad, init_hidden=True))]
+                layers += [(str(idx),activation)]
                 idx += 1
                 last_output = num_units
+
             elif layer_type == 'conv':
-                pass
+                W = last_output[1]
+                NF = int(layer_params['num-filters'][0])
+                K = int(layer_params['filter-shape'][0])
+                S = int(layer_params['stride'][0])
+                P = layer_params['padding'][0]
+                if P == 'same':
+                    S = 1
+                conv_layer = nn.Conv2d( in_channels=last_output[0],
+                                        out_channels=NF,
+                                        kernel_size=K,
+                                        stride=S,
+                                        padding=P,
+                                        bias=eval(layer_params['bias'][0]))
+                
+                activation = snn.Leaky(beta=beta, spike_grad=spike_grad, init_hidden=True)
+                layers += [(str(idx),conv_layer)]
+                idx += 1
+                layers += [(str(idx),activation)]
+                idx += 1
+                if P == 'valid':
+                    P = 0
+                    new_dim = int(((W - K + 2*P)/S) + 1)
+                else:
+                    new_dim = last_output[1]
+                last_output = (NF,new_dim,new_dim)
+
             elif layer_type == 'batch-norm':
                 pass
             elif layer_type == 'pool-avg':
-                pass
+                K = int(layer_params['kernel-size'][0])
+                pooling = nn.AvgPool2d(K)
+                
+
+                new_dim = last_output[1] - K + 1
+                last_output = (last_output[0], new_dim, new_dim)
             elif layer_type == 'pool-max':
                 pass
             elif layer_type == 'dropout':
-                pass
+                rate = float(layer_params['rate'][0])
+                dropout = nn.Dropout(p=rate)
+                layers += [(str(idx),dropout)]
+                idx += 1
         layers[-1][1].output = True
         model = nn.Sequential(OrderedDict(layers))
         print(model)
@@ -279,10 +318,11 @@ class Evaluator:
                 total += targets.size(0)
                 correct += (predicted == targets).sum().item()
 
+        accuracy_test = 100 * correct / total
         print(f"Total correctly classified test set images: {correct}/{total}")
-        print(f"Test Set Accuracy: {100 * correct / total:.2f}%")
+        print(f"Test Set Accuracy: {accuracy_test:.2f}%")
 
-        history['accuracy_test'] = 10
+        history['accuracy_test'] = accuracy_test
 
 
         return history
