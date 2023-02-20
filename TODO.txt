@@ -4,6 +4,10 @@
     - Verifiy dims of resulting dataset
     - Divide into train validation and test (check if labels are necessary)
 
+FIND A WAY TO ENCODE IMAGES TO TIME SERIES
+
+
+
 2) Try to assemble a network from a grammar
     - Default to Input as it is 
     - Simple geno to feno conversion 

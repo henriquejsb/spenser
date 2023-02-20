@@ -28,6 +28,8 @@ from snntorch import utils
 from typing import OrderedDict
 from torch.utils.data import DataLoader
 import tonic
+from snntorch import spikegen
+
 
 from multiprocessing import Pool
 import contextlib
@@ -139,7 +141,7 @@ class Evaluator:
     def assemble_network(self, torch_layers, input_size):
 
         #last_output = input_size[0]*input_size[1]
-        last_output = 34*34*2
+        last_output = 28*28
         #TODO 
         layers = []
         idx = 0
@@ -175,6 +177,8 @@ class Evaluator:
         print(model)
         return model
 
+
+
     def evaluate(self, phenotype, weights_save_path, parent_weights_path,\
                 num_epochs, input_size=(90, 90, 1)): #pragma: no cover
         
@@ -186,45 +190,55 @@ class Evaluator:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         torch.set_num_threads(os.cpu_count() - 1)
         print("Running on Device = ", device)
+        
         model = self.assemble_network(torch_layers, input_size)
         model.to(device)
 
         optimizer = torch.optim.Adam(model.parameters(), lr=2e-2, betas=(0.9, 0.999))
         loss_fn = SF.mse_count_loss(correct_rate=0.9, incorrect_rate=0.1)
-        batch_size = 128
+        #batch_size = 128
 
-        trainloader = DataLoader(self.dataset, batch_size = batch_size, collate_fn = tonic.collation.PadTensors(), shuffle = True)
-
+        #trainloader = DataLoader(self.dataset, batch_size = batch_size, collate_fn = tonic.collation.PadTensors(), shuffle = True)
+        trainloader = self.dataset["evo_train"]
+        testloader = self.dataset["evo_test"]
         print("Begin training.\n")
         start = t()
 
 
         loss_hist = []
         acc_hist = []
+        history = {}
+
+        num_steps = 100
+
 
         def forward_pass(net, data):
             spk_rec = []
             utils.reset(net)  # resets hidden states for all LIF neurons in net
-            data = data.transpose(0,1)
+            #data = data.transpose(0,1)
             #print("IN FUNCTION ", data.shape)
             for step in range(data.size(0)):  # data.size(0) = number of time steps
                 #print(data[step].shape)
                 spk_out, mem_out = net(data[step])
                 spk_rec.append(spk_out)
-
+                #print(spk_out.size())
+                #print(mem_out.size())
             return torch.stack(spk_rec)
 
         # training loop
         for epoch in range(num_epochs):
             for i, (data, targets) in enumerate(iter(trainloader)):
-                data = data.to(device)
+
+                data = spikegen.rate(data.data, num_steps=num_steps).to(device)
                 targets = targets.to(device)
                 print(data.shape)
+
                 #print(targets.shape)
                 model.train()
                 #spk_rec = forward_pass(net, data)
                 spk_rec = forward_pass(model, data)
-                #print("IN LOOP ",data.shape)
+                print("IN LOOP ",data.shape)
+                print("TARGETS",targets.shape)
                 loss_val = loss_fn(spk_rec, targets)
 
                 # Gradient calculation + weight update
@@ -241,9 +255,37 @@ class Evaluator:
                 acc_hist.append(acc)
                 print(f"Accuracy: {acc * 100:.2f}%\n")
 
+        history['accuracy'] = acc_hist
+        history['loss'] = loss_hist
 
 
-        return {'accuracy_test':10}
+        #measure test performance
+        total = 0
+        correct = 0
+
+        
+        with torch.no_grad():
+            model.eval()
+            for data, targets in testloader:
+                data = spikegen.rate(data.data, num_steps=num_steps).to(device)
+                targets = targets.to(device)
+
+                # forward pass
+                spk_rec = forward_pass(model, data)
+
+                # calculate total accuracy
+                _, predicted = spk_rec.sum(dim=0).max(1)
+                #acc = SF.accuracy_rate(spk_rec, targets)
+                total += targets.size(0)
+                correct += (predicted == targets).sum().item()
+
+        print(f"Total correctly classified test set images: {correct}/{total}")
+        print(f"Test Set Accuracy: {100 * correct / total:.2f}%")
+
+        history['accuracy_test'] = 10
+
+
+        return history
 
 def evaluate(args): #pragma: no cover
     """
@@ -469,9 +511,23 @@ class Individual:
                             self.num_epochs)])
             metrics = pool_results.get()[0]
         '''
-        self.fitness = evaluate((cnn_eval, phenotype,
+        metrics = evaluate((cnn_eval, phenotype,
                             weights_save_path, parent_weights_path,\
                             self.num_epochs))
-       
+        if metrics is not None:
+            if 'accuracy' in metrics:
+                if type(metrics['accuracy']) is list:
+                    metrics['accuracy'] = [i for i in metrics['accuracy']]
+                else:
+                    metrics['accuracy'] = [i.item() for i in metrics['accuracy']]
+            
+            self.metrics = metrics
+
+            if 'accuracy_test' in metrics:
+                if type(self.metrics['accuracy_test']) is float:
+                    self.fitness = self.metrics['accuracy_test']
+                else:
+                    self.fitness = self.metrics['accuracy_test'].item()
+        
         return self.fitness
 

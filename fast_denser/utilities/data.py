@@ -1,38 +1,85 @@
-import tonic
-import tonic.transforms as transforms
-from tonic import CachedDataset
-from torch.utils.data import DataLoader
+import snntorch as snn
+import torch
+from torchvision import datasets, transforms
+from snntorch import utils
+from torch.utils.data import DataLoader, random_split, Subset
+from snntorch import spikegen
+from sklearn.model_selection import train_test_split
+import numpy as np
+# Training Parameters
+batch_size=128
+data_path='./data/mnist'
+num_classes = 10  # MNIST has 10 output classes
+
+# Temporal Dynamics
+num_steps = 10
+
+# Torch Variables
+dtype = torch.float
+
+# Define a transform
+transform = transforms.Compose([
+                transforms.Resize((28,28)),
+                transforms.Grayscale(),
+                transforms.ToTensor(),
+                transforms.Normalize((0,), (1,))])
+
+def load_MNIST(train=True):
+    mnist = datasets.MNIST(data_path, train=train, download=True, transform=transform)
+    return mnist
+
+def auxiliary():
+    subset = 100
+    mnist_train = utils.data_subset(mnist_train, subset)
+
+    print(mnist_train.data)
+    spike_data = spikegen.rate(mnist_train.data, num_steps=num_steps)
+    print(spike_data)
+
+    #train_loader = DataLoader(mnist_train, batch_size=batch_size, shuffle=True)
+
+
 
 def load_dataset(dataset, config):
-    sensor_size = tonic.datasets.NMNIST.sensor_size
 
-    frame_transform = transforms.Compose([transforms.Denoise(filter_time=10000),
-                                      transforms.ToFrame(sensor_size=sensor_size,
-                                                         time_window=5000)
-                                     ])
+    mnist_train = load_MNIST(train=True)
+    mnist_test = load_MNIST(train=False)
+
+    #evo_train, evo_test = random_split(mnist_train, )
+    #Splitting the data
     
-
-    trainset = tonic.datasets.NMNIST(save_to='./data', transform=frame_transform, train=True)
-    #cached_trainset = CachedDataset(trainset, cache_path='./cache/nmnist/train')
-    return trainset
-
-
-def test_load_dataset():
-    #dataset = tonic.datasets.NMNIST(save_to='./data', train=True)
-    #vents, target = dataset[0]
-    #print(events)
-    #tonic.utils.plot_event_grid(events)
-
-    sensor_size = tonic.datasets.NMNIST.sensor_size
-
-    frame_transform = transforms.Compose([transforms.Denoise(filter_time=10000),
-                                      transforms.ToFrame(sensor_size=sensor_size,
-                                                         time_window=5000)
-                                     ])
+    subset = 10
+    mnist_train = utils.data_subset(mnist_train, subset)
     
+    #
+    #print(res)
+    # print(mnist_train[0])
+    # print(len(mnist_train))
+    
+    
+    indices = np.arange(0,len(mnist_train))
 
-    trainset = tonic.datasets.NMNIST(save_to='./data', transform=frame_transform, train=True)
-    return trainset
+    evo_train_idx, evo_test_idx = train_test_split(indices, test_size = 0.33, shuffle=True, stratify=mnist_train.targets)
+    
+    # print(evo_train_idx)
+    
+    # print(type(evo_test_idx))
+   
+    evo_train = Subset(mnist_train, evo_train_idx)
+    evo_test = Subset(mnist_train, evo_test_idx)
+    print(f"Evo train dataset has {len(evo_train)} samples")
+    print(f"Evo test dataset has {len(evo_test)} samples")
+    evo_train = DataLoader(evo_train, batch_size=batch_size)
+    evo_test = DataLoader(evo_test, batch_size=batch_size)
+    test = DataLoader(mnist_test, batch_size=batch_size)
+
+    dataset = {
+        "evo_train": evo_train,
+        "evo_test": evo_test,
+        "test": test
+    }
+    return dataset
+
 
 if __name__ == '__main__':
-    test_load_dataset()
+    load_dataset('asd',None)
