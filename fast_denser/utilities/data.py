@@ -48,7 +48,7 @@ def load_dataset(dataset, config):
     #evo_train, evo_test = random_split(mnist_train, )
     #Splitting the data
     
-    subset = 10
+    subset = 100
     mnist_train = utils.data_subset(mnist_train, subset)
     
     #

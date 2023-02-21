@@ -1,0 +1,52 @@
+[
+    {
+        "id": "0",
+        "phenotype": "layer:dropout rate:0.35929596038769995 layer:dropout rate:0.5 layer:fc num-units:10",
+        "fitness": "0.09595959595959595",
+        "metrics": "{'accuracy': [], 'loss': [], 'accuracy_test': 0.09595959595959595}",
+        "trainable_parameters": "None",
+        "num_epochs": "0",
+        "time": "None",
+        "train_time": "0"
+    },
+    {
+        "id": "1",
+        "phenotype": "layer:dropout rate:0.35929596038769995 layer:dropout rate:0.3117219500383124 layer:fc num-units:10",
+        "fitness": "0.03535353535353535",
+        "metrics": "{'accuracy': [], 'loss': [], 'accuracy_test': 0.03535353535353535}",
+        "trainable_parameters": "None",
+        "num_epochs": "0",
+        "time": "None",
+        "train_time": "0"
+    },
+    {
+        "id": "2",
+        "phenotype": "layer:dropout rate:0.35929596038769995 layer:dropout rate:0.5 layer:fc num-units:10",
+        "fitness": "0.18181818181818182",
+        "metrics": "{'accuracy': [], 'loss': [], 'accuracy_test': 0.18181818181818182}",
+        "trainable_parameters": "None",
+        "num_epochs": "0",
+        "time": "None",
+        "train_time": "0"
+    },
+    {
+        "id": "3",
+        "phenotype": "layer:dropout rate:0.35929596038769995 layer:dropout rate:0.5 layer:fc num-units:10",
+        "fitness": "0.04040404040404041",
+        "metrics": "{'accuracy': [], 'loss': [], 'accuracy_test': 0.04040404040404041}",
+        "trainable_parameters": "None",
+        "num_epochs": "0",
+        "time": "None",
+        "train_time": "0"
+    },
+    {
+        "id": "4",
+        "phenotype": "layer:dropout rate:0.010151140814207649 layer:dropout rate:0.35929596038769995 layer:dropout rate:0.5 layer:fc num-units:10",
+        "fitness": "0.07575757575757576",
+        "metrics": "{'accuracy': [], 'loss': [], 'accuracy_test': 0.07575757575757576}",
+        "trainable_parameters": "None",
+        "num_epochs": "0",
+        "time": "None",
+        "train_time": "0"
+    }
+]

@@ -1,8 +1,8 @@
 <features> ::= <convolution> | <dropout>
 <classification> ::= <fully-connected> | <dropout>
-<convolution> ::= layer:conv [num-filters,int,1,32,256] [filter-shape,int,1,2,7] [stride,int,1,1,3] <padding> <bias>
+<convolution> ::= layer:conv [num-filters,int,1,32,128] [filter-shape,int,1,2,7] [stride,int,1,1,3] <padding> <bias>
 <bias> ::= bias:True | bias:False
 <padding> ::= padding:same | padding:valid
 <dropout> ::= layer:dropout [rate,float,1,0,0.5]
-<fully-connected> ::= layer:fc [num-units,int,1,32,128]
+<fully-connected> ::= layer:fc [num-units,int,1,16,64]
 <output> ::= layer:fc num-units:10

@@ -11,7 +11,7 @@
       "num_generations": 150,
   
       //lambda, i.e., number of offspring
-      "lambda": 10,
+      "lambda": 4,
   
       //maximum of epochs to perform. Evolution is halted when the current number of epochs surpasses this value
       "max_epochs": 10000000,
@@ -35,10 +35,10 @@
     //network specific parameters
     "NETWORK": {
       //structure to the hidden layers of the network [[non-terminal, min, max], ...]
-      "network_structure": [["features", 1, 10], ["classification", 1, 10]],
+      "network_structure": [["features", 0, 0], ["classification", 1, 3]],
   
       //number of layers on initialisation
-      "network_structure_init": {"features":[2,4,12], "classification":[1]},
+      "network_structure_init": {"features":[0], "classification":[1]},
 
       //output layer
     "output": "output"
@@ -47,6 +47,8 @@
   
     //training parameters
     "TRAINING": {
+      //maximum training time for each network (in seconds)
+      "default_train_time": 600,
       "time":100,
       "dt":1      
     }

@@ -19,7 +19,7 @@ from time import time
 import numpy as np
 import os
 from fast_denser.utilities.data import load_dataset
-
+import gc
 import torch, torch.nn as nn
 import snntorch as snn
 from snntorch import surrogate
@@ -36,8 +36,10 @@ import contextlib
 from time import time as t
 from tqdm import tqdm
 
-DEBUG = False
+DEBUG = True
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+torch.set_num_threads(os.cpu_count() - 1)
 
 class Evaluator:
     """
@@ -200,7 +202,8 @@ class Evaluator:
             elif layer_type == 'pool-avg':
                 K = int(layer_params['kernel-size'][0])
                 pooling = nn.AvgPool2d(K)
-                
+                layers += [(str(idx),conv_layer)]
+                idx += 1
 
                 new_dim = last_output[1] - K + 1
                 last_output = (last_output[0], new_dim, new_dim)
@@ -226,8 +229,7 @@ class Evaluator:
 
         torch_layers = self.get_layers(model_phenotype)
         
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        torch.set_num_threads(os.cpu_count() - 1)
+        
         print("Running on Device = ", device)
         
         model = self.assemble_network(torch_layers, input_size)
@@ -240,7 +242,7 @@ class Evaluator:
         #trainloader = DataLoader(self.dataset, batch_size = batch_size, collate_fn = tonic.collation.PadTensors(), shuffle = True)
         trainloader = self.dataset["evo_train"]
         testloader = self.dataset["evo_test"]
-        print("Begin training.\n")
+        print(f"Begin training individual.\n")
         start = t()
 
 
@@ -270,14 +272,14 @@ class Evaluator:
 
                 data = spikegen.rate(data.data, num_steps=num_steps).to(device)
                 targets = targets.to(device)
-                print(data.shape)
+                #print(data.shape)
 
                 #print(targets.shape)
                 model.train()
                 #spk_rec = forward_pass(net, data)
                 spk_rec = forward_pass(model, data)
-                print("IN LOOP ",data.shape)
-                print("TARGETS",targets.shape)
+                #print("IN LOOP ",data.shape)
+                #print("TARGETS",targets.shape)
                 loss_val = loss_fn(spk_rec, targets)
 
                 # Gradient calculation + weight update
@@ -288,43 +290,64 @@ class Evaluator:
                 # Store loss history for future plotting
                 loss_hist.append(loss_val.item())
 
-                print(f"Epoch {epoch}, Iteration {i} \nTrain Loss: {loss_val.item():.2f}")
+                #print(f"Epoch {epoch}, Iteration {i} \nTrain Loss: {loss_val.item():.2f}")
 
                 acc = SF.accuracy_rate(spk_rec, targets)
                 acc_hist.append(acc)
-                print(f"Accuracy: {acc * 100:.2f}%\n")
+                #print(f"Accuracy: {acc * 100:.2f}%\n")
 
         history['accuracy'] = acc_hist
         history['loss'] = loss_hist
 
 
+        #save final model to file
+        #model.save(weights_save_path.replace('.hdf5', '.h5'))
+        torch.save(model.state_dict(),weights_save_path.replace('.hdf5', '.h5'))
+
+        
+
         #measure test performance
         total = 0
         correct = 0
-
+        aux_spike_rec = []
+        aux_targets = []
         
         with torch.no_grad():
             model.eval()
             for data, targets in testloader:
                 data = spikegen.rate(data.data, num_steps=num_steps).to(device)
                 targets = targets.to(device)
-
+                aux_targets += list(targets)
                 # forward pass
                 spk_rec = forward_pass(model, data)
-
+                aux_spike_rec += list(spk_rec)
                 # calculate total accuracy
                 _, predicted = spk_rec.sum(dim=0).max(1)
                 #acc = SF.accuracy_rate(spk_rec, targets)
                 total += targets.size(0)
                 correct += (predicted == targets).sum().item()
 
-        accuracy_test = 100 * correct / total
+        accuracy_test = correct / total
         print(f"Total correctly classified test set images: {correct}/{total}")
-        print(f"Test Set Accuracy: {accuracy_test:.2f}%")
-
+        print(f"Test Set Accuracy: {100*accuracy_test:.2f}%")
         history['accuracy_test'] = accuracy_test
+        
+        '''
+        In case we need to load the module we need phenotype and weights
+        
+        model = None
+        gc.collect()
+
+        model = self.assemble_network(torch_layers, input_size)
+        model.to(device)
+        model.load_state_dict(torch.load(weights_save_path.replace('.hdf5', '.h5')))
+        '''
 
 
+        #Cleaning up
+        model = None
+        gc.collect()
+        torch.cuda.empty_cache()
         return history
 
 def evaluate(args): #pragma: no cover
@@ -500,6 +523,7 @@ class Individual:
 
             self.modules.append(new_module)
 
+        #Initialise output
         self.output = grammar.initialise(self.output_rule)
 
         return self
@@ -542,7 +566,7 @@ class Individual:
         phenotype = self.decode(grammar)
         start = time()
 
-
+        print(f"Begin training individual {self.id}.\n")
         '''
         num_pool_workers=1 
         with contextlib.closing(Pool(num_pool_workers)) as po: 
@@ -554,6 +578,9 @@ class Individual:
         metrics = evaluate((cnn_eval, phenotype,
                             weights_save_path, parent_weights_path,\
                             self.num_epochs))
+        
+        
+
         if metrics is not None:
             if 'accuracy' in metrics:
                 if type(metrics['accuracy']) is list:

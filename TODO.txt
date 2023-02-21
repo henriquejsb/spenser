@@ -1,5 +1,6 @@
-layers
-
+layers na gramatica? double dropout??
+mutation connections -> deleted almost everything
+guardar genotype + weights (erro em save model)
 
 
 paralelismo?
