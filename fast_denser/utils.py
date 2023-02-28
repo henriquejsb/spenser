@@ -27,14 +27,14 @@ from snntorch import functional as SF
 from snntorch import utils
 from typing import OrderedDict
 from torch.utils.data import DataLoader
-import tonic
+#import tonic
 from snntorch import spikegen
 
 
 from multiprocessing import Pool
 import contextlib
 from time import time as t
-from tqdm import tqdm
+#from tqdm import tqdm
 
 DEBUG = True
 
