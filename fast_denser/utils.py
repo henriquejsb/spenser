@@ -175,12 +175,12 @@ class Evaluator:
                     layers += [(str(idx),nn.Flatten())]
                     idx += 1
                     first_fc = False
-                    print("Flattening",last_output)
+                    #print("Flattening",last_output)
                     last_output = last_output[0] * last_output[1] * last_output[2]
                 
                 num_units = int(layer_params['num-units'][0])
                 
-                print(layer_params)
+                #print(layer_params)
                 #input()
                 #Adding layers as tuple (string_id,layer) so that we can assemble them using Sequential(OrderededDict)
                 fc = nn.Linear(
@@ -250,7 +250,8 @@ class Evaluator:
 
         layers[-1][1].output = True
         model = nn.Sequential(OrderedDict(layers))
-        print(model)
+        if DEBUG:
+            print(model)
         return model
 
 
@@ -276,8 +277,9 @@ class Evaluator:
         #trainloader = DataLoader(self.dataset, batch_size = batch_size, collate_fn = tonic.collation.PadTensors(), shuffle = True)
         trainloader = self.dataset["evo_train"]
         testloader = self.dataset["evo_test"]
-        print(f"Begin training individual.\n")
-        start = t()
+        if DEBUG:
+            print(f"Begin training individual.\n")
+        
 
 
         loss_hist = []
@@ -286,54 +288,80 @@ class Evaluator:
 
         num_steps = 100
 
+        start = t()
 
         def forward_pass(net, data):
             spk_rec = []
             utils.reset(net)  # resets hidden states for all LIF neurons in net
+           
             #data = data.transpose(0,1)
-            #print("IN FUNCTION ", data.shape)
+          
             for step in range(data.size(0)):  # data.size(0) = number of time steps
-                #print(data[step].shape)
+               
                 spk_out, mem_out = net(data[step])
                 spk_rec.append(spk_out)
-                #print(spk_out.size())
-                #print(mem_out.size())
+
             return torch.stack(spk_rec)
 
+        dataloading_time = 0
+        spikegen_time = 0
+        forward_time = 0
+        learning_time = 0
         # training loop
         for epoch in range(num_epochs):
             for i, (data, targets) in enumerate(iter(trainloader)):
+                
+                if i%25 == 0:
+                    print(f"\tCurrent speed:{i/(t()-start)} iterations per second")
 
+                a = t()
                 data = spikegen.rate(data.data, num_steps=num_steps).to(device)
+                spikegen_time += t() - a
+                
+                '''
+                (unique, counts) = np.unique(np.asarray(targets), return_counts=True)
+                #print("EVO_Y_TEST:")
+                print(np.asarray((unique, counts)).T)
+                '''
+                a = t()
                 targets = targets.to(device)
-                #print(data.shape)
+                dataloading_time += time()-a
 
-                #print(targets.shape)
                 model.train()
-                #spk_rec = forward_pass(net, data)
+                a = t()
                 spk_rec = forward_pass(model, data)
-                #print("IN LOOP ",data.shape)
-                #print("TARGETS",targets.shape)
+                forward_time += t() - a
+
+                a = t()
                 loss_val = loss_fn(spk_rec, targets)
 
                 # Gradient calculation + weight update
                 optimizer.zero_grad()
                 loss_val.backward()
                 optimizer.step()
+                learning_time += time() - a
 
                 # Store loss history for future plotting
                 loss_hist.append(loss_val.item())
 
-                #print(f"Epoch {epoch}, Iteration {i} \nTrain Loss: {loss_val.item():.2f}")
 
                 acc = SF.accuracy_rate(spk_rec, targets)
                 acc_hist.append(acc)
+                if DEBUG:
+                    print(f"Epoch {epoch}, Iteration {i}/{len(trainloader)} \nTrain Loss: {loss_val.item():.2f} Accuracy: {acc * 100:.2f}%")
                 #print(f"Accuracy: {acc * 100:.2f}%\n")
 
         history['accuracy'] = acc_hist
         history['loss'] = loss_hist
 
-
+        training_time = t()-start
+        print("Training time (s): ",training_time)
+        print("Time spent converting dataset (s / %): ",spikegen_time,100*spikegen_time/training_time)
+        print("Time spent in forward pass (s / %):",forward_time,100*forward_time/training_time)
+        print("Time spent in learning (s / %)",learning_time,100*learning_time/training_time)
+        dataloading_time = training_time - forward_time - learning_time - spikegen_time
+        print("Time spent loading data (s / %):", dataloading_time,100*dataloading_time/training_time)
+        #exit(0)
         #save final model to file
         #model.save(weights_save_path.replace('.hdf5', '.h5'))
         torch.save(model.state_dict(),weights_save_path.replace('.hdf5', '.h5'))
@@ -601,14 +629,8 @@ class Individual:
         start = time()
 
         print(f"Begin training individual {self.id}.\n")
-        '''
-        num_pool_workers=1 
-        with contextlib.closing(Pool(num_pool_workers)) as po: 
-            pool_results = po.map_async(evaluate, [(cnn_eval, phenotype,
-                            weights_save_path, parent_weights_path,\
-                            self.num_epochs)])
-            metrics = pool_results.get()[0]
-        '''
+
+
         metrics = evaluate((cnn_eval, phenotype,
                             weights_save_path, parent_weights_path,\
                             self.num_epochs))

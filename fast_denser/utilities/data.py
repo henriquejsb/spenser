@@ -6,8 +6,9 @@ from torch.utils.data import DataLoader, random_split, Subset
 from snntorch import spikegen
 from sklearn.model_selection import train_test_split
 import numpy as np
+
 # Training Parameters
-batch_size=32
+batch_size=64
 data_path='./data/mnist'
 num_classes = 10  # MNIST has 10 output classes
 
@@ -45,34 +46,30 @@ def load_dataset(dataset, config):
     mnist_train = load_MNIST(train=True)
     mnist_test = load_MNIST(train=False)
 
-    #evo_train, evo_test = random_split(mnist_train, )
-    #Splitting the data
-    
-    subset = 100
+    subset = 10
     mnist_train = utils.data_subset(mnist_train, subset)
-    
-    #
-    #print(res)
-    # print(mnist_train[0])
-    # print(len(mnist_train))
-    
-    
+    #print(mnist_train.data.shape)
+    #spikegen.rate(mnist_train.data.to('cuda'), num_steps=100)
+    #print(type(mnist_train.data))
+    #exit(0)
     indices = np.arange(0,len(mnist_train))
 
-    evo_train_idx, evo_test_idx = train_test_split(indices, test_size = 0.33, shuffle=True, stratify=mnist_train.targets)
+    evo_train_idx, evo_test_idx = train_test_split(indices, test_size = 0.3, shuffle=True, stratify=mnist_train.targets, random_state=42)
     
-    # print(evo_train_idx)
-    
+    #print(evo_train_idx)
+    #print(evo_test_idx)
     # print(type(evo_test_idx))
-   
+    
     evo_train = Subset(mnist_train, evo_train_idx)
     evo_test = Subset(mnist_train, evo_test_idx)
     print(f"Evo train dataset has {len(evo_train)} samples")
     print(f"Evo test dataset has {len(evo_test)} samples")
-    evo_train = DataLoader(evo_train, batch_size=batch_size)
+    evo_train = DataLoader(evo_train, batch_size=batch_size, pin_memory=True,num_workers=8)
     evo_test = DataLoader(evo_test, batch_size=batch_size)
     test = DataLoader(mnist_test, batch_size=batch_size)
-
+    #print(evo_train.data)
+    #wtf(evo_train)
+    #exit(0)
     dataset = {
         "evo_train": evo_train,
         "evo_test": evo_test,
@@ -80,6 +77,12 @@ def load_dataset(dataset, config):
     }
     return dataset
 
-
+def wtf(loader):
+    output = torch.tensor()
+    for i, (data, targets) in enumerate(iter(loader)):
+        print(type(data))
+        data.data = spikegen.rate(data.data, num_steps=num_steps)
+        print(type(data))
+        #print(type(targets))
 if __name__ == '__main__':
     load_dataset('asd',None)

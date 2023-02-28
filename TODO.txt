@@ -33,3 +33,8 @@ beta:= trainable
 thresh := trainable
 
 beta [True] apenas ??
+
+
+fixed seed for dataset split
+
+tempo é um problema :') como otimizar? early stop à pata? tentar cached cenas

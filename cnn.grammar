@@ -1,5 +1,5 @@
 <features> ::=  <convolution> <pooling> <activation> | <dropout>
-<activation> ::= layer:act <beta> <threshold> <surr-grad> <reset-mechanism>
+<activation> ::= layer:act <beta> <threshold> <surr-grad> <reset-mechanism> 
 <reset-mechanism> ::= reset:subtract | reset:zero
 <beta> ::= [beta,float,1,0,1] <beta-trainable>
 <threshold> ::= [threshold,float,1,0.5,1.5] <threshold-trainable>
