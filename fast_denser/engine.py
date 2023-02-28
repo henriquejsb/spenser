@@ -597,13 +597,17 @@ def main(run, dataset, config_file, grammar_path): #pragma: no cover
             population = [parent] + offspring
 
             #set elite variables to re-evaluation
-            population[0].current_time = 0
+            #population[0].current_time = 0
+            #TODO skip parent 
+
+            
             population[0].num_epochs = 0
             parent_id = parent.id
 
             #evaluate population
             population_fits = []
             for idx, ind in enumerate(population):
+                ind.num_epochs = 1
                 population_fits.append(ind.evaluate(grammar, cnn_eval,  '%s/run_%d/best_%d_%d.hdf5' % (config["EVOLUTIONARY"]["save_path"], run, gen, idx), '%s/run_%d/best_%d_%d.hdf5' % (config["EVOLUTIONARY"]["save_path"], run, gen-1, parent_id)))
                 ind.id = idx
 
@@ -680,6 +684,9 @@ def process_input(argv): #pragma: no cover
 
         elif opt in ("-g", "--grammar"):
             grammar = arg
+        
+        
+        
 
 
     error = False

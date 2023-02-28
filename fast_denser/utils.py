@@ -141,36 +141,60 @@ class Evaluator:
 
 
     def assemble_network(self, torch_layers, input_size):
-
+        print(torch_layers)
         #last_output = input_size[0]*input_size[1]
         last_output = (1,28,28)
-        #TODO 
+        
         layers = []
         idx = 0
-        beta = 0.9  # neuron decay rate
-        spike_grad = surrogate.fast_sigmoid()
+        #beta = 0.9  # neuron decay rate
+        #spike_grad = surrogate.fast_sigmoid()
         first_fc = True
 
+        grads_dict = {
+            "atan": surrogate.atan(),
+            "fast_sigmoid": surrogate.fast_sigmoid(),
+            "triangular": surrogate.triangular()
+        }
+
         for layer_type, layer_params in torch_layers:
-            if layer_type == 'fc':
+            if layer_type == 'act':
+                spike_grad = grads_dict[layer_params["surr-grad"][0]]
+                layer = snn.Leaky(beta=float(layer_params["beta"][0]),
+                                  threshold=float(layer_params["threshold"][0]),
+                                  init_hidden=True,
+                                  learn_beta=eval(layer_params["beta-trainable"][0]),
+                                  learn_threshold=eval(layer_params["threshold-trainable"][0]),
+                                  reset_mechanism=layer_params["reset"][0],
+                                  spike_grad=spike_grad)
+                layers += [(str(idx),layer)]
+                idx += 1
+
+            elif layer_type == 'fc':
                 if first_fc:
                     layers += [(str(idx),nn.Flatten())]
                     idx += 1
                     first_fc = False
+                    print("Flattening",last_output)
                     last_output = last_output[0] * last_output[1] * last_output[2]
+                
                 num_units = int(layer_params['num-units'][0])
                 
+                print(layer_params)
+                #input()
                 #Adding layers as tuple (string_id,layer) so that we can assemble them using Sequential(OrderededDict)
-                fc = nn.Linear(last_output, num_units)
-                activation = snn.Leaky(beta=beta, spike_grad=spike_grad, init_hidden=True)
-                
+                fc = nn.Linear(
+                    in_features=last_output, 
+                    out_features=num_units,
+                    bias=eval(layer_params['bias'][0]))
+              
                 layers += [(str(idx),fc)]
                 idx += 1
-                layers += [(str(idx),activation)]
-                idx += 1
+                
                 last_output = num_units
 
             elif layer_type == 'conv':
+                
                 W = last_output[1]
                 NF = int(layer_params['num-filters'][0])
                 K = int(layer_params['filter-shape'][0])
@@ -185,11 +209,9 @@ class Evaluator:
                                         padding=P,
                                         bias=eval(layer_params['bias'][0]))
                 
-                activation = snn.Leaky(beta=beta, spike_grad=spike_grad, init_hidden=True)
                 layers += [(str(idx),conv_layer)]
                 idx += 1
-                layers += [(str(idx),activation)]
-                idx += 1
+         
                 if P == 'valid':
                     P = 0
                     new_dim = int(((W - K + 2*P)/S) + 1)
@@ -197,23 +219,35 @@ class Evaluator:
                     new_dim = last_output[1]
                 last_output = (NF,new_dim,new_dim)
 
-            elif layer_type == 'batch-norm':
-                pass
-            elif layer_type == 'pool-avg':
+
+            elif layer_type == 'pool-max' or layer_type == 'pool-avg':
                 K = int(layer_params['kernel-size'][0])
-                pooling = nn.AvgPool2d(K)
-                layers += [(str(idx),conv_layer)]
+
+                if layer_type == 'pool-avg':
+                    pooling = nn.AvgPool2d(K)
+                elif layer_type == 'pool-max':
+                    pooling = nn.MaxPool2d(K)
+
+                layers += [(str(idx),pooling)]
                 idx += 1
 
-                new_dim = last_output[1] - K + 1
+                new_dim = int(((last_output[1] - K) / K) + 1)
                 last_output = (last_output[0], new_dim, new_dim)
+
             elif layer_type == 'pool-max':
                 pass
+
+
             elif layer_type == 'dropout':
                 rate = float(layer_params['rate'][0])
                 dropout = nn.Dropout(p=rate)
                 layers += [(str(idx),dropout)]
                 idx += 1
+            
+            elif layer_type == 'no-op':
+                #might be useful to collect metrics??
+                pass
+
         layers[-1][1].output = True
         model = nn.Sequential(OrderedDict(layers))
         print(model)
@@ -236,7 +270,7 @@ class Evaluator:
         model.to(device)
 
         optimizer = torch.optim.Adam(model.parameters(), lr=2e-2, betas=(0.9, 0.999))
-        loss_fn = SF.mse_count_loss(correct_rate=0.9, incorrect_rate=0.1)
+        loss_fn = SF.mse_count_loss(correct_rate=1.0, incorrect_rate=0.0)
         #batch_size = 128
 
         #trainloader = DataLoader(self.dataset, batch_size = batch_size, collate_fn = tonic.collation.PadTensors(), shuffle = True)

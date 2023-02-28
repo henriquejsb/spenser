@@ -1,8 +1,35 @@
-layers na gramatica? double dropout??
-mutation connections -> deleted almost everything
+
+
+
+
+1) Acabar de definir grammar final 
+
+- pooling stride etc
+
+- Optimizer (adam ? params from denser ?)
+
+- Output layer (population coding or not, 50 vs 10 neurons, LIF layer)
+
+
+
+3x conv pool 1x dropout?
+
+tentar converter dataset para temporal antes da simulação
+
 guardar genotype + weights (erro em save model)
 
 
-paralelismo?
+
 reproducibilidade !!!
 guardar tudo para retomar simulação
+
+
+
+--------------------------------------
+
+DUVIDAS:
+
+beta:= trainable
+thresh := trainable
+
+beta [True] apenas ??
