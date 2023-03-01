@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
+import traceback
 import random
 from time import time
 import numpy as np
@@ -36,7 +36,7 @@ import contextlib
 from time import time as t
 #from tqdm import tqdm
 
-DEBUG = True
+DEBUG = False
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 torch.set_num_threads(os.cpu_count() - 1)
@@ -137,7 +137,39 @@ class Evaluator:
 
         return layers
 
+    def get_learning(self, learning):
+        """
+            Parses the phenotype corresponding to the learning
+            Auxiliary function of the assemble_optimiser function
 
+            Parameters
+            ----------
+            learning : str
+                learning phenotype of the individual
+
+            Returns
+            -------
+            learning_params : dict
+                learning parameters
+        """
+
+        raw_learning = learning.split(' ')
+
+        idx = 0
+        learning_params = {}
+        while idx < len(raw_learning):
+            param_name, param_value = raw_learning[idx].split(':')
+            learning_params[param_name] = param_value.split(',')
+            idx += 1
+
+        for _key_ in sorted(list(learning_params.keys())):
+            if len(learning_params[_key_]) == 1:
+                try:
+                    learning_params[_key_] = eval(learning_params[_key_][0])
+                except NameError:
+                    learning_params[_key_] = learning_params[_key_][0]
+
+        return learning_params
 
 
     def assemble_network(self, torch_layers, input_size):
@@ -254,23 +286,58 @@ class Evaluator:
             print(model)
         return model
 
+    def assemble_optimiser(self, learning, model):
+        """
+            Maps the learning into a keras optimiser
 
+            Parameters
+            ----------
+            learning : dict
+                output of get_learning
+
+            Returns
+            -------
+            optimiser : torch.optim.Optimizer
+                torch optimiser that will be later used to train the model
+        """
+
+        if learning['learning'] == 'rmsprop':
+            return torch.optim.RMSprop(model.parameters(),
+                                        lr = float(learning['lr']),
+                                        alpha = float(learning['rho']),
+                                        weight_decay = float(learning['decay']))
+        
+        elif learning['learning'] == 'gradient-descent':
+            return torch.optim.SGD(model.parameters(),
+                                   lr = float(learning['lr']),
+                                   momentum = float(learning['momentum']),
+                                   weight_decay = float(learning['decay']),
+                                   nesterov = bool(learning['nesterov']))
+
+        elif learning['learning'] == 'adam':
+            return torch.optim.Adam(model.parameters(),
+                                    lr = float(learning['lr']),
+                                    betas = tuple((float(learning['beta1']),float(learning['beta2']))),
+                                    weight_decay = float(learning['decay']),
+                                    amsgrad = bool(learning['amsgrad']))
 
     def evaluate(self, phenotype, weights_save_path, parent_weights_path,\
                 num_epochs, input_size=(90, 90, 1)): #pragma: no cover
         
-        model_phenotype = phenotype
+        model_phenotype, learning_phenotype = phenotype.split('learning:')
+        learning_phenotype = 'learning:'+learning_phenotype.rstrip().lstrip()
         model_phenotype = model_phenotype.rstrip().lstrip().replace('  ', ' ')
 
         torch_layers = self.get_layers(model_phenotype)
-        
+        torch_learning = self.get_learning(learning_phenotype)
         
         print("Running on Device = ", device)
         
         model = self.assemble_network(torch_layers, input_size)
         model.to(device)
 
-        optimizer = torch.optim.Adam(model.parameters(), lr=2e-2, betas=(0.9, 0.999))
+        #optimizer = torch.optim.Adam(model.parameters(), lr=2e-2, betas=(0.9, 0.999))
+        optimizer = self.assemble_optimiser(torch_learning,model)
         loss_fn = SF.mse_count_loss(correct_rate=1.0, incorrect_rate=0.0)
         #batch_size = 128
 
@@ -450,9 +517,13 @@ def evaluate(args): #pragma: no cover
     
 
     scnn_eval, phenotype, weights_save_path, parent_weights_path, num_epochs = args
-
-    return scnn_eval.evaluate(phenotype, weights_save_path, parent_weights_path, num_epochs)
-    
+    try:
+        return scnn_eval.evaluate(phenotype, weights_save_path, parent_weights_path, num_epochs)
+    except Exception as e:
+        traceback.print_exc()
+        gc.collect()
+        torch.cuda.empty_cache()
+        return None
 
 
 class Module:
@@ -541,12 +612,12 @@ class Module:
 
 class Individual:
    
-    def __init__(self, network_structure, output_rule, ind_id):
+    def __init__(self, network_structure, macro_rules, output_rule, ind_id):
      
 
         self.network_structure = network_structure
         self.output_rule = output_rule
-        #self.macro_rules = macro_rules
+        self.macro_rules = macro_rules
         self.modules = []
         self.output = None
         self.macro = []
@@ -588,6 +659,10 @@ class Individual:
         #Initialise output
         self.output = grammar.initialise(self.output_rule)
 
+        # Initialise the macro structure: learning, data augmentation, etc.
+        for rule in self.macro_rules:
+            self.macro.append(grammar.initialise(rule))
+
         return self
 
 
@@ -617,7 +692,8 @@ class Individual:
 
         phenotype += ' '+grammar.decode(self.output_rule, self.output)
      
-
+        for rule_idx, macro_rule in enumerate(self.macro_rules):
+            phenotype += ' '+grammar.decode(macro_rule, self.macro[rule_idx])
 
         self.phenotype = phenotype.rstrip().lstrip()
         return self.phenotype
@@ -644,6 +720,13 @@ class Individual:
                 else:
                     metrics['accuracy'] = [i.item() for i in metrics['accuracy']]
             
+            if 'loss' in metrics:
+                if type(metrics['loss']) is list:
+                    metrics['loss'] = [i for i in metrics['loss']]
+                else:
+                    metrics['loss'] = [i.item() for i in metrics['loss']]
+
+
             self.metrics = metrics
 
             if 'accuracy_test' in metrics:
@@ -651,6 +734,11 @@ class Individual:
                     self.fitness = self.metrics['accuracy_test']
                 else:
                     self.fitness = self.metrics['accuracy_test'].item()
-        
+        else:
+            self.metrics = None
+            self.fitness = -1
+            self.num_epochs = 0
+            self.trainable_parameters = -1
+            self.current_time = 0
         return self.fitness
 

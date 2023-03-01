@@ -1,4 +1,7 @@
-
+adicionar ao config:
+    - batch size
+    - num steps
+    - epochs (?)
 
 
 
@@ -6,19 +9,13 @@
 
 - pooling stride etc
 
-- Optimizer (adam ? params from denser ?)
-
-- Output layer (population coding or not, 50 vs 10 neurons, LIF layer)
-
-
-
-3x conv pool 1x dropout?
+garantir que nunca se perde / facilmente se acede ao best individual
 
 tentar converter dataset para temporal antes da simulação
 
 guardar genotype + weights (erro em save model)
 
-
+limpar CUDA GPU em crash
 
 reproducibilidade !!!
 guardar tudo para retomar simulação
@@ -31,10 +28,25 @@ DUVIDAS:
 
 beta:= trainable
 thresh := trainable
-
 beta [True] apenas ??
 
 
 fixed seed for dataset split
 
+conv+pool só conta como 1 layer? confirmar isto
+module.layers no engine conta activation tb???
+3x conv pool 1x dropout? probabilidades gerais da grammar
+rever grammar basicamente
+rever params config.json
+
 tempo é um problema :') como otimizar? early stop à pata? tentar cached cenas
+
+nao avaliar parent again
+
+ Output layer (population coding or not, 50 vs 10 neurons, LIF layer)
+
+crossover features / classification (?) pq nao usa crossover
+
+load prev weights ?
+
+training time? 

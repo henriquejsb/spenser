@@ -46,7 +46,7 @@ def save_pop(population, save_path, run, gen):
     """
 
     json_dump = []
-
+    population = sorted(population, key=lambda x: x.fitness, reverse=True)
     for ind in population:
         json_dump.append({
                           'id': str(ind.id),
@@ -114,7 +114,7 @@ def pickle_evaluator(evaluator, save_path, run):
         pickle.dump(evaluator, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-def pickle_population(population, parent, save_path, run):
+def pickle_population(population, parent, best_fitness, save_path, run):
     """
         Save the objects (pickle) necessary to later resume evolution:
         Pickled objects:
@@ -150,6 +150,9 @@ def pickle_population(population, parent, save_path, run):
 
     with open(Path('%s/run_%d/numpy.pkl' % (save_path, run)), 'wb') as handle_numpy:
         pickle.dump(np.random.get_state(), handle_numpy, protocol=pickle.HIGHEST_PROTOCOL)
+
+    with open(Path('%s/run_%d/best_fitness.pkl' % (save_path, run)), 'wb') as handle_best:
+        pickle.dump(best_fitness, handle_best, protocol=pickle.HIGHEST_PROTOCOL)
 
 
 def unpickle_population(save_path, run):
@@ -208,6 +211,9 @@ def unpickle_population(save_path, run):
 
         with open(Path('%s' % save_path, 'run_%d' % run, 'parent.pkl'), 'rb') as handle_parent:
             pickle_parent = pickle.load(handle_parent)
+        
+        with open(Path('%s' % save_path, 'run_%d' % run, 'best_fitness.pkl'), 'rb') as handle_best:
+            pickle_best_fitness = pickle.load(handle_best)
 
         pickle_population_fitness = [ind.fitness for ind in pickle_population]
 
@@ -220,7 +226,7 @@ def unpickle_population(save_path, run):
         total_epochs = get_total_epochs(save_path, run, last_generation)
 
         return last_generation, pickle_evaluator, pickle_population, pickle_parent, \
-               pickle_population_fitness, pickle_random, pickle_numpy, total_epochs
+               pickle_population_fitness, pickle_random, pickle_numpy, total_epochs, pickle_best_fitness
 
     else:
         return None
@@ -562,19 +568,21 @@ def main(run, dataset, config_file, grammar_path): #pragma: no cover
 
     #in case there is a previous population, load it
     else:
-        last_gen, cnn_eval, population, parent, population_fits, pkl_random, pkl_numpy, total_epochs = unpickle
+        last_gen, cnn_eval, population, parent, population_fits, pkl_random, pkl_numpy, total_epochs,best_fitness = unpickle
         random.setstate(pkl_random)
         np.random.set_state(pkl_numpy)
 
     for gen in range(last_gen+1, config["EVOLUTIONARY"]["num_generations"]):
 
         #check the total number of epochs (stop criteria)
-        if total_epochs is not None and total_epochs >= config["EVOLUTIONARY"]["max_epochs"]:
-            break
+        #if total_epochs is not None and total_epochs >= config["EVOLUTIONARY"]["max_epochs"]:
+        #    break
         if gen == 0:
             print('[%d] Creating the initial population' % (run))
             print('[%d] Performing generation: %d' % (run, gen))
-            population = [Individual(config["NETWORK"]["network_structure"],config["NETWORK"]["output"],\
+            population = [Individual(config["NETWORK"]["network_structure"],config["NETWORK"]["macro_structure"],\
+            config["NETWORK"]["output"],\
+                                     
                                 _id_).initialise(grammar, config["EVOLUTIONARY"]["MUTATIONS"]["reuse_layer"], config["NETWORK"]["network_structure_init"]) \
                                 for _id_ in range(config["EVOLUTIONARY"]["lambda"])]
             
@@ -608,8 +616,8 @@ def main(run, dataset, config_file, grammar_path): #pragma: no cover
             population_fits = []
             for idx, ind in enumerate(population):
                 ind.num_epochs = 1
-                population_fits.append(ind.evaluate(grammar, cnn_eval,  '%s/run_%d/best_%d_%d.hdf5' % (config["EVOLUTIONARY"]["save_path"], run, gen, idx), '%s/run_%d/best_%d_%d.hdf5' % (config["EVOLUTIONARY"]["save_path"], run, gen-1, parent_id)))
                 ind.id = idx
+                population_fits.append(ind.evaluate(grammar, cnn_eval,  '%s/run_%d/best_%d_%d.hdf5' % (config["EVOLUTIONARY"]["save_path"], run, gen, idx), '%s/run_%d/best_%d_%d.hdf5' % (config["EVOLUTIONARY"]["save_path"], run, gen-1, parent_id)))
 
         #select parent
         parent = select_fittest(population, population_fits, grammar, cnn_eval,\
@@ -640,7 +648,7 @@ def main(run, dataset, config_file, grammar_path): #pragma: no cover
 
         #save population
         save_pop(population, config["EVOLUTIONARY"]["save_path"], run, gen)
-        pickle_population(population, parent, config["EVOLUTIONARY"]["save_path"], run)
+        pickle_population(population, parent, best_fitness, config["EVOLUTIONARY"]["save_path"], run)
 
         total_epochs += sum([ind.num_epochs for ind in population])
 

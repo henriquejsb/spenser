@@ -41,7 +41,10 @@
       "network_structure_init": {"features":[2,4,6], "classification":[1]},
 
       //output layer
-    "output": "output"
+      "output": "output",
+
+      //macro blocks: currently only learning
+      "macro_structure": ["learning"]
 
     },
   
