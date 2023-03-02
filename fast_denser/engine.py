@@ -12,7 +12,14 @@ from copy import deepcopy
 from glob import glob
 import pickle
 from shutil import copyfile
+import warnings
 
+
+warnings.filterwarnings("ignore", category=UserWarning)
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:512"
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 
 def save_pop(population, save_path, run, gen):
     """
@@ -56,7 +63,8 @@ def save_pop(population, save_path, run, gen):
                           'trainable_parameters': str(ind.trainable_parameters),
                           'num_epochs': str(ind.num_epochs),
                           'time': str(ind.time),
-                          'train_time': str(ind.train_time)})
+                          'train_time': str(ind.train_time),
+                          'was_the_parent': str(ind.is_parent)})
 
     with open(Path('%s/run_%d/gen_%d.csv' % (save_path, run, gen)), 'w') as f_json:
         f_json.write(json.dumps(json_dump, indent=4))
@@ -537,7 +545,7 @@ def main(run, dataset, config_file, grammar_path): #pragma: no cover
     """ 
     #load config file
     config = load_config(config_file)
-
+    skip_parent = eval(config["EVOLUTIONARY"]["skip_parent"])
     #load grammar
     grammar = Grammar(grammar_path)
 
@@ -590,7 +598,7 @@ def main(run, dataset, config_file, grammar_path): #pragma: no cover
             for idx, ind in enumerate(population):
                 ind.current_time = 0
                 ind.num_epochs = 1
-                population_fits.append(ind.evaluate(grammar, cnn_eval,'%s/run_%d/best_%d_%d.hdf5' % (config["EVOLUTIONARY"]["save_path"], run, gen, idx)))
+                population_fits.append(ind.evaluate(grammar, cnn_eval,'%s/run_%d/best_%d_%d' % (config["EVOLUTIONARY"]["save_path"], run, gen, idx)))
                 ind.id = idx
 
         else:
@@ -606,18 +614,20 @@ def main(run, dataset, config_file, grammar_path): #pragma: no cover
 
             #set elite variables to re-evaluation
             #population[0].current_time = 0
-            #TODO skip parent 
-
             
-            population[0].num_epochs = 0
+            
+            #population[0].num_epochs = 0
             parent_id = parent.id
-
+            parent.is_parent = True
             #evaluate population
             population_fits = []
             for idx, ind in enumerate(population):
+                if idx == 0 and skip_parent:
+                    population_fits.append(ind.fitness)
+                    continue
                 ind.num_epochs = 1
+                population_fits.append(ind.evaluate(grammar, cnn_eval,  '%s/run_%d/best_%d_%d' % (config["EVOLUTIONARY"]["save_path"], run, gen, idx), '%s/run_%d/best_%d_%d' % (config["EVOLUTIONARY"]["save_path"], run, gen-1, parent_id)))
                 ind.id = idx
-                population_fits.append(ind.evaluate(grammar, cnn_eval,  '%s/run_%d/best_%d_%d.hdf5' % (config["EVOLUTIONARY"]["save_path"], run, gen, idx), '%s/run_%d/best_%d_%d.hdf5' % (config["EVOLUTIONARY"]["save_path"], run, gen-1, parent_id)))
 
         #select parent
         parent = select_fittest(population, population_fits, grammar, cnn_eval,\
@@ -627,18 +637,19 @@ def main(run, dataset, config_file, grammar_path): #pragma: no cover
         #remove temporary files to free disk space
         if gen > 1:
             for x in range(len(population)):
-                if os.path.isfile(Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best_%d_%d.h5' % (gen-2, x))):
-                    os.remove(Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best_%d_%d.h5' % (gen-2, x)))
-                if os.path.isfile(Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best_%d_%d.hdf5' % (gen-2, x))):    
-                    os.remove(Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best_%d_%d.hdf5' % (gen-2, x)))
+                if os.path.isfile(Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best_%d_%d.checkpoint' % (gen-2, x))):
+                    os.remove(Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best_%d_%d.checkpoint' % (gen-2, x)))
+                if os.path.isfile(Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best_%d_%d.phenotype' % (gen-2, x))):    
+                    os.remove(Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best_%d_%d.phenotype' % (gen-2, x)))
 
         #update best individual
         if best_fitness is None or parent.fitness > best_fitness:
             best_fitness = parent.fitness
 
-            if os.path.isfile(Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best_%d_%d.hdf5' % (gen, parent.id))):
-                copyfile(Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best_%d_%d.hdf5' % (gen, parent.id)), Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best.hdf5'))
-                copyfile(Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best_%d_%d.h5' % (gen, parent.id)), Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best.h5'))
+            if os.path.isfile(Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best_%d_%d.checkpoint' % (gen, parent.id))):
+                copyfile(Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best_%d_%d.checkpoint' % (gen, parent.id)), Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best.checkpoint'))
+            #if os.path.isfile(Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best_%d_%d.phenotype' % (gen, parent.id))):
+            #    copyfile(Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best_%d_%d.phenotype' % (gen, parent.id)), Path('%s' % config["EVOLUTIONARY"]["save_path"], 'run_%d' % run, 'best.phenotype'))
             
             with open('%s/run_%d/best_parent.pkl' % (config["EVOLUTIONARY"]["save_path"], run), 'wb') as handle:
                 pickle.dump(parent, handle, protocol=pickle.HIGHEST_PROTOCOL)

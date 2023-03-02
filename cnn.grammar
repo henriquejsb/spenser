@@ -1,4 +1,5 @@
-<features> ::=  <convolution> <pooling> <activation> | <dropout>
+<features> ::=  <aux-convolution> | <aux-convolution> | <aux-convolution> | <dropout>
+<aux-convolution> ::= <convolution> <pooling> <activation>
 <activation> ::= layer:act <beta> <threshold> <surr-grad> <reset-mechanism> 
 <reset-mechanism> ::= reset:subtract | reset:zero
 <beta> ::= [beta,float,1,0,1] <beta-trainable>
@@ -9,10 +10,10 @@
 <pooling> ::= <pool-type> [kernel-size,int,1,2,4] | layer:no-op
 <pool-type> ::= layer:pool-avg | layer:pool-max
 <classification> ::= <fully-connected> <activation> | <dropout>
-<convolution> ::= layer:conv [num-filters,int,1,8,32] [filter-shape,int,1,2,4] [stride,int,1,1,3] <padding> <bias>
+<convolution> ::= layer:conv [num-filters,int,1,32,128] [filter-shape,int,1,2,4] [stride,int,1,1,3] <padding> <bias>
 <padding> ::= padding:same | padding:valid
 <dropout> ::= layer:dropout [rate,float,1,0,0.5]
-<fully-connected> ::= layer:fc [num-units,int,1,16,64] <bias>
+<fully-connected> ::= layer:fc [num-units,int,1,32,256] <bias>
 <bias> ::= bias:True | bias:False
 <output> ::= <fully-last> <activation>
 <fully-last> ::= layer:fc num-units:10 bias:True

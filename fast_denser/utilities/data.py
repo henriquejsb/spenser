@@ -46,7 +46,11 @@ def load_dataset(dataset, config):
     mnist_train = load_MNIST(train=True)
     mnist_test = load_MNIST(train=False)
 
-    subset = 10
+    subset = int(config["TRAINING"]["subset"])
+
+    batch_size = int(config["TRAINING"]["batch_size"])
+    num_steps = int(config["TRAINING"]["num_steps"])
+
     mnist_train = utils.data_subset(mnist_train, subset)
     #print(mnist_train.data.shape)
     #spikegen.rate(mnist_train.data.to('cuda'), num_steps=100)
@@ -54,7 +58,7 @@ def load_dataset(dataset, config):
     #exit(0)
     indices = np.arange(0,len(mnist_train))
 
-    evo_train_idx, evo_test_idx = train_test_split(indices, test_size = 0.3, shuffle=True, stratify=mnist_train.targets, random_state=42)
+    evo_train_idx, evo_test_idx = train_test_split(indices, test_size = 0.3, shuffle=True, stratify=mnist_train.targets)
     
     #print(evo_train_idx)
     #print(evo_test_idx)
@@ -64,7 +68,7 @@ def load_dataset(dataset, config):
     evo_test = Subset(mnist_train, evo_test_idx)
     print(f"Evo train dataset has {len(evo_train)} samples")
     print(f"Evo test dataset has {len(evo_test)} samples")
-    evo_train = DataLoader(evo_train, batch_size=batch_size, pin_memory=True,num_workers=8)
+    evo_train = DataLoader(evo_train, batch_size=batch_size, pin_memory=False,num_workers=8)
     evo_test = DataLoader(evo_test, batch_size=batch_size)
     test = DataLoader(mnist_test, batch_size=batch_size)
     #print(evo_train.data)

@@ -18,7 +18,9 @@
   
       //place where the experiment is saved
       "save_path": "./experiments/",
-  
+      
+      "skip_parent": "False",
+
       //rates of the different mutations [0, 1]
       "MUTATIONS": {
         "add_layer": 0.25,
@@ -35,10 +37,10 @@
     //network specific parameters
     "NETWORK": {
       //structure to the hidden layers of the network [[non-terminal, min, max], ...]
-      "network_structure": [["features", 4, 6], ["classification", 1, 3]],
+      "network_structure": [["features", 1, 10], ["classification", 1, 10]],
   
       //number of layers on initialisation
-      "network_structure_init": {"features":[2,4,6], "classification":[1]},
+      "network_structure_init": {"features":[2,4,12], "classification":[1]},
 
       //output layer
       "output": "output",
@@ -52,8 +54,10 @@
     "TRAINING": {
       //maximum training time for each network (in seconds)
       "default_train_time": 600,
-      "time":100,
-      "dt":1      
+      "num_steps":100,
+      "epochs":1,
+      "batch_size":64,
+      "subset":1  
     }
     
   }

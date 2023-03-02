@@ -36,10 +36,13 @@ import contextlib
 from time import time as t
 #from tqdm import tqdm
 
-DEBUG = False
+DEBUG = True
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 torch.set_num_threads(os.cpu_count() - 1)
+
+if DEBUG:
+    print("Running on Device = ", device)
 
 class Evaluator:
     """
@@ -173,9 +176,10 @@ class Evaluator:
 
 
     def assemble_network(self, torch_layers, input_size):
-        print(torch_layers)
+        if DEBUG:
+            print(torch_layers)
         #last_output = input_size[0]*input_size[1]
-        last_output = (1,28,28)
+        last_output = input_size
         
         layers = []
         idx = 0
@@ -234,6 +238,7 @@ class Evaluator:
                 P = layer_params['padding'][0]
                 if P == 'same':
                     S = 1
+                
                 conv_layer = nn.Conv2d( in_channels=last_output[0],
                                         out_channels=NF,
                                         kernel_size=K,
@@ -321,163 +326,254 @@ class Evaluator:
                                     weight_decay = float(learning['decay']),
                                     amsgrad = bool(learning['amsgrad']))
 
-    def evaluate(self, phenotype, weights_save_path, parent_weights_path,\
-                num_epochs, input_size=(90, 90, 1)): #pragma: no cover
+
+    def save(self, model, optimizer, loss_fn, torch_layers, torch_learning, input_size, weights_save_path):
+        # Save the models phenotype and weights 
+        checkpoint = {
+            "model_state_dict": model.state_dict(),
+            "optimizer_state_dict": optimizer.state_dict(),
+            "torch_layers": torch_layers,
+            "torch_learning": torch_learning,
+            "input_size": input_size,
+            "loss_fn": loss_fn
+        }
+        torch.save(checkpoint, weights_save_path + '.checkpoint')
         
+    
+    def load(self,weights_save_path):
+
+        checkpoint = torch.load(weights_save_path + '.checkpoint')
+
+        input_size = checkpoint["input_size"]
+        torch_layers = checkpoint["torch_layers"]
+        torch_learning = checkpoint["torch_learning"]
+        loss_fn = checkpoint["loss_fn"]
+
+
+        model = self.assemble_network(torch_layers, input_size)
+        optimizer = self.assemble_optimiser(torch_learning,model)
+
+        
+        #model.to(device)
+        model.load_state_dict(checkpoint['model_state_dict'])
+        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        return model, optimizer, loss_fn
+
+    def evaluate(self, phenotype, weights_save_path, parent_weights_path,\
+                num_epochs, input_size=(1,28,28)): #pragma: no cover
+        
+        start = t()
         model_phenotype, learning_phenotype = phenotype.split('learning:')
+        
         learning_phenotype = 'learning:'+learning_phenotype.rstrip().lstrip()
         model_phenotype = model_phenotype.rstrip().lstrip().replace('  ', ' ')
 
         torch_layers = self.get_layers(model_phenotype)
         torch_learning = self.get_learning(learning_phenotype)
-        
-        print("Running on Device = ", device)
+       
         
         model = self.assemble_network(torch_layers, input_size)
         model.to(device)
+       
 
-        #optimizer = torch.optim.Adam(model.parameters(), lr=2e-2, betas=(0.9, 0.999))
         optimizer = self.assemble_optimiser(torch_learning,model)
         loss_fn = SF.mse_count_loss(correct_rate=1.0, incorrect_rate=0.0)
-        #batch_size = 128
+        loss_val = None
 
-        #trainloader = DataLoader(self.dataset, batch_size = batch_size, collate_fn = tonic.collation.PadTensors(), shuffle = True)
+
         trainloader = self.dataset["evo_train"]
         testloader = self.dataset["evo_test"]
-        if DEBUG:
-            print(f"Begin training individual.\n")
+   
         
-
 
         loss_hist = []
         acc_hist = []
         history = {}
 
-        num_steps = 100
+        num_steps = int(self.config["TRAINING"]["num_steps"])
+        spk_rec = []
 
-        start = t()
+        time_stats = {}
 
-        def forward_pass(net, data):
+        
+        
+        
+        try:
+
+            acc_hist, loss_hist, time_stats = train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps)
+
+            history['accuracy'] = acc_hist
+            history['loss'] = loss_hist
+
+            
+            
+
+            self.save(model, optimizer, loss_fn, torch_layers, torch_learning, input_size, weights_save_path)
+            
+            #measure test performance
+            start_fitness = t()
+            accuracy_test = get_fitness(model,testloader,num_steps)
+            
+            time_stats["fitness_time"] = t() - start_fitness
+            time_stats["total_time"] = t()-start
+
+            history['accuracy_test'] = accuracy_test
+            history['time_stats'] = time_stats
+
+
+            #input()
+            '''
+            #-------------------------------------------------------------
+
+            #In case we need to load the module we need phenotype and weights
+            
+            model = None
+            gc.collect()
+
+            model,optimizer,loss_fn = self.load(weights_save_path)
+            
+            #model = torch.jit.load(weights_save_path)
+            model.to(device)
+
+            get_fitness(model,testloader,num_steps)
+            #---------------------------------------------------
+            '''
+
+        except KeyboardInterrupt:
+            # quit
+            exit(0)
+        except Exception as e:
+            history = None
+            traceback.print_exc()
+        #Cleaning up
+        with torch.no_grad():
+            model.to('cpu')
+            del model
+            del loss_val
+            del loss_fn
+            del optimizer
+            torch.cuda.empty_cache()
+        gc.collect()
+        #print("Here")
+        #input()
+        return history
+
+
+
+
+def forward_pass(net, data):
             spk_rec = []
             utils.reset(net)  # resets hidden states for all LIF neurons in net
-           
+        
             #data = data.transpose(0,1)
-          
+        
             for step in range(data.size(0)):  # data.size(0) = number of time steps
-               
                 spk_out, mem_out = net(data[step])
+                
                 spk_rec.append(spk_out)
 
             return torch.stack(spk_rec)
 
-        dataloading_time = 0
-        spikegen_time = 0
-        forward_time = 0
-        learning_time = 0
-        # training loop
-        for epoch in range(num_epochs):
-            for i, (data, targets) in enumerate(iter(trainloader)):
-                
+def get_fitness(model,testloader,num_steps):
+    total = 0
+    correct = 0
+    aux_spike_rec = []
+    aux_targets = []
+    
+    with torch.no_grad():
+        model.eval()
+        for data, targets in testloader:
+            data = spikegen.rate(data.data, num_steps=num_steps).to(device)
+            targets = targets.to(device)
+            aux_targets += list(targets)
+            # forward pass
+            spk_rec = forward_pass(model, data)
+            aux_spike_rec += list(spk_rec)
+            # calculate total accuracy
+            _, predicted = spk_rec.sum(dim=0).max(1)
+            #acc = SF.accuracy_rate(spk_rec, targets)
+            total += targets.size(0)
+            correct += (predicted == targets).sum().item()
+
+    accuracy_test = correct / total
+
+    if DEBUG:
+        print(f"Total correctly classified test set images: {correct}/{total}")
+        print(f"Test Set Accuracy: {100*accuracy_test:.2f}%")
+    return accuracy_test
+
+def train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps):
+    dataloading_time = 0
+    spikegen_time = 0
+    forward_time = 0
+    learning_time = 0
+    start = t()
+    
+    acc_hist = []
+    loss_hist = []
+    # training loop
+    for epoch in range(num_epochs):
+        for i, (data, targets) in enumerate(iter(trainloader)):
+            if DEBUG:
                 if i%25 == 0:
                     print(f"\tCurrent speed:{i/(t()-start)} iterations per second")
 
-                a = t()
-                data = spikegen.rate(data.data, num_steps=num_steps).to(device)
-                spikegen_time += t() - a
-                
-                '''
-                (unique, counts) = np.unique(np.asarray(targets), return_counts=True)
-                #print("EVO_Y_TEST:")
-                print(np.asarray((unique, counts)).T)
-                '''
-                a = t()
-                targets = targets.to(device)
-                dataloading_time += time()-a
+            a = t()
+            data = spikegen.rate(data.data, num_steps=num_steps).to(device)
+            
+            spikegen_time += t() - a
+        
 
-                model.train()
-                a = t()
-                spk_rec = forward_pass(model, data)
-                forward_time += t() - a
+            '''
+            (unique, counts) = np.unique(np.asarray(targets), return_counts=True)
+            #print("EVO_Y_TEST:")
+            print(np.asarray((unique, counts)).T)
+            '''
+            a = t()
+            targets = targets.to(device)
+            dataloading_time += time()-a
+            
+            model.train()
+            a = t()
+            
+            spk_rec = forward_pass(model, data)
+            
+            forward_time += t() - a
 
-                a = t()
-                loss_val = loss_fn(spk_rec, targets)
+            a = t()
+            loss_val = loss_fn(spk_rec, targets)
 
-                # Gradient calculation + weight update
-                optimizer.zero_grad()
-                loss_val.backward()
-                optimizer.step()
-                learning_time += time() - a
+            # Gradient calculation + weight update
+            optimizer.zero_grad()
+            loss_val.backward()
+            optimizer.step()
+            learning_time += time() - a
 
-                # Store loss history for future plotting
-                loss_hist.append(loss_val.item())
+            # Store loss history for future plotting
+            loss_hist.append(loss_val.item())
 
 
-                acc = SF.accuracy_rate(spk_rec, targets)
-                acc_hist.append(acc)
-                if DEBUG:
-                    print(f"Epoch {epoch}, Iteration {i}/{len(trainloader)} \nTrain Loss: {loss_val.item():.2f} Accuracy: {acc * 100:.2f}%")
-                #print(f"Accuracy: {acc * 100:.2f}%\n")
-
-        history['accuracy'] = acc_hist
-        history['loss'] = loss_hist
-
-        training_time = t()-start
+            acc = SF.accuracy_rate(spk_rec, targets)
+            acc_hist.append(acc)
+            if DEBUG:
+                print(f"Epoch {epoch}, Iteration {i}/{len(trainloader)} \nTrain Loss: {loss_val.item():.2f} Accuracy: {acc * 100:.2f}%")
+            #print(f"Accuracy: {acc * 100:.2f}%\n")
+    training_time = t()-start
+    dataloading_time = training_time - forward_time - learning_time - spikegen_time
+    time_stats = {
+        "training_time":training_time,
+        "spikegen_time":spikegen_time,
+        "forward_time":forward_time,
+        "learning_time":learning_time,
+        "dataloading_time":dataloading_time
+    }
+    if DEBUG:
         print("Training time (s): ",training_time)
         print("Time spent converting dataset (s / %): ",spikegen_time,100*spikegen_time/training_time)
         print("Time spent in forward pass (s / %):",forward_time,100*forward_time/training_time)
         print("Time spent in learning (s / %)",learning_time,100*learning_time/training_time)
-        dataloading_time = training_time - forward_time - learning_time - spikegen_time
         print("Time spent loading data (s / %):", dataloading_time,100*dataloading_time/training_time)
-        #exit(0)
-        #save final model to file
-        #model.save(weights_save_path.replace('.hdf5', '.h5'))
-        torch.save(model.state_dict(),weights_save_path.replace('.hdf5', '.h5'))
-
-        
-
-        #measure test performance
-        total = 0
-        correct = 0
-        aux_spike_rec = []
-        aux_targets = []
-        
-        with torch.no_grad():
-            model.eval()
-            for data, targets in testloader:
-                data = spikegen.rate(data.data, num_steps=num_steps).to(device)
-                targets = targets.to(device)
-                aux_targets += list(targets)
-                # forward pass
-                spk_rec = forward_pass(model, data)
-                aux_spike_rec += list(spk_rec)
-                # calculate total accuracy
-                _, predicted = spk_rec.sum(dim=0).max(1)
-                #acc = SF.accuracy_rate(spk_rec, targets)
-                total += targets.size(0)
-                correct += (predicted == targets).sum().item()
-
-        accuracy_test = correct / total
-        print(f"Total correctly classified test set images: {correct}/{total}")
-        print(f"Test Set Accuracy: {100*accuracy_test:.2f}%")
-        history['accuracy_test'] = accuracy_test
-        
-        '''
-        In case we need to load the module we need phenotype and weights
-        
-        model = None
-        gc.collect()
-
-        model = self.assemble_network(torch_layers, input_size)
-        model.to(device)
-        model.load_state_dict(torch.load(weights_save_path.replace('.hdf5', '.h5')))
-        '''
-
-
-        #Cleaning up
-        model = None
-        gc.collect()
-        torch.cuda.empty_cache()
-        return history
+    return acc_hist, loss_hist, time_stats
 
 def evaluate(args): #pragma: no cover
     """
@@ -521,8 +617,10 @@ def evaluate(args): #pragma: no cover
         return scnn_eval.evaluate(phenotype, weights_save_path, parent_weights_path, num_epochs)
     except Exception as e:
         traceback.print_exc()
+        with torch.no_grad():
+            torch.cuda.empty_cache()
         gc.collect()
-        torch.cuda.empty_cache()
+        #input()
         return None
 
 
@@ -630,6 +728,7 @@ class Individual:
         self.current_time = 0
         self.train_time = 0
         self.id = ind_id
+        self.is_parent = False
 
     def initialise(self, grammar, reuse, init_max):
         """
@@ -702,9 +801,9 @@ class Individual:
   
 
         phenotype = self.decode(grammar)
-        start = time()
+        
 
-        print(f"Begin training individual {self.id}.\n")
+        #print(f"Begin training individual {self.id}.\n")
 
 
         metrics = evaluate((cnn_eval, phenotype,
@@ -734,6 +833,13 @@ class Individual:
                     self.fitness = self.metrics['accuracy_test']
                 else:
                     self.fitness = self.metrics['accuracy_test'].item()
+            if 'time_stats' in metrics:
+                time_stats = metrics['time_stats']
+                if 'total_time' in time_stats:
+                    self.time = time_stats['total_time']
+                if 'traininig_time' in time_stats:
+                    self.train_time = time_stats['training_time']
+
         else:
             self.metrics = None
             self.fitness = -1
