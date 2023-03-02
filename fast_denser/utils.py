@@ -38,7 +38,7 @@ from time import time as t
 
 DEBUG = True
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 torch.set_num_threads(os.cpu_count() - 1)
 
 if DEBUG:

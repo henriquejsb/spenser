@@ -1,0 +1,5444 @@
+ls
+aux.model  [0m[01;32mcnn.grammar[0m  [01;32mconfig.json[0m  [01;32mconfig-skip.json[0m  [01;34mdata[0m  [01;32mexample2.py[0m  [01;32mexample.py[0m  [01;34mexperiments[0m  [01;34mfast_denser[0m  [01;32mmain.py[0m  normal.out  [01;32mREADME.md[0m  requirements.txt  screenlog.0  skip_parent.out  [01;32mspike_bar.gif[0m  TESTER.py  [01;32mTODO.txt[0m
+[01;32mbranquinho@pamela[00m:[01;34m~/snn[00m$ echo 2
+2
+[01;32mbranquinho@pamela[00m:[01;34m~/snn[00m$ rm screenlog.0 
+[01;32mbranquinho@pamela[00m:[01;34m~/snn[00m$ rm skip_parent.out 
+[01;32mbranquinho@pamela[00m:[01;34m~/snn[00m$ 
+[01;32mbranquinho@pamela[00m:[01;34m~/snn[00m$ p[Kpyh[Kthon min[K[Kain.py -c config.json -g cnn.grammar -d x 
+  File "main.py", line 7
+    os.system(f"rm -rf {folder}")
+                               ^
+SyntaxError: invalid syntax
+[01;32mbranquinho@pamela[00m:[01;34m~/snn[00m$ python main.py -c config.json -g cnn.grammar -d x [1@3[1@.[1@7
+Running on Device =  cuda
+Evo train dataset has 42000 samples
+Evo test dataset has 18000 samples
+[0] Creating the initial population
+[0] Performing generation: 0
+[('dropout', {'rate': ['0.4758588514133684']}), ('dropout', {'rate': ['0.21675721744770188']}), ('fc', {'num-units': ['220'], 'bias': ['False']}), ('act', {'beta': ['0.658815986908692'], 'beta-trainable': ['True'], 'threshold': ['0.729705216805681'], 'threshold-trainable': ['True'], 'surr-grad': ['atan'], 'reset': ['subtract']}), ('fc', {'num-units': ['10'], 'bias': ['True']}), ('act', {'beta': ['0.9633157837008631'], 'beta-trainable': ['True'], 'threshold': ['1.456100646116651'], 'threshold-trainable': ['False'], 'surr-grad': ['fast_sigmoid'], 'reset': ['subtract']})]
+Sequential(
+  (0): Dropout(p=0.4758588514133684, inplace=False)
+  (1): Dropout(p=0.21675721744770188, inplace=False)
+  (2): Flatten(start_dim=1, end_dim=-1)
+  (3): Linear(in_features=784, out_features=220, bias=False)
+  (4): Leaky()
+  (5): Linear(in_features=220, out_features=10, bias=True)
+  (6): Leaky()
+)
+	Current speed:0.0 iterations per second
+Epoch 0, Iteration 0/657 
+Train Loss: 9.83 Accuracy: 9.38%
+Epoch 0, Iteration 1/657 
+Train Loss: 59.22 Accuracy: 20.31%
+Epoch 0, Iteration 2/657 
+Train Loss: 25.00 Accuracy: 10.94%
+Epoch 0, Iteration 3/657 
+Train Loss: 13.48 Accuracy: 14.06%
+Epoch 0, Iteration 4/657 
+Train Loss: 10.47 Accuracy: 10.94%
+Epoch 0, Iteration 5/657 
+Train Loss: 9.57 Accuracy: 14.06%
+Epoch 0, Iteration 6/657 
+Train Loss: 9.70 Accuracy: 20.31%
+Epoch 0, Iteration 7/657 
+Train Loss: 9.96 Accuracy: 4.69%
+Epoch 0, Iteration 8/657 
+Train Loss: 9.66 Accuracy: 10.94%
+Epoch 0, Iteration 9/657 
+Train Loss: 9.52 Accuracy: 14.06%
+Epoch 0, Iteration 10/657 
+Train Loss: 9.83 Accuracy: 10.94%
+Epoch 0, Iteration 11/657 
+Train Loss: 9.71 Accuracy: 10.94%
+Epoch 0, Iteration 12/657 
+Train Loss: 9.59 Accuracy: 12.50%
+Epoch 0, Iteration 13/657 
+Train Loss: 9.83 Accuracy: 7.81%
+Epoch 0, Iteration 14/657 
+Train Loss: 9.72 Accuracy: 6.25%
+Epoch 0, Iteration 15/657 
+Train Loss: 9.43 Accuracy: 14.06%
+Epoch 0, Iteration 16/657 
+Train Loss: 9.71 Accuracy: 7.81%
+Epoch 0, Iteration 17/657 
+Train Loss: 9.10 Accuracy: 14.06%
+Epoch 0, Iteration 18/657 
+Train Loss: 9.05 Accuracy: 17.19%
+Epoch 0, Iteration 19/657 
+Train Loss: 9.12 Accuracy: 21.88%
+Epoch 0, Iteration 20/657 
+Train Loss: 9.49 Accuracy: 15.62%
+Epoch 0, Iteration 21/657 
+Train Loss: 9.24 Accuracy: 12.50%
+Epoch 0, Iteration 22/657 
+Train Loss: 9.36 Accuracy: 10.94%
+Epoch 0, Iteration 23/657 
+Train Loss: 9.20 Accuracy: 20.31%
+Epoch 0, Iteration 24/657 
+Train Loss: 9.63 Accuracy: 14.06%
+	Current speed:3.9275799998674046 iterations per second
+Epoch 0, Iteration 25/657 
+Train Loss: 9.30 Accuracy: 20.31%
+Epoch 0, Iteration 26/657 
+Train Loss: 9.20 Accuracy: 12.50%
+Epoch 0, Iteration 27/657 
+Train Loss: 9.67 Accuracy: 12.50%
+Epoch 0, Iteration 28/657 
+Train Loss: 9.02 Accuracy: 23.44%
+Epoch 0, Iteration 29/657 
+Train Loss: 9.05 Accuracy: 15.62%
+Epoch 0, Iteration 30/657 
+Train Loss: 8.73 Accuracy: 25.00%
+Epoch 0, Iteration 31/657 
+Train Loss: 9.69 Accuracy: 12.50%
+Epoch 0, Iteration 32/657 
+Train Loss: 9.49 Accuracy: 15.62%
+Epoch 0, Iteration 33/657 
+Train Loss: 8.75 Accuracy: 25.00%
+Epoch 0, Iteration 34/657 
+Train Loss: 9.07 Accuracy: 23.44%
+Epoch 0, Iteration 35/657 
+Train Loss: 9.15 Accuracy: 18.75%
+Epoch 0, Iteration 36/657 
+Train Loss: 9.25 Accuracy: 18.75%
+Epoch 0, Iteration 37/657 
+Train Loss: 9.13 Accuracy: 18.75%
+Epoch 0, Iteration 38/657 
+Train Loss: 8.99 Accuracy: 23.44%
+Epoch 0, Iteration 39/657 
+Train Loss: 9.70 Accuracy: 14.06%
+Epoch 0, Iteration 40/657 
+Train Loss: 9.23 Accuracy: 25.00%
+Epoch 0, Iteration 41/657 
+Train Loss: 8.38 Accuracy: 29.69%
+Epoch 0, Iteration 42/657 
+Train Loss: 9.12 Accuracy: 28.12%
+Epoch 0, Iteration 43/657 
+Train Loss: 8.99 Accuracy: 20.31%
+Epoch 0, Iteration 44/657 
+Train Loss: 9.04 Accuracy: 18.75%
+Epoch 0, Iteration 45/657 
+Train Loss: 8.81 Accuracy: 23.44%
+Epoch 0, Iteration 46/657 
+Train Loss: 8.93 Accuracy: 20.31%
+Epoch 0, Iteration 47/657 
+Train Loss: 8.43 Accuracy: 21.88%
+Epoch 0, Iteration 48/657 
+Train Loss: 8.66 Accuracy: 20.31%
+Epoch 0, Iteration 49/657 
+Train Loss: 7.84 Accuracy: 32.81%
+	Current speed:4.18029982836299 iterations per second
+Epoch 0, Iteration 50/657 
+Train Loss: 9.72 Accuracy: 14.06%
+Epoch 0, Iteration 51/657 
+Train Loss: 8.34 Accuracy: 28.12%
+Epoch 0, Iteration 52/657 
+Train Loss: 7.99 Accuracy: 26.56%
+Epoch 0, Iteration 53/657 
+Train Loss: 7.97 Accuracy: 26.56%
+Epoch 0, Iteration 54/657 
+Train Loss: 8.45 Accuracy: 23.44%
+Epoch 0, Iteration 55/657 
+Train Loss: 8.38 Accuracy: 25.00%
+Epoch 0, Iteration 56/657 
+Train Loss: 7.94 Accuracy: 26.56%
+Epoch 0, Iteration 57/657 
+Train Loss: 8.40 Accuracy: 28.12%
+Epoch 0, Iteration 58/657 
+Train Loss: 7.74 Accuracy: 32.81%
+Epoch 0, Iteration 59/657 
+Train Loss: 6.74 Accuracy: 45.31%
+Epoch 0, Iteration 60/657 
+Train Loss: 7.91 Accuracy: 29.69%
+Epoch 0, Iteration 61/657 
+Train Loss: 8.19 Accuracy: 31.25%
+Epoch 0, Iteration 62/657 
+Train Loss: 7.69 Accuracy: 34.38%
+Epoch 0, Iteration 63/657 
+Train Loss: 7.83 Accuracy: 29.69%
+Epoch 0, Iteration 64/657 
+Train Loss: 8.08 Accuracy: 32.81%
+Epoch 0, Iteration 65/657 
+Train Loss: 8.15 Accuracy: 29.69%
+Epoch 0, Iteration 66/657 
+Train Loss: 8.60 Accuracy: 23.44%
+Epoch 0, Iteration 67/657 
+Train Loss: 8.14 Accuracy: 28.12%
+Epoch 0, Iteration 68/657 
+Train Loss: 7.36 Accuracy: 35.94%
+Epoch 0, Iteration 69/657 
+Train Loss: 8.38 Accuracy: 21.88%
+Epoch 0, Iteration 70/657 
+Train Loss: 7.91 Accuracy: 35.94%
+Epoch 0, Iteration 71/657 
+Train Loss: 8.13 Accuracy: 28.12%
+Epoch 0, Iteration 72/657 
+Train Loss: 8.43 Accuracy: 25.00%
+Epoch 0, Iteration 73/657 
+Train Loss: 7.61 Accuracy: 37.50%
+Epoch 0, Iteration 74/657 
+Train Loss: 8.29 Accuracy: 34.38%
+	Current speed:4.26132007631213 iterations per second
+Epoch 0, Iteration 75/657 
+Train Loss: 7.07 Accuracy: 45.31%
+Epoch 0, Iteration 76/657 
+Train Loss: 7.41 Accuracy: 31.25%
+Epoch 0, Iteration 77/657 
+Train Loss: 7.17 Accuracy: 37.50%
+Epoch 0, Iteration 78/657 
+Train Loss: 8.34 Accuracy: 29.69%
+Epoch 0, Iteration 79/657 
+Train Loss: 9.16 Accuracy: 25.00%
+Epoch 0, Iteration 80/657 
+Train Loss: 7.13 Accuracy: 39.06%
+Epoch 0, Iteration 81/657 
+Train Loss: 8.28 Accuracy: 26.56%
+Epoch 0, Iteration 82/657 
+Train Loss: 8.01 Accuracy: 31.25%
+Epoch 0, Iteration 83/657 
+Train Loss: 8.37 Accuracy: 25.00%
+Epoch 0, Iteration 84/657 
+Train Loss: 8.22 Accuracy: 28.12%
+Epoch 0, Iteration 85/657 
+Train Loss: 9.11 Accuracy: 25.00%
+Epoch 0, Iteration 86/657 
+Train Loss: 8.16 Accuracy: 23.44%
+Epoch 0, Iteration 87/657 
+Train Loss: 7.85 Accuracy: 31.25%
+Epoch 0, Iteration 88/657 
+Train Loss: 8.68 Accuracy: 25.00%
+Epoch 0, Iteration 89/657 
+Train Loss: 8.84 Accuracy: 23.44%
+Epoch 0, Iteration 90/657 
+Train Loss: 7.93 Accuracy: 32.81%
+Epoch 0, Iteration 91/657 
+Train Loss: 8.53 Accuracy: 32.81%
+Epoch 0, Iteration 92/657 
+Train Loss: 8.23 Accuracy: 25.00%
+Epoch 0, Iteration 93/657 
+Train Loss: 7.30 Accuracy: 32.81%
+Epoch 0, Iteration 94/657 
+Train Loss: 8.46 Accuracy: 18.75%
+Epoch 0, Iteration 95/657 
+Train Loss: 8.04 Accuracy: 29.69%
+Epoch 0, Iteration 96/657 
+Train Loss: 7.97 Accuracy: 28.12%
+Epoch 0, Iteration 97/657 
+Train Loss: 7.34 Accuracy: 37.50%
+Epoch 0, Iteration 98/657 
+Train Loss: 8.43 Accuracy: 32.81%
+Epoch 0, Iteration 99/657 
+Train Loss: 7.74 Accuracy: 29.69%
+	Current speed:4.302875135069351 iterations per second
+Epoch 0, Iteration 100/657 
+Train Loss: 8.00 Accuracy: 31.25%
+Epoch 0, Iteration 101/657 
+Train Loss: 7.46 Accuracy: 35.94%
+Epoch 0, Iteration 102/657 
+Train Loss: 7.39 Accuracy: 35.94%
+Epoch 0, Iteration 103/657 
+Train Loss: 8.80 Accuracy: 35.94%
+Epoch 0, Iteration 104/657 
+Train Loss: 8.14 Accuracy: 40.62%
+Epoch 0, Iteration 105/657 
+Train Loss: 7.59 Accuracy: 31.25%
+Epoch 0, Iteration 106/657 
+Train Loss: 8.15 Accuracy: 25.00%
+Epoch 0, Iteration 107/657 
+Train Loss: 8.11 Accuracy: 26.56%
+Epoch 0, Iteration 108/657 
+Train Loss: 8.10 Accuracy: 28.12%
+Epoch 0, Iteration 109/657 
+Train Loss: 8.30 Accuracy: 26.56%
+Epoch 0, Iteration 110/657 
+Train Loss: 7.67 Accuracy: 31.25%
+Epoch 0, Iteration 111/657 
+Train Loss: 8.14 Accuracy: 26.56%
+Epoch 0, Iteration 112/657 
+Train Loss: 7.32 Accuracy: 35.94%
+Epoch 0, Iteration 113/657 
+Train Loss: 7.65 Accuracy: 31.25%
+Epoch 0, Iteration 114/657 
+Train Loss: 8.05 Accuracy: 28.12%
+Epoch 0, Iteration 115/657 
+Train Loss: 7.49 Accuracy: 34.38%
+Epoch 0, Iteration 116/657 
+Train Loss: 6.81 Accuracy: 42.19%
+Epoch 0, Iteration 117/657 
+Train Loss: 7.38 Accuracy: 37.50%
+Epoch 0, Iteration 118/657 
+Train Loss: 7.59 Accuracy: 32.81%
+Epoch 0, Iteration 119/657 
+Train Loss: 7.82 Accuracy: 28.12%
+Epoch 0, Iteration 120/657 
+Train Loss: 6.62 Accuracy: 39.06%
+Epoch 0, Iteration 121/657 
+Train Loss: 7.01 Accuracy: 45.31%
+Epoch 0, Iteration 122/657 
+Train Loss: 6.64 Accuracy: 45.31%
+Epoch 0, Iteration 123/657 
+Train Loss: 7.91 Accuracy: 31.25%
+Epoch 0, Iteration 124/657 
+Train Loss: 7.49 Accuracy: 42.19%
+	Current speed:4.323600120163044 iterations per second
+Epoch 0, Iteration 125/657 
+Train Loss: 7.68 Accuracy: 40.62%
+Epoch 0, Iteration 126/657 
+Train Loss: 7.34 Accuracy: 40.62%
+Epoch 0, Iteration 127/657 
+Train Loss: 7.12 Accuracy: 39.06%
+Epoch 0, Iteration 128/657 
+Train Loss: 6.87 Accuracy: 46.88%
+Epoch 0, Iteration 129/657 
+Train Loss: 7.02 Accuracy: 45.31%
+Epoch 0, Iteration 130/657 
+Train Loss: 6.82 Accuracy: 45.31%
+Epoch 0, Iteration 131/657 
+Train Loss: 7.97 Accuracy: 35.94%
+Epoch 0, Iteration 132/657 
+Train Loss: 7.67 Accuracy: 39.06%
+Epoch 0, Iteration 133/657 
+Train Loss: 8.04 Accuracy: 37.50%
+Epoch 0, Iteration 134/657 
+Train Loss: 7.49 Accuracy: 35.94%
+Epoch 0, Iteration 135/657 
+Train Loss: 7.31 Accuracy: 39.06%
+Epoch 0, Iteration 136/657 
+Train Loss: 6.25 Accuracy: 48.44%
+Epoch 0, Iteration 137/657 
+Train Loss: 6.99 Accuracy: 40.62%
+Epoch 0, Iteration 138/657 
+Train Loss: 7.29 Accuracy: 37.50%
+Epoch 0, Iteration 139/657 
+Train Loss: 6.04 Accuracy: 54.69%
+Epoch 0, Iteration 140/657 
+Train Loss: 7.21 Accuracy: 43.75%
+Epoch 0, Iteration 141/657 
+Train Loss: 6.92 Accuracy: 40.62%
+Epoch 0, Iteration 142/657 
+Train Loss: 7.11 Accuracy: 43.75%
+Epoch 0, Iteration 143/657 
+Train Loss: 6.50 Accuracy: 43.75%
+Epoch 0, Iteration 144/657 
+Train Loss: 7.20 Accuracy: 45.31%
+Epoch 0, Iteration 145/657 
+Train Loss: 6.97 Accuracy: 43.75%
+Epoch 0, Iteration 146/657 
+Train Loss: 6.85 Accuracy: 50.00%
+Epoch 0, Iteration 147/657 
+Train Loss: 7.05 Accuracy: 39.06%
+Epoch 0, Iteration 148/657 
+Train Loss: 7.35 Accuracy: 42.19%
+Epoch 0, Iteration 149/657 
+Train Loss: 7.15 Accuracy: 40.62%
+	Current speed:4.345713796616395 iterations per second
+Epoch 0, Iteration 150/657 
+Train Loss: 7.75 Accuracy: 34.38%
+Epoch 0, Iteration 151/657 
+Train Loss: 6.63 Accuracy: 57.81%
+Epoch 0, Iteration 152/657 
+Train Loss: 7.15 Accuracy: 42.19%
+Epoch 0, Iteration 153/657 
+Train Loss: 5.85 Accuracy: 51.56%
+Epoch 0, Iteration 154/657 
+Train Loss: 5.36 Accuracy: 67.19%
+Epoch 0, Iteration 155/657 
+Train Loss: 7.39 Accuracy: 35.94%
+Epoch 0, Iteration 156/657 
+Train Loss: 7.26 Accuracy: 39.06%
+Epoch 0, Iteration 157/657 
+Train Loss: 6.96 Accuracy: 42.19%
+Epoch 0, Iteration 158/657 
+Train Loss: 6.22 Accuracy: 48.44%
+Epoch 0, Iteration 159/657 
+Train Loss: 7.21 Accuracy: 39.06%
+Epoch 0, Iteration 160/657 
+Train Loss: 6.57 Accuracy: 48.44%
+Epoch 0, Iteration 161/657 
+Train Loss: 6.85 Accuracy: 45.31%
+Epoch 0, Iteration 162/657 
+Train Loss: 6.54 Accuracy: 51.56%
+Epoch 0, Iteration 163/657 
+Train Loss: 6.52 Accuracy: 51.56%
+Epoch 0, Iteration 164/657 
+Train Loss: 6.60 Accuracy: 43.75%
+Epoch 0, Iteration 165/657 
+Train Loss: 7.51 Accuracy: 40.62%
+Epoch 0, Iteration 166/657 
+Train Loss: 6.78 Accuracy: 40.62%
+Epoch 0, Iteration 167/657 
+Train Loss: 7.05 Accuracy: 35.94%
+Epoch 0, Iteration 168/657 
+Train Loss: 6.84 Accuracy: 46.88%
+Epoch 0, Iteration 169/657 
+Train Loss: 6.54 Accuracy: 40.62%
+Epoch 0, Iteration 170/657 
+Train Loss: 7.56 Accuracy: 37.50%
+Epoch 0, Iteration 171/657 
+Train Loss: 5.62 Accuracy: 53.12%
+Epoch 0, Iteration 172/657 
+Train Loss: 6.75 Accuracy: 46.88%
+Epoch 0, Iteration 173/657 
+Train Loss: 6.06 Accuracy: 46.88%
+Epoch 0, Iteration 174/657 
+Train Loss: 5.72 Accuracy: 59.38%
+	Current speed:4.356592678611731 iterations per second
+Epoch 0, Iteration 175/657 
+Train Loss: 6.02 Accuracy: 46.88%
+Epoch 0, Iteration 176/657 
+Train Loss: 6.83 Accuracy: 42.19%
+Epoch 0, Iteration 177/657 
+Train Loss: 7.87 Accuracy: 43.75%
+Epoch 0, Iteration 178/657 
+Train Loss: 5.18 Accuracy: 57.81%
+Epoch 0, Iteration 179/657 
+Train Loss: 6.55 Accuracy: 46.88%
+Epoch 0, Iteration 180/657 
+Train Loss: 6.38 Accuracy: 48.44%
+Epoch 0, Iteration 181/657 
+Train Loss: 6.69 Accuracy: 48.44%
+Epoch 0, Iteration 182/657 
+Train Loss: 5.81 Accuracy: 54.69%
+Epoch 0, Iteration 183/657 
+Train Loss: 6.85 Accuracy: 45.31%
+Epoch 0, Iteration 184/657 
+Train Loss: 7.86 Accuracy: 31.25%
+Epoch 0, Iteration 185/657 
+Train Loss: 5.81 Accuracy: 50.00%
+Epoch 0, Iteration 186/657 
+Train Loss: 6.99 Accuracy: 48.44%
+Epoch 0, Iteration 187/657 
+Train Loss: 6.06 Accuracy: 53.12%
+Epoch 0, Iteration 188/657 
+Train Loss: 6.71 Accuracy: 42.19%
+Epoch 0, Iteration 189/657 
+Train Loss: 7.62 Accuracy: 34.38%
+Epoch 0, Iteration 190/657 
+Train Loss: 6.21 Accuracy: 50.00%
+Epoch 0, Iteration 191/657 
+Train Loss: 5.93 Accuracy: 54.69%
+Epoch 0, Iteration 192/657 
+Train Loss: 6.36 Accuracy: 51.56%
+Epoch 0, Iteration 193/657 
+Train Loss: 7.66 Accuracy: 34.38%
+Epoch 0, Iteration 194/657 
+Train Loss: 6.97 Accuracy: 45.31%
+Epoch 0, Iteration 195/657 
+Train Loss: 6.59 Accuracy: 50.00%
+Epoch 0, Iteration 196/657 
+Train Loss: 6.70 Accuracy: 46.88%
+Epoch 0, Iteration 197/657 
+Train Loss: 6.79 Accuracy: 45.31%
+Epoch 0, Iteration 198/657 
+Train Loss: 6.78 Accuracy: 48.44%
+Epoch 0, Iteration 199/657 
+Train Loss: 5.98 Accuracy: 51.56%
+	Current speed:4.354455766610405 iterations per second
+Epoch 0, Iteration 200/657 
+Train Loss: 6.77 Accuracy: 50.00%
+Epoch 0, Iteration 201/657 
+Train Loss: 6.50 Accuracy: 43.75%
+Epoch 0, Iteration 202/657 
+Train Loss: 6.60 Accuracy: 51.56%
+Epoch 0, Iteration 203/657 
+Train Loss: 6.36 Accuracy: 46.88%
+Epoch 0, Iteration 204/657 
+Train Loss: 5.77 Accuracy: 54.69%
+Epoch 0, Iteration 205/657 
+Train Loss: 6.22 Accuracy: 50.00%
+Epoch 0, Iteration 206/657 
+Train Loss: 6.88 Accuracy: 54.69%
+Epoch 0, Iteration 207/657 
+Train Loss: 6.31 Accuracy: 50.00%
+Epoch 0, Iteration 208/657 
+Train Loss: 6.08 Accuracy: 48.44%
+Epoch 0, Iteration 209/657 
+Train Loss: 7.25 Accuracy: 37.50%
+Epoch 0, Iteration 210/657 
+Train Loss: 6.32 Accuracy: 48.44%
+Epoch 0, Iteration 211/657 
+Train Loss: 6.44 Accuracy: 48.44%
+Epoch 0, Iteration 212/657 
+Train Loss: 6.87 Accuracy: 35.94%
+Epoch 0, Iteration 213/657 
+Train Loss: 6.71 Accuracy: 40.62%
+Epoch 0, Iteration 214/657 
+Train Loss: 6.77 Accuracy: 48.44%
+Epoch 0, Iteration 215/657 
+Train Loss: 6.56 Accuracy: 46.88%
+Epoch 0, Iteration 216/657 
+Train Loss: 5.59 Accuracy: 64.06%
+Epoch 0, Iteration 217/657 
+Train Loss: 5.83 Accuracy: 54.69%
+Epoch 0, Iteration 218/657 
+Train Loss: 5.77 Accuracy: 51.56%
+Epoch 0, Iteration 219/657 
+Train Loss: 6.77 Accuracy: 40.62%
+Epoch 0, Iteration 220/657 
+Train Loss: 8.03 Accuracy: 37.50%
+Epoch 0, Iteration 221/657 
+Train Loss: 5.87 Accuracy: 50.00%
+Epoch 0, Iteration 222/657 
+Train Loss: 6.04 Accuracy: 51.56%
+Epoch 0, Iteration 223/657 
+Train Loss: 6.88 Accuracy: 43.75%
+Epoch 0, Iteration 224/657 
+Train Loss: 7.10 Accuracy: 45.31%
+	Current speed:4.36366138314965 iterations per second
+Epoch 0, Iteration 225/657 
+Train Loss: 6.57 Accuracy: 48.44%
+Epoch 0, Iteration 226/657 
+Train Loss: 6.65 Accuracy: 48.44%
+Epoch 0, Iteration 227/657 
+Train Loss: 6.49 Accuracy: 50.00%
+Epoch 0, Iteration 228/657 
+Train Loss: 6.80 Accuracy: 46.88%
+Epoch 0, Iteration 229/657 
+Train Loss: 6.45 Accuracy: 48.44%
+Epoch 0, Iteration 230/657 
+Train Loss: 6.01 Accuracy: 53.12%
+Epoch 0, Iteration 231/657 
+Train Loss: 6.96 Accuracy: 40.62%
+Epoch 0, Iteration 232/657 
+Train Loss: 6.02 Accuracy: 53.12%
+Epoch 0, Iteration 233/657 
+Train Loss: 6.08 Accuracy: 50.00%
+Epoch 0, Iteration 234/657 
+Train Loss: 6.23 Accuracy: 51.56%
+Epoch 0, Iteration 235/657 
+Train Loss: 7.03 Accuracy: 43.75%
+Epoch 0, Iteration 236/657 
+Train Loss: 7.08 Accuracy: 39.06%
+Epoch 0, Iteration 237/657 
+Train Loss: 7.96 Accuracy: 37.50%
+Epoch 0, Iteration 238/657 
+Train Loss: 7.16 Accuracy: 35.94%
+Epoch 0, Iteration 239/657 
+Train Loss: 6.21 Accuracy: 50.00%
+Epoch 0, Iteration 240/657 
+Train Loss: 7.07 Accuracy: 45.31%
+Epoch 0, Iteration 241/657 
+Train Loss: 5.64 Accuracy: 59.38%
+Epoch 0, Iteration 242/657 
+Train Loss: 6.00 Accuracy: 50.00%
+Epoch 0, Iteration 243/657 
+Train Loss: 5.61 Accuracy: 54.69%
+Epoch 0, Iteration 244/657 
+Train Loss: 7.28 Accuracy: 34.38%
+Epoch 0, Iteration 245/657 
+Train Loss: 5.55 Accuracy: 53.12%
+Epoch 0, Iteration 246/657 
+Train Loss: 6.14 Accuracy: 50.00%
+Epoch 0, Iteration 247/657 
+Train Loss: 6.83 Accuracy: 39.06%
+Epoch 0, Iteration 248/657 
+Train Loss: 6.66 Accuracy: 40.62%
+Epoch 0, Iteration 249/657 
+Train Loss: 6.15 Accuracy: 57.81%
+	Current speed:4.366233417801855 iterations per second
+Epoch 0, Iteration 250/657 
+Train Loss: 6.46 Accuracy: 51.56%
+Epoch 0, Iteration 251/657 
+Train Loss: 5.36 Accuracy: 64.06%
+Epoch 0, Iteration 252/657 
+Train Loss: 5.98 Accuracy: 51.56%
+Epoch 0, Iteration 253/657 
+Train Loss: 6.52 Accuracy: 43.75%
+Epoch 0, Iteration 254/657 
+Train Loss: 6.72 Accuracy: 42.19%
+Epoch 0, Iteration 255/657 
+Train Loss: 6.58 Accuracy: 46.88%
+Epoch 0, Iteration 256/657 
+Train Loss: 6.40 Accuracy: 45.31%
+Epoch 0, Iteration 257/657 
+Train Loss: 6.86 Accuracy: 45.31%
+Epoch 0, Iteration 258/657 
+Train Loss: 5.91 Accuracy: 51.56%
+Epoch 0, Iteration 259/657 
+Train Loss: 5.63 Accuracy: 56.25%
+Epoch 0, Iteration 260/657 
+Train Loss: 5.70 Accuracy: 53.12%
+Epoch 0, Iteration 261/657 
+Train Loss: 6.14 Accuracy: 48.44%
+Epoch 0, Iteration 262/657 
+Train Loss: 7.23 Accuracy: 39.06%
+Epoch 0, Iteration 263/657 
+Train Loss: 7.63 Accuracy: 32.81%
+Epoch 0, Iteration 264/657 
+Train Loss: 6.74 Accuracy: 42.19%
+Epoch 0, Iteration 265/657 
+Train Loss: 6.88 Accuracy: 43.75%
+Epoch 0, Iteration 266/657 
+Train Loss: 5.81 Accuracy: 56.25%
+Epoch 0, Iteration 267/657 
+Train Loss: 6.96 Accuracy: 37.50%
+Epoch 0, Iteration 268/657 
+Train Loss: 5.73 Accuracy: 54.69%
+Epoch 0, Iteration 269/657 
+Train Loss: 6.52 Accuracy: 39.06%
+Epoch 0, Iteration 270/657 
+Train Loss: 6.11 Accuracy: 48.44%
+Epoch 0, Iteration 271/657 
+Train Loss: 5.09 Accuracy: 57.81%
+Epoch 0, Iteration 272/657 
+Train Loss: 6.63 Accuracy: 45.31%
+Epoch 0, Iteration 273/657 
+Train Loss: 5.91 Accuracy: 57.81%
+Epoch 0, Iteration 274/657 
+Train Loss: 6.35 Accuracy: 46.88%
+	Current speed:4.36949141764489 iterations per second
+Epoch 0, Iteration 275/657 
+Train Loss: 6.40 Accuracy: 48.44%
+Epoch 0, Iteration 276/657 
+Train Loss: 6.52 Accuracy: 46.88%
+Epoch 0, Iteration 277/657 
+Train Loss: 6.65 Accuracy: 40.62%
+Epoch 0, Iteration 278/657 
+Train Loss: 6.99 Accuracy: 45.31%
+Epoch 0, Iteration 279/657 
+Train Loss: 6.38 Accuracy: 48.44%
+Epoch 0, Iteration 280/657 
+Train Loss: 6.73 Accuracy: 48.44%
+Epoch 0, Iteration 281/657 
+Train Loss: 6.88 Accuracy: 35.94%
+Epoch 0, Iteration 282/657 
+Train Loss: 6.17 Accuracy: 50.00%
+Epoch 0, Iteration 283/657 
+Train Loss: 6.75 Accuracy: 51.56%
+Epoch 0, Iteration 284/657 
+Train Loss: 5.76 Accuracy: 57.81%
+Epoch 0, Iteration 285/657 
+Train Loss: 7.50 Accuracy: 39.06%
+Epoch 0, Iteration 286/657 
+Train Loss: 6.27 Accuracy: 51.56%
+Epoch 0, Iteration 287/657 
+Train Loss: 5.69 Accuracy: 54.69%
+Epoch 0, Iteration 288/657 
+Train Loss: 6.38 Accuracy: 48.44%
+Epoch 0, Iteration 289/657 
+Train Loss: 6.11 Accuracy: 51.56%
+Epoch 0, Iteration 290/657 
+Train Loss: 6.40 Accuracy: 45.31%
+Epoch 0, Iteration 291/657 
+Train Loss: 7.15 Accuracy: 42.19%
+Epoch 0, Iteration 292/657 
+Train Loss: 5.93 Accuracy: 54.69%
+Epoch 0, Iteration 293/657 
+Train Loss: 7.11 Accuracy: 37.50%
+Epoch 0, Iteration 294/657 
+Train Loss: 6.47 Accuracy: 50.00%
+Epoch 0, Iteration 295/657 
+Train Loss: 6.34 Accuracy: 48.44%
+Epoch 0, Iteration 296/657 
+Train Loss: 6.74 Accuracy: 42.19%
+Epoch 0, Iteration 297/657 
+Train Loss: 6.99 Accuracy: 46.88%
+Epoch 0, Iteration 298/657 
+Train Loss: 6.20 Accuracy: 50.00%
+Epoch 0, Iteration 299/657 
+Train Loss: 6.25 Accuracy: 48.44%
+	Current speed:4.359421990440565 iterations per second
+Epoch 0, Iteration 300/657 
+Train Loss: 6.28 Accuracy: 45.31%
+Epoch 0, Iteration 301/657 
+Train Loss: 6.06 Accuracy: 45.31%
+Epoch 0, Iteration 302/657 
+Train Loss: 6.25 Accuracy: 50.00%
+Epoch 0, Iteration 303/657 
+Train Loss: 5.12 Accuracy: 59.38%
+Epoch 0, Iteration 304/657 
+Train Loss: 6.66 Accuracy: 51.56%
+Epoch 0, Iteration 305/657 
+Train Loss: 6.71 Accuracy: 46.88%
+Epoch 0, Iteration 306/657 
+Train Loss: 6.44 Accuracy: 42.19%
+Epoch 0, Iteration 307/657 
+Train Loss: 6.57 Accuracy: 43.75%
+Epoch 0, Iteration 308/657 
+Train Loss: 5.66 Accuracy: 54.69%
+Epoch 0, Iteration 309/657 
+Train Loss: 7.21 Accuracy: 39.06%
+Epoch 0, Iteration 310/657 
+Train Loss: 6.01 Accuracy: 48.44%
+Epoch 0, Iteration 311/657 
+Train Loss: 4.80 Accuracy: 62.50%
+Epoch 0, Iteration 312/657 
+Train Loss: 7.24 Accuracy: 40.62%
+Epoch 0, Iteration 313/657 
+Train Loss: 6.51 Accuracy: 43.75%
+Epoch 0, Iteration 314/657 
+Train Loss: 5.53 Accuracy: 53.12%
+Epoch 0, Iteration 315/657 
+Train Loss: 5.35 Accuracy: 53.12%
+Epoch 0, Iteration 316/657 
+Train Loss: 5.77 Accuracy: 46.88%
+Epoch 0, Iteration 317/657 
+Train Loss: 6.09 Accuracy: 50.00%
+Epoch 0, Iteration 318/657 
+Train Loss: 6.56 Accuracy: 45.31%
+Epoch 0, Iteration 319/657 
+Train Loss: 5.66 Accuracy: 48.44%
+Epoch 0, Iteration 320/657 
+Train Loss: 5.06 Accuracy: 59.38%
+Epoch 0, Iteration 321/657 
+Train Loss: 5.65 Accuracy: 50.00%
+Epoch 0, Iteration 322/657 
+Train Loss: 6.21 Accuracy: 46.88%
+Epoch 0, Iteration 323/657 
+Train Loss: 6.30 Accuracy: 43.75%
+Epoch 0, Iteration 324/657 
+Train Loss: 5.29 Accuracy: 56.25%
+	Current speed:4.3693755619127215 iterations per second
+Epoch 0, Iteration 325/657 
+Train Loss: 6.59 Accuracy: 39.06%
+Epoch 0, Iteration 326/657 
+Train Loss: 6.38 Accuracy: 42.19%
+Epoch 0, Iteration 327/657 
+Train Loss: 5.94 Accuracy: 48.44%
+Epoch 0, Iteration 328/657 
+Train Loss: 6.05 Accuracy: 46.88%
+Epoch 0, Iteration 329/657 
+Train Loss: 6.31 Accuracy: 43.75%
+Epoch 0, Iteration 330/657 
+Train Loss: 5.30 Accuracy: 51.56%
+Epoch 0, Iteration 331/657 
+Train Loss: 6.74 Accuracy: 39.06%
+Epoch 0, Iteration 332/657 
+Train Loss: 5.52 Accuracy: 54.69%
+Epoch 0, Iteration 333/657 
+Train Loss: 6.02 Accuracy: 43.75%
+Epoch 0, Iteration 334/657 
+Train Loss: 4.82 Accuracy: 56.25%
+Epoch 0, Iteration 335/657 
+Train Loss: 5.24 Accuracy: 53.12%
+Epoch 0, Iteration 336/657 
+Train Loss: 5.78 Accuracy: 48.44%
+Epoch 0, Iteration 337/657 
+Train Loss: 6.52 Accuracy: 39.06%
+Epoch 0, Iteration 338/657 
+Train Loss: 5.65 Accuracy: 50.00%
+Epoch 0, Iteration 339/657 
+Train Loss: 5.15 Accuracy: 51.56%
+Epoch 0, Iteration 340/657 
+Train Loss: 5.81 Accuracy: 46.88%
+Epoch 0, Iteration 341/657 
+Train Loss: 4.76 Accuracy: 57.81%
+Epoch 0, Iteration 342/657 
+Train Loss: 5.16 Accuracy: 51.56%
+Epoch 0, Iteration 343/657 
+Train Loss: 5.51 Accuracy: 50.00%
+Epoch 0, Iteration 344/657 
+Train Loss: 5.12 Accuracy: 53.12%
+Epoch 0, Iteration 345/657 
+Train Loss: 4.99 Accuracy: 54.69%
+Epoch 0, Iteration 346/657 
+Train Loss: 5.76 Accuracy: 50.00%
+Epoch 0, Iteration 347/657 
+Train Loss: 4.60 Accuracy: 57.81%
+Epoch 0, Iteration 348/657 
+Train Loss: 6.94 Accuracy: 37.50%
+Epoch 0, Iteration 349/657 
+Train Loss: 5.14 Accuracy: 53.12%
+	Current speed:4.3764537428549675 iterations per second
+Epoch 0, Iteration 350/657 
+Train Loss: 6.43 Accuracy: 42.19%
+Epoch 0, Iteration 351/657 
+Train Loss: 5.58 Accuracy: 50.00%
+Epoch 0, Iteration 352/657 
+Train Loss: 5.42 Accuracy: 51.56%
+Epoch 0, Iteration 353/657 
+Train Loss: 7.01 Accuracy: 35.94%
+Epoch 0, Iteration 354/657 
+Train Loss: 6.17 Accuracy: 40.62%
+Epoch 0, Iteration 355/657 
+Train Loss: 4.24 Accuracy: 64.06%
+Epoch 0, Iteration 356/657 
+Train Loss: 5.48 Accuracy: 51.56%
+Epoch 0, Iteration 357/657 
+Train Loss: 6.22 Accuracy: 42.19%
+Epoch 0, Iteration 358/657 
+Train Loss: 4.99 Accuracy: 54.69%
+Epoch 0, Iteration 359/657 
+Train Loss: 5.77 Accuracy: 45.31%
+Epoch 0, Iteration 360/657 
+Train Loss: 6.62 Accuracy: 35.94%
+Epoch 0, Iteration 361/657 
+Train Loss: 6.43 Accuracy: 39.06%
+Epoch 0, Iteration 362/657 
+Train Loss: 5.33 Accuracy: 50.00%
+Epoch 0, Iteration 363/657 
+Train Loss: 5.78 Accuracy: 45.31%
+Epoch 0, Iteration 364/657 
+Train Loss: 4.66 Accuracy: 57.81%
+Epoch 0, Iteration 365/657 
+Train Loss: 5.50 Accuracy: 50.00%
+Epoch 0, Iteration 366/657 
+Train Loss: 5.93 Accuracy: 43.75%
+Epoch 0, Iteration 367/657 
+Train Loss: 4.93 Accuracy: 57.81%
+Epoch 0, Iteration 368/657 
+Train Loss: 6.41 Accuracy: 39.06%
+Epoch 0, Iteration 369/657 
+Train Loss: 5.87 Accuracy: 45.31%
+Epoch 0, Iteration 370/657 
+Train Loss: 6.34 Accuracy: 40.62%
+Epoch 0, Iteration 371/657 
+Train Loss: 5.59 Accuracy: 46.88%
+Epoch 0, Iteration 372/657 
+Train Loss: 5.57 Accuracy: 48.44%
+Epoch 0, Iteration 373/657 
+Train Loss: 4.82 Accuracy: 54.69%
+Epoch 0, Iteration 374/657 
+Train Loss: 5.09 Accuracy: 53.12%
+	Current speed:4.380797493180614 iterations per second
+Epoch 0, Iteration 375/657 
+Train Loss: 5.52 Accuracy: 48.44%
+Epoch 0, Iteration 376/657 
+Train Loss: 4.87 Accuracy: 54.69%
+Epoch 0, Iteration 377/657 
+Train Loss: 5.23 Accuracy: 51.56%
+Epoch 0, Iteration 378/657 
+Train Loss: 7.30 Accuracy: 29.69%
+Epoch 0, Iteration 379/657 
+Train Loss: 5.62 Accuracy: 46.88%
+Epoch 0, Iteration 380/657 
+Train Loss: 5.81 Accuracy: 46.88%
+Epoch 0, Iteration 381/657 
+Train Loss: 5.61 Accuracy: 46.88%
+Epoch 0, Iteration 382/657 
+Train Loss: 5.91 Accuracy: 43.75%
+Epoch 0, Iteration 383/657 
+Train Loss: 5.79 Accuracy: 45.31%
+Epoch 0, Iteration 384/657 
+Train Loss: 5.67 Accuracy: 45.31%
+Epoch 0, Iteration 385/657 
+Train Loss: 6.17 Accuracy: 42.19%
+Epoch 0, Iteration 386/657 
+Train Loss: 5.43 Accuracy: 51.56%
+Epoch 0, Iteration 387/657 
+Train Loss: 5.53 Accuracy: 48.44%
+Epoch 0, Iteration 388/657 
+Train Loss: 5.33 Accuracy: 50.00%
+Epoch 0, Iteration 389/657 
+Train Loss: 5.58 Accuracy: 46.88%
+Epoch 0, Iteration 390/657 
+Train Loss: 7.20 Accuracy: 31.25%
+Epoch 0, Iteration 391/657 
+Train Loss: 4.98 Accuracy: 54.69%
+Epoch 0, Iteration 392/657 
+Train Loss: 4.69 Accuracy: 56.25%
+Epoch 0, Iteration 393/657 
+Train Loss: 4.64 Accuracy: 57.81%
+Epoch 0, Iteration 394/657 
+Train Loss: 5.73 Accuracy: 46.88%
+Epoch 0, Iteration 395/657 
+Train Loss: 4.41 Accuracy: 59.38%
+Epoch 0, Iteration 396/657 
+Train Loss: 4.55 Accuracy: 57.81%
+Epoch 0, Iteration 397/657 
+Train Loss: 5.49 Accuracy: 50.00%
+Epoch 0, Iteration 398/657 
+Train Loss: 5.64 Accuracy: 50.00%
+Epoch 0, Iteration 399/657 
+Train Loss: 5.76 Accuracy: 50.00%
+	Current speed:4.37908035761662 iterations per second
+Epoch 0, Iteration 400/657 
+Train Loss: 4.37 Accuracy: 62.50%
+Epoch 0, Iteration 401/657 
+Train Loss: 4.31 Accuracy: 65.62%
+Epoch 0, Iteration 402/657 
+Train Loss: 4.30 Accuracy: 62.50%
+Epoch 0, Iteration 403/657 
+Train Loss: 5.22 Accuracy: 56.25%
+Epoch 0, Iteration 404/657 
+Train Loss: 5.73 Accuracy: 51.56%
+Epoch 0, Iteration 405/657 
+Train Loss: 5.81 Accuracy: 46.88%
+Epoch 0, Iteration 406/657 
+Train Loss: 5.96 Accuracy: 50.00%
+Epoch 0, Iteration 407/657 
+Train Loss: 5.30 Accuracy: 57.81%
+Epoch 0, Iteration 408/657 
+Train Loss: 5.28 Accuracy: 54.69%
+Epoch 0, Iteration 409/657 
+Train Loss: 5.79 Accuracy: 50.00%
+Epoch 0, Iteration 410/657 
+Train Loss: 5.58 Accuracy: 54.69%
+Epoch 0, Iteration 411/657 
+Train Loss: 5.13 Accuracy: 56.25%
+Epoch 0, Iteration 412/657 
+Train Loss: 5.76 Accuracy: 54.69%
+Epoch 0, Iteration 413/657 
+Train Loss: 6.49 Accuracy: 45.31%
+Epoch 0, Iteration 414/657 
+Train Loss: 4.70 Accuracy: 60.94%
+Epoch 0, Iteration 415/657 
+Train Loss: 5.00 Accuracy: 59.38%
+Epoch 0, Iteration 416/657 
+Train Loss: 4.97 Accuracy: 57.81%
+Epoch 0, Iteration 417/657 
+Train Loss: 5.64 Accuracy: 53.12%
+Epoch 0, Iteration 418/657 
+Train Loss: 5.51 Accuracy: 54.69%
+Epoch 0, Iteration 419/657 
+Train Loss: 5.41 Accuracy: 54.69%
+Epoch 0, Iteration 420/657 
+Train Loss: 4.63 Accuracy: 56.25%
+Epoch 0, Iteration 421/657 
+Train Loss: 4.62 Accuracy: 59.38%
+Epoch 0, Iteration 422/657 
+Train Loss: 3.73 Accuracy: 70.31%
+Epoch 0, Iteration 423/657 
+Train Loss: 5.94 Accuracy: 50.00%
+Epoch 0, Iteration 424/657 
+Train Loss: 4.71 Accuracy: 64.06%
+	Current speed:4.348440956075592 iterations per second
+Epoch 0, Iteration 425/657 
+Train Loss: 6.03 Accuracy: 48.44%
+Epoch 0, Iteration 426/657 
+Train Loss: 4.62 Accuracy: 60.94%
+Epoch 0, Iteration 427/657 
+Train Loss: 5.41 Accuracy: 53.12%
+Epoch 0, Iteration 428/657 
+Train Loss: 4.77 Accuracy: 64.06%
+Epoch 0, Iteration 429/657 
+Train Loss: 5.38 Accuracy: 59.38%
+Epoch 0, Iteration 430/657 
+Train Loss: 4.45 Accuracy: 65.62%
+Epoch 0, Iteration 431/657 
+Train Loss: 4.44 Accuracy: 60.94%
+Epoch 0, Iteration 432/657 
+Train Loss: 5.43 Accuracy: 53.12%
+Epoch 0, Iteration 433/657 
+Train Loss: 4.83 Accuracy: 57.81%
+Epoch 0, Iteration 434/657 
+Train Loss: 4.83 Accuracy: 57.81%
+Epoch 0, Iteration 435/657 
+Train Loss: 6.17 Accuracy: 46.88%
+Epoch 0, Iteration 436/657 
+Train Loss: 5.15 Accuracy: 53.12%
+Epoch 0, Iteration 437/657 
+Train Loss: 5.18 Accuracy: 56.25%
+Epoch 0, Iteration 438/657 
+Train Loss: 5.41 Accuracy: 54.69%
+Epoch 0, Iteration 439/657 
+Train Loss: 5.41 Accuracy: 54.69%
+Epoch 0, Iteration 440/657 
+Train Loss: 4.19 Accuracy: 62.50%
+Epoch 0, Iteration 441/657 
+Train Loss: 6.00 Accuracy: 50.00%
+Epoch 0, Iteration 442/657 
+Train Loss: 5.62 Accuracy: 53.12%
+Epoch 0, Iteration 443/657 
+Train Loss: 4.18 Accuracy: 65.62%
+Epoch 0, Iteration 444/657 
+Train Loss: 6.13 Accuracy: 48.44%
+Epoch 0, Iteration 445/657 
+Train Loss: 4.63 Accuracy: 65.62%
+Epoch 0, Iteration 446/657 
+Train Loss: 4.64 Accuracy: 56.25%
+Epoch 0, Iteration 447/657 
+Train Loss: 5.70 Accuracy: 50.00%
+Epoch 0, Iteration 448/657 
+Train Loss: 4.99 Accuracy: 56.25%
+Epoch 0, Iteration 449/657 
+Train Loss: 4.86 Accuracy: 60.94%
+	Current speed:4.314172181129051 iterations per second
+Epoch 0, Iteration 450/657 
+Train Loss: 5.25 Accuracy: 53.12%
+Epoch 0, Iteration 451/657 
+Train Loss: 5.73 Accuracy: 48.44%
+Epoch 0, Iteration 452/657 
+Train Loss: 3.82 Accuracy: 71.88%
+Epoch 0, Iteration 453/657 
+Train Loss: 4.48 Accuracy: 62.50%
+Epoch 0, Iteration 454/657 
+Train Loss: 5.13 Accuracy: 56.25%
+Epoch 0, Iteration 455/657 
+Train Loss: 3.91 Accuracy: 67.19%
+Epoch 0, Iteration 456/657 
+Train Loss: 5.61 Accuracy: 51.56%
+Epoch 0, Iteration 457/657 
+Train Loss: 4.52 Accuracy: 60.94%
+Epoch 0, Iteration 458/657 
+Train Loss: 5.06 Accuracy: 53.12%
+Epoch 0, Iteration 459/657 
+Train Loss: 4.52 Accuracy: 59.38%
+Epoch 0, Iteration 460/657 
+Train Loss: 3.72 Accuracy: 70.31%
+Epoch 0, Iteration 461/657 
+Train Loss: 5.34 Accuracy: 53.12%
+Epoch 0, Iteration 462/657 
+Train Loss: 5.75 Accuracy: 50.00%
+Epoch 0, Iteration 463/657 
+Train Loss: 5.26 Accuracy: 56.25%
+Epoch 0, Iteration 464/657 
+Train Loss: 5.41 Accuracy: 51.56%
+Epoch 0, Iteration 465/657 
+Train Loss: 5.02 Accuracy: 56.25%
+Epoch 0, Iteration 466/657 
+Train Loss: 4.11 Accuracy: 65.62%
+Epoch 0, Iteration 467/657 
+Train Loss: 4.67 Accuracy: 59.38%
+Epoch 0, Iteration 468/657 
+Train Loss: 5.59 Accuracy: 53.12%
+Epoch 0, Iteration 469/657 
+Train Loss: 5.07 Accuracy: 56.25%
+Epoch 0, Iteration 470/657 
+Train Loss: 5.42 Accuracy: 51.56%
+Epoch 0, Iteration 471/657 
+Train Loss: 4.97 Accuracy: 54.69%
+Epoch 0, Iteration 472/657 
+Train Loss: 4.94 Accuracy: 54.69%
+Epoch 0, Iteration 473/657 
+Train Loss: 5.82 Accuracy: 46.88%
+Epoch 0, Iteration 474/657 
+Train Loss: 4.21 Accuracy: 62.50%
+	Current speed:4.283850527044969 iterations per second
+Epoch 0, Iteration 475/657 
+Train Loss: 4.00 Accuracy: 62.50%
+Epoch 0, Iteration 476/657 
+Train Loss: 4.76 Accuracy: 59.38%
+Epoch 0, Iteration 477/657 
+Train Loss: 4.72 Accuracy: 57.81%
+Epoch 0, Iteration 478/657 
+Train Loss: 4.91 Accuracy: 56.25%
+Epoch 0, Iteration 479/657 
+Train Loss: 5.38 Accuracy: 53.12%
+Epoch 0, Iteration 480/657 
+Train Loss: 4.37 Accuracy: 60.94%
+Epoch 0, Iteration 481/657 
+Train Loss: 5.23 Accuracy: 54.69%
+Epoch 0, Iteration 482/657 
+Train Loss: 4.38 Accuracy: 67.19%
+Epoch 0, Iteration 483/657 
+Train Loss: 4.65 Accuracy: 59.38%
+Epoch 0, Iteration 484/657 
+Train Loss: 4.45 Accuracy: 60.94%
+Epoch 0, Iteration 485/657 
+Train Loss: 4.66 Accuracy: 62.50%
+Epoch 0, Iteration 486/657 
+Train Loss: 5.32 Accuracy: 50.00%
+Epoch 0, Iteration 487/657 
+Train Loss: 4.38 Accuracy: 60.94%
+Epoch 0, Iteration 488/657 
+Train Loss: 4.21 Accuracy: 62.50%
+Epoch 0, Iteration 489/657 
+Train Loss: 3.57 Accuracy: 71.88%
+Epoch 0, Iteration 490/657 
+Train Loss: 5.40 Accuracy: 53.12%
+Epoch 0, Iteration 491/657 
+Train Loss: 4.42 Accuracy: 62.50%
+Epoch 0, Iteration 492/657 
+Train Loss: 4.53 Accuracy: 60.94%
+Epoch 0, Iteration 493/657 
+Train Loss: 3.90 Accuracy: 67.19%
+Epoch 0, Iteration 494/657 
+Train Loss: 6.01 Accuracy: 48.44%
+Epoch 0, Iteration 495/657 
+Train Loss: 4.95 Accuracy: 57.81%
+Epoch 0, Iteration 496/657 
+Train Loss: 4.83 Accuracy: 57.81%
+Epoch 0, Iteration 497/657 
+Train Loss: 5.32 Accuracy: 54.69%
+Epoch 0, Iteration 498/657 
+Train Loss: 4.80 Accuracy: 56.25%
+Epoch 0, Iteration 499/657 
+Train Loss: 5.21 Accuracy: 51.56%
+	Current speed:4.259052466594126 iterations per second
+Epoch 0, Iteration 500/657 
+Train Loss: 5.74 Accuracy: 50.00%
+Epoch 0, Iteration 501/657 
+Train Loss: 4.12 Accuracy: 62.50%
+Epoch 0, Iteration 502/657 
+Train Loss: 4.58 Accuracy: 57.81%
+Epoch 0, Iteration 503/657 
+Train Loss: 4.89 Accuracy: 56.25%
+Epoch 0, Iteration 504/657 
+Train Loss: 3.50 Accuracy: 70.31%
+Epoch 0, Iteration 505/657 
+Train Loss: 4.43 Accuracy: 60.94%
+Epoch 0, Iteration 506/657 
+Train Loss: 4.00 Accuracy: 62.50%
+Epoch 0, Iteration 507/657 
+Train Loss: 3.81 Accuracy: 67.19%
+Epoch 0, Iteration 508/657 
+Train Loss: 5.36 Accuracy: 51.56%
+Epoch 0, Iteration 509/657 
+Train Loss: 5.96 Accuracy: 42.19%
+Epoch 0, Iteration 510/657 
+Train Loss: 4.78 Accuracy: 57.81%
+Epoch 0, Iteration 511/657 
+Train Loss: 5.12 Accuracy: 51.56%
+Epoch 0, Iteration 512/657 
+Train Loss: 4.98 Accuracy: 57.81%
+Epoch 0, Iteration 513/657 
+Train Loss: 4.50 Accuracy: 59.38%
+Epoch 0, Iteration 514/657 
+Train Loss: 5.54 Accuracy: 48.44%
+Epoch 0, Iteration 515/657 
+Train Loss: 4.39 Accuracy: 60.94%
+Epoch 0, Iteration 516/657 
+Train Loss: 5.78 Accuracy: 45.31%
+Epoch 0, Iteration 517/657 
+Train Loss: 6.01 Accuracy: 45.31%
+Epoch 0, Iteration 518/657 
+Train Loss: 3.46 Accuracy: 68.75%
+Epoch 0, Iteration 519/657 
+Train Loss: 5.47 Accuracy: 53.12%
+Epoch 0, Iteration 520/657 
+Train Loss: 4.40 Accuracy: 59.38%
+Epoch 0, Iteration 521/657 
+Train Loss: 4.70 Accuracy: 59.38%
+Epoch 0, Iteration 522/657 
+Train Loss: 5.29 Accuracy: 53.12%
+Epoch 0, Iteration 523/657 
+Train Loss: 6.37 Accuracy: 39.06%
+Epoch 0, Iteration 524/657 
+Train Loss: 4.72 Accuracy: 57.81%
+	Current speed:4.231443679390037 iterations per second
+Epoch 0, Iteration 525/657 
+Train Loss: 4.18 Accuracy: 64.06%
+Epoch 0, Iteration 526/657 
+Train Loss: 4.73 Accuracy: 57.81%
+Epoch 0, Iteration 527/657 
+Train Loss: 5.51 Accuracy: 51.56%
+Epoch 0, Iteration 528/657 
+Train Loss: 4.39 Accuracy: 60.94%
+Epoch 0, Iteration 529/657 
+Train Loss: 4.24 Accuracy: 59.38%
+Epoch 0, Iteration 530/657 
+Train Loss: 3.82 Accuracy: 65.62%
+Epoch 0, Iteration 531/657 
+Train Loss: 4.35 Accuracy: 60.94%
+Epoch 0, Iteration 532/657 
+Train Loss: 5.07 Accuracy: 54.69%
+Epoch 0, Iteration 533/657 
+Train Loss: 4.22 Accuracy: 64.06%
+Epoch 0, Iteration 534/657 
+Train Loss: 4.22 Accuracy: 60.94%
+Epoch 0, Iteration 535/657 
+Train Loss: 3.94 Accuracy: 64.06%
+Epoch 0, Iteration 536/657 
+Train Loss: 4.45 Accuracy: 57.81%
+Epoch 0, Iteration 537/657 
+Train Loss: 5.16 Accuracy: 54.69%
+Epoch 0, Iteration 538/657 
+Train Loss: 4.91 Accuracy: 54.69%
+Epoch 0, Iteration 539/657 
+Train Loss: 4.50 Accuracy: 57.81%
+Epoch 0, Iteration 540/657 
+Train Loss: 5.09 Accuracy: 53.12%
+Epoch 0, Iteration 541/657 
+Train Loss: 4.27 Accuracy: 62.50%
+Epoch 0, Iteration 542/657 
+Train Loss: 4.42 Accuracy: 59.38%
+Epoch 0, Iteration 543/657 
+Train Loss: 4.53 Accuracy: 60.94%
+Epoch 0, Iteration 544/657 
+Train Loss: 4.94 Accuracy: 54.69%
+Epoch 0, Iteration 545/657 
+Train Loss: 4.87 Accuracy: 54.69%
+Epoch 0, Iteration 546/657 
+Train Loss: 4.91 Accuracy: 54.69%
+Epoch 0, Iteration 547/657 
+Train Loss: 6.42 Accuracy: 40.62%
+Epoch 0, Iteration 548/657 
+Train Loss: 3.90 Accuracy: 68.75%
+Epoch 0, Iteration 549/657 
+Train Loss: 4.32 Accuracy: 59.38%
+	Current speed:4.209036868793455 iterations per second
+Epoch 0, Iteration 550/657 
+Train Loss: 3.82 Accuracy: 64.06%
+Epoch 0, Iteration 551/657 
+Train Loss: 5.23 Accuracy: 56.25%
+Epoch 0, Iteration 552/657 
+Train Loss: 4.83 Accuracy: 60.94%
+Epoch 0, Iteration 553/657 
+Train Loss: 4.26 Accuracy: 65.62%
+Epoch 0, Iteration 554/657 
+Train Loss: 4.37 Accuracy: 64.06%
+Epoch 0, Iteration 555/657 
+Train Loss: 4.60 Accuracy: 59.38%
+Epoch 0, Iteration 556/657 
+Train Loss: 4.44 Accuracy: 65.62%
+Epoch 0, Iteration 557/657 
+Train Loss: 4.48 Accuracy: 65.62%
+Epoch 0, Iteration 558/657 
+Train Loss: 4.08 Accuracy: 64.06%
+Epoch 0, Iteration 559/657 
+Train Loss: 4.57 Accuracy: 62.50%
+Epoch 0, Iteration 560/657 
+Train Loss: 4.18 Accuracy: 65.62%
+Epoch 0, Iteration 561/657 
+Train Loss: 2.88 Accuracy: 76.56%
+Epoch 0, Iteration 562/657 
+Train Loss: 3.71 Accuracy: 71.88%
+Epoch 0, Iteration 563/657 
+Train Loss: 5.37 Accuracy: 53.12%
+Epoch 0, Iteration 564/657 
+Train Loss: 3.72 Accuracy: 68.75%
+Epoch 0, Iteration 565/657 
+Train Loss: 3.13 Accuracy: 71.88%
+Epoch 0, Iteration 566/657 
+Train Loss: 3.47 Accuracy: 71.88%
+Epoch 0, Iteration 567/657 
+Train Loss: 3.91 Accuracy: 64.06%
+Epoch 0, Iteration 568/657 
+Train Loss: 3.61 Accuracy: 68.75%
+Epoch 0, Iteration 569/657 
+Train Loss: 4.03 Accuracy: 65.62%
+Epoch 0, Iteration 570/657 
+Train Loss: 3.91 Accuracy: 68.75%
+Epoch 0, Iteration 571/657 
+Train Loss: 2.53 Accuracy: 81.25%
+Epoch 0, Iteration 572/657 
+Train Loss: 3.82 Accuracy: 67.19%
+Epoch 0, Iteration 573/657 
+Train Loss: 4.29 Accuracy: 62.50%
+Epoch 0, Iteration 574/657 
+Train Loss: 4.42 Accuracy: 64.06%
+	Current speed:4.187967670465384 iterations per second
+Epoch 0, Iteration 575/657 
+Train Loss: 3.88 Accuracy: 67.19%
+Epoch 0, Iteration 576/657 
+Train Loss: 5.65 Accuracy: 50.00%
+Epoch 0, Iteration 577/657 
+Train Loss: 4.13 Accuracy: 65.62%
+Epoch 0, Iteration 578/657 
+Train Loss: 3.81 Accuracy: 67.19%
+Epoch 0, Iteration 579/657 
+Train Loss: 4.33 Accuracy: 64.06%
+Epoch 0, Iteration 580/657 
+Train Loss: 4.21 Accuracy: 67.19%
+Epoch 0, Iteration 581/657 
+Train Loss: 4.25 Accuracy: 65.62%
+Epoch 0, Iteration 582/657 
+Train Loss: 5.43 Accuracy: 50.00%
+Epoch 0, Iteration 583/657 
+Train Loss: 4.67 Accuracy: 60.94%
+Epoch 0, Iteration 584/657 
+Train Loss: 4.51 Accuracy: 59.38%
+Epoch 0, Iteration 585/657 
+Train Loss: 3.47 Accuracy: 70.31%
+Epoch 0, Iteration 586/657 
+Train Loss: 4.76 Accuracy: 60.94%
+Epoch 0, Iteration 587/657 
+Train Loss: 3.51 Accuracy: 68.75%
+Epoch 0, Iteration 588/657 
+Train Loss: 3.64 Accuracy: 67.19%
+Epoch 0, Iteration 589/657 
+Train Loss: 4.67 Accuracy: 59.38%
+Epoch 0, Iteration 590/657 
+Train Loss: 2.84 Accuracy: 75.00%
+Epoch 0, Iteration 591/657 
+Train Loss: 4.26 Accuracy: 62.50%
+Epoch 0, Iteration 592/657 
+Train Loss: 4.78 Accuracy: 56.25%
+Epoch 0, Iteration 593/657 
+Train Loss: 4.11 Accuracy: 65.62%
+Epoch 0, Iteration 594/657 
+Train Loss: 2.68 Accuracy: 76.56%
+Epoch 0, Iteration 595/657 
+Train Loss: 2.44 Accuracy: 79.69%
+Epoch 0, Iteration 596/657 
+Train Loss: 4.20 Accuracy: 65.62%
+Epoch 0, Iteration 597/657 
+Train Loss: 3.72 Accuracy: 68.75%
+Epoch 0, Iteration 598/657 
+Train Loss: 4.08 Accuracy: 67.19%
+Epoch 0, Iteration 599/657 
+Train Loss: 4.38 Accuracy: 60.94%
+	Current speed:4.166491992368071 iterations per second
+Epoch 0, Iteration 600/657 
+Train Loss: 3.61 Accuracy: 67.19%
+Epoch 0, Iteration 601/657 
+Train Loss: 4.38 Accuracy: 62.50%
+Epoch 0, Iteration 602/657 
+Train Loss: 4.75 Accuracy: 57.81%
+Epoch 0, Iteration 603/657 
+Train Loss: 2.70 Accuracy: 78.12%
+Epoch 0, Iteration 604/657 
+Train Loss: 4.03 Accuracy: 62.50%
+Epoch 0, Iteration 605/657 
+Train Loss: 4.22 Accuracy: 64.06%
+Epoch 0, Iteration 606/657 
+Train Loss: 3.21 Accuracy: 71.88%
+Epoch 0, Iteration 607/657 
+Train Loss: 3.53 Accuracy: 68.75%
+Epoch 0, Iteration 608/657 
+Train Loss: 2.95 Accuracy: 73.44%
+Epoch 0, Iteration 609/657 
+Train Loss: 3.22 Accuracy: 73.44%
+Epoch 0, Iteration 610/657 
+Train Loss: 2.99 Accuracy: 76.56%
+Epoch 0, Iteration 611/657 
+Train Loss: 3.86 Accuracy: 68.75%
+Epoch 0, Iteration 612/657 
+Train Loss: 4.03 Accuracy: 64.06%
+Epoch 0, Iteration 613/657 
+Train Loss: 4.28 Accuracy: 62.50%
+Epoch 0, Iteration 614/657 
+Train Loss: 3.89 Accuracy: 65.62%
+Epoch 0, Iteration 615/657 
+Train Loss: 3.72 Accuracy: 67.19%
+Epoch 0, Iteration 616/657 
+Train Loss: 4.02 Accuracy: 64.06%
+Epoch 0, Iteration 617/657 
+Train Loss: 4.73 Accuracy: 59.38%
+Epoch 0, Iteration 618/657 
+Train Loss: 3.75 Accuracy: 67.19%
+Epoch 0, Iteration 619/657 
+Train Loss: 3.11 Accuracy: 76.56%
+Epoch 0, Iteration 620/657 
+Train Loss: 3.31 Accuracy: 68.75%
+Epoch 0, Iteration 621/657 
+Train Loss: 3.11 Accuracy: 71.88%
+Epoch 0, Iteration 622/657 
+Train Loss: 3.14 Accuracy: 73.44%
+Epoch 0, Iteration 623/657 
+Train Loss: 3.99 Accuracy: 64.06%
+Epoch 0, Iteration 624/657 
+Train Loss: 5.01 Accuracy: 56.25%
+	Current speed:4.147467328327862 iterations per second
+Epoch 0, Iteration 625/657 
+Train Loss: 2.97 Accuracy: 73.44%
+Epoch 0, Iteration 626/657 
+Train Loss: 3.89 Accuracy: 62.50%
+Epoch 0, Iteration 627/657 
+Train Loss: 3.03 Accuracy: 73.44%
+Epoch 0, Iteration 628/657 
+Train Loss: 3.96 Accuracy: 65.62%
+Epoch 0, Iteration 629/657 
+Train Loss: 3.73 Accuracy: 73.44%
+Epoch 0, Iteration 630/657 
+Train Loss: 3.67 Accuracy: 68.75%
+Epoch 0, Iteration 631/657 
+Train Loss: 2.83 Accuracy: 76.56%
+Epoch 0, Iteration 632/657 
+Train Loss: 4.20 Accuracy: 62.50%
+Epoch 0, Iteration 633/657 
+Train Loss: 3.66 Accuracy: 68.75%
+Epoch 0, Iteration 634/657 
+Train Loss: 4.04 Accuracy: 65.62%
+Epoch 0, Iteration 635/657 
+Train Loss: 4.25 Accuracy: 62.50%
+Epoch 0, Iteration 636/657 
+Train Loss: 5.28 Accuracy: 53.12%
+Epoch 0, Iteration 637/657 
+Train Loss: 3.21 Accuracy: 71.88%
+Epoch 0, Iteration 638/657 
+Train Loss: 4.46 Accuracy: 57.81%
+Epoch 0, Iteration 639/657 
+Train Loss: 3.99 Accuracy: 64.06%
+Epoch 0, Iteration 640/657 
+Train Loss: 2.41 Accuracy: 79.69%
+Epoch 0, Iteration 641/657 
+Train Loss: 4.13 Accuracy: 62.50%
+Epoch 0, Iteration 642/657 
+Train Loss: 3.82 Accuracy: 67.19%
+Epoch 0, Iteration 643/657 
+Train Loss: 2.31 Accuracy: 81.25%
+Epoch 0, Iteration 644/657 
+Train Loss: 4.38 Accuracy: 62.50%
+Epoch 0, Iteration 645/657 
+Train Loss: 3.09 Accuracy: 71.88%
+Epoch 0, Iteration 646/657 
+Train Loss: 4.20 Accuracy: 62.50%
+Epoch 0, Iteration 647/657 
+Train Loss: 3.79 Accuracy: 64.06%
+Epoch 0, Iteration 648/657 
+Train Loss: 3.83 Accuracy: 65.62%
+Epoch 0, Iteration 649/657 
+Train Loss: 3.26 Accuracy: 70.31%
+	Current speed:4.13493701083061 iterations per second
+Epoch 0, Iteration 650/657 
+Train Loss: 3.21 Accuracy: 71.88%
+Epoch 0, Iteration 651/657 
+Train Loss: 4.32 Accuracy: 64.06%
+Epoch 0, Iteration 652/657 
+Train Loss: 3.90 Accuracy: 65.62%
+Epoch 0, Iteration 653/657 
+Train Loss: 3.96 Accuracy: 62.50%
+Epoch 0, Iteration 654/657 
+Train Loss: 3.50 Accuracy: 71.88%
+Epoch 0, Iteration 655/657 
+Train Loss: 4.21 Accuracy: 62.50%
+Epoch 0, Iteration 656/657 
+Train Loss: 4.23 Accuracy: 62.50%
+Training time (s):  158.92909359931946
+Time spent converting dataset (s / %):  41.69248151779175 26.23338532522171
+Time spent in forward pass (s / %): 61.315574169158936 38.580459235326245
+Time spent in learning (s / %) 54.470224142074585 34.27328685294146
+Time spent loading data (s / %): 1.4508137702941895 0.9128685865105833
+Total correctly classified test set images: 12056/18000
+Test Set Accuracy: 66.98%
+[('conv', {'num-filters': ['89'], 'filter-shape': ['4'], 'stride': ['2'], 'padding': ['same'], 'bias': ['True']}), ('pool-max', {'kernel-size': ['4']}), ('act', {'beta': ['0.5424804602129135'], 'beta-trainable': ['False'], 'threshold': ['0.9017362278811754'], 'threshold-trainable': ['True'], 'surr-grad': ['atan'], 'reset': ['zero']}), ('conv', {'num-filters': ['97'], 'filter-shape': ['3'], 'stride': ['3'], 'padding': ['valid'], 'bias': ['True']}), ('pool-max', {'kernel-size': ['2']}), ('act', {'beta': ['0.7061820603607597'], 'beta-trainable': ['True'], 'threshold': ['1.2820746719491745'], 'threshold-trainable': ['True'], 'surr-grad': ['fast_sigmoid'], 'reset': ['subtract']}), ('dropout', {'rate': ['0.00626363862143231']}), ('fc', {'num-units': ['10'], 'bias': ['True']}), ('act', {'beta': ['0.7201063081299326'], 'beta-trainable': ['True'], 'threshold': ['0.8898450339202282'], 'threshold-trainable': ['True'], 'surr-grad': ['fast_sigmoid'], 'reset': ['subtract']})]
+Sequential(
+  (0): Conv2d(1, 89, kernel_size=(4, 4), stride=(1, 1), padding=same)
+  (1): MaxPool2d(kernel_size=4, stride=4, padding=0, dilation=1, ceil_mode=False)
+  (2): Leaky()
+  (3): Conv2d(89, 97, kernel_size=(3, 3), stride=(3, 3), padding=valid)
+  (4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (5): Leaky()
+  (6): Dropout(p=0.00626363862143231, inplace=False)
+  (7): Flatten(start_dim=1, end_dim=-1)
+  (8): Linear(in_features=97, out_features=10, bias=True)
+  (9): Leaky()
+)
+	Current speed:0.0 iterations per second
+Epoch 0, Iteration 0/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 1/657 
+Train Loss: 84.66 Accuracy: 23.44%
+Epoch 0, Iteration 2/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 3/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 4/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 5/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 6/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 7/657 
+Train Loss: 16.10 Accuracy: 12.50%
+Epoch 0, Iteration 8/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 9/657 
+Train Loss: 10.00 Accuracy: 17.19%
+Epoch 0, Iteration 10/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 11/657 
+Train Loss: 10.17 Accuracy: 10.94%
+Epoch 0, Iteration 12/657 
+Train Loss: 10.09 Accuracy: 7.81%
+Epoch 0, Iteration 13/657 
+Train Loss: 17.64 Accuracy: 17.19%
+Epoch 0, Iteration 14/657 
+Train Loss: 18.75 Accuracy: 6.25%
+Epoch 0, Iteration 15/657 
+Train Loss: 18.75 Accuracy: 6.25%
+Epoch 0, Iteration 16/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 17/657 
+Train Loss: 10.41 Accuracy: 10.94%
+Epoch 0, Iteration 18/657 
+Train Loss: 21.66 Accuracy: 6.25%
+Epoch 0, Iteration 19/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 20/657 
+Train Loss: 10.00 Accuracy: 17.19%
+Epoch 0, Iteration 21/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 22/657 
+Train Loss: 16.62 Accuracy: 6.25%
+Epoch 0, Iteration 23/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 24/657 
+Train Loss: 10.00 Accuracy: 15.62%
+	Current speed:2.14998116519262 iterations per second
+Epoch 0, Iteration 25/657 
+Train Loss: 10.00 Accuracy: 17.19%
+Epoch 0, Iteration 26/657 
+Train Loss: 18.02 Accuracy: 7.81%
+Epoch 0, Iteration 27/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 28/657 
+Train Loss: 10.23 Accuracy: 1.56%
+Epoch 0, Iteration 29/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 30/657 
+Train Loss: 10.15 Accuracy: 6.25%
+Epoch 0, Iteration 31/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 32/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 33/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 34/657 
+Train Loss: 9.99 Accuracy: 15.62%
+Epoch 0, Iteration 35/657 
+Train Loss: 18.63 Accuracy: 3.12%
+Epoch 0, Iteration 36/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 37/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 38/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 39/657 
+Train Loss: 11.66 Accuracy: 7.81%
+Epoch 0, Iteration 40/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 41/657 
+Train Loss: 37.90 Accuracy: 12.50%
+Epoch 0, Iteration 42/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 43/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 44/657 
+Train Loss: 9.92 Accuracy: 12.50%
+Epoch 0, Iteration 45/657 
+Train Loss: 18.38 Accuracy: 7.81%
+Epoch 0, Iteration 46/657 
+Train Loss: 12.78 Accuracy: 15.62%
+Epoch 0, Iteration 47/657 
+Train Loss: 10.00 Accuracy: 1.56%
+Epoch 0, Iteration 48/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 49/657 
+Train Loss: 10.00 Accuracy: 9.38%
+	Current speed:2.259537138759518 iterations per second
+Epoch 0, Iteration 50/657 
+Train Loss: 9.73 Accuracy: 15.62%
+Epoch 0, Iteration 51/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 52/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 53/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 54/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 55/657 
+Train Loss: 11.55 Accuracy: 12.50%
+Epoch 0, Iteration 56/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 57/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 58/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 59/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 60/657 
+Train Loss: 11.09 Accuracy: 9.38%
+Epoch 0, Iteration 61/657 
+Train Loss: 10.01 Accuracy: 7.81%
+Epoch 0, Iteration 62/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 63/657 
+Train Loss: 9.54 Accuracy: 12.50%
+Epoch 0, Iteration 64/657 
+Train Loss: 9.99 Accuracy: 18.75%
+Epoch 0, Iteration 65/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 66/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 67/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 68/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 69/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 70/657 
+Train Loss: 10.00 Accuracy: 18.75%
+Epoch 0, Iteration 71/657 
+Train Loss: 9.99 Accuracy: 18.75%
+Epoch 0, Iteration 72/657 
+Train Loss: 11.12 Accuracy: 14.06%
+Epoch 0, Iteration 73/657 
+Train Loss: 9.99 Accuracy: 14.06%
+Epoch 0, Iteration 74/657 
+Train Loss: 11.68 Accuracy: 7.81%
+	Current speed:2.2949931380629667 iterations per second
+Epoch 0, Iteration 75/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 76/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 77/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 78/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 79/657 
+Train Loss: 13.94 Accuracy: 9.38%
+Epoch 0, Iteration 80/657 
+Train Loss: 11.81 Accuracy: 7.81%
+Epoch 0, Iteration 81/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 82/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 83/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 84/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 85/657 
+Train Loss: 12.03 Accuracy: 9.38%
+Epoch 0, Iteration 86/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 87/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 88/657 
+Train Loss: 10.90 Accuracy: 4.69%
+Epoch 0, Iteration 89/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 90/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 91/657 
+Train Loss: 11.84 Accuracy: 6.25%
+Epoch 0, Iteration 92/657 
+Train Loss: 10.32 Accuracy: 12.50%
+Epoch 0, Iteration 93/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 94/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 95/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 96/657 
+Train Loss: 10.63 Accuracy: 9.38%
+Epoch 0, Iteration 97/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 98/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 99/657 
+Train Loss: 10.00 Accuracy: 6.25%
+	Current speed:2.310911536679445 iterations per second
+Epoch 0, Iteration 100/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 101/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 102/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 103/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 104/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 105/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 106/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 107/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 108/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 109/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 110/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 111/657 
+Train Loss: 10.00 Accuracy: 0.00%
+Epoch 0, Iteration 112/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 113/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 114/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 115/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 116/657 
+Train Loss: 10.00 Accuracy: 3.12%
+Epoch 0, Iteration 117/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 118/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 119/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 120/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 121/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 122/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 123/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 124/657 
+Train Loss: 9.84 Accuracy: 15.62%
+	Current speed:2.332475935653564 iterations per second
+Epoch 0, Iteration 125/657 
+Train Loss: 10.47 Accuracy: 9.38%
+Epoch 0, Iteration 126/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 127/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 128/657 
+Train Loss: 9.90 Accuracy: 12.50%
+Epoch 0, Iteration 129/657 
+Train Loss: 10.17 Accuracy: 9.38%
+Epoch 0, Iteration 130/657 
+Train Loss: 10.04 Accuracy: 15.62%
+Epoch 0, Iteration 131/657 
+Train Loss: 10.71 Accuracy: 4.69%
+Epoch 0, Iteration 132/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 133/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 134/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 135/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 136/657 
+Train Loss: 9.71 Accuracy: 17.19%
+Epoch 0, Iteration 137/657 
+Train Loss: 10.23 Accuracy: 15.62%
+Epoch 0, Iteration 138/657 
+Train Loss: 12.31 Accuracy: 6.25%
+Epoch 0, Iteration 139/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 140/657 
+Train Loss: 31.47 Accuracy: 7.81%
+Epoch 0, Iteration 141/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 142/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 143/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 144/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 145/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 146/657 
+Train Loss: 10.11 Accuracy: 14.06%
+Epoch 0, Iteration 147/657 
+Train Loss: 10.00 Accuracy: 3.12%
+Epoch 0, Iteration 148/657 
+Train Loss: 20.35 Accuracy: 12.50%
+Epoch 0, Iteration 149/657 
+Train Loss: 10.00 Accuracy: 10.94%
+	Current speed:2.333378381715802 iterations per second
+Epoch 0, Iteration 150/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 151/657 
+Train Loss: 10.00 Accuracy: 17.19%
+Epoch 0, Iteration 152/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 153/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 154/657 
+Train Loss: 10.00 Accuracy: 17.19%
+Epoch 0, Iteration 155/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 156/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 157/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 158/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 159/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 160/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 161/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 162/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 163/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 164/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 165/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 166/657 
+Train Loss: 10.00 Accuracy: 3.12%
+Epoch 0, Iteration 167/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 168/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 169/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 170/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 171/657 
+Train Loss: 14.94 Accuracy: 6.25%
+Epoch 0, Iteration 172/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 173/657 
+Train Loss: 10.00 Accuracy: 3.12%
+Epoch 0, Iteration 174/657 
+Train Loss: 10.00 Accuracy: 10.94%
+	Current speed:2.3467532300655365 iterations per second
+Epoch 0, Iteration 175/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 176/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 177/657 
+Train Loss: 11.76 Accuracy: 6.25%
+Epoch 0, Iteration 178/657 
+Train Loss: 13.73 Accuracy: 6.25%
+Epoch 0, Iteration 179/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 180/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 181/657 
+Train Loss: 11.87 Accuracy: 6.25%
+Epoch 0, Iteration 182/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 183/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 184/657 
+Train Loss: 9.95 Accuracy: 7.81%
+Epoch 0, Iteration 185/657 
+Train Loss: 16.06 Accuracy: 10.94%
+Epoch 0, Iteration 186/657 
+Train Loss: 10.00 Accuracy: 17.19%
+Epoch 0, Iteration 187/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 188/657 
+Train Loss: 11.85 Accuracy: 6.25%
+Epoch 0, Iteration 189/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 190/657 
+Train Loss: 11.56 Accuracy: 9.38%
+Epoch 0, Iteration 191/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 192/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 193/657 
+Train Loss: 11.39 Accuracy: 10.94%
+Epoch 0, Iteration 194/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 195/657 
+Train Loss: 11.81 Accuracy: 4.69%
+Epoch 0, Iteration 196/657 
+Train Loss: 11.09 Accuracy: 14.06%
+Epoch 0, Iteration 197/657 
+Train Loss: 9.92 Accuracy: 7.81%
+Epoch 0, Iteration 198/657 
+Train Loss: 14.49 Accuracy: 10.94%
+Epoch 0, Iteration 199/657 
+Train Loss: 10.00 Accuracy: 6.25%
+	Current speed:2.356059826662401 iterations per second
+Epoch 0, Iteration 200/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 201/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 202/657 
+Train Loss: 14.40 Accuracy: 14.06%
+Epoch 0, Iteration 203/657 
+Train Loss: 10.44 Accuracy: 17.19%
+Epoch 0, Iteration 204/657 
+Train Loss: 13.75 Accuracy: 6.25%
+Epoch 0, Iteration 205/657 
+Train Loss: 12.65 Accuracy: 14.06%
+Epoch 0, Iteration 206/657 
+Train Loss: 11.72 Accuracy: 7.81%
+Epoch 0, Iteration 207/657 
+Train Loss: 10.66 Accuracy: 10.94%
+Epoch 0, Iteration 208/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 209/657 
+Train Loss: 10.88 Accuracy: 10.94%
+Epoch 0, Iteration 210/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 211/657 
+Train Loss: 14.30 Accuracy: 14.06%
+Epoch 0, Iteration 212/657 
+Train Loss: 13.36 Accuracy: 10.94%
+Epoch 0, Iteration 213/657 
+Train Loss: 10.15 Accuracy: 10.94%
+Epoch 0, Iteration 214/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 215/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 216/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 217/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 218/657 
+Train Loss: 12.03 Accuracy: 12.50%
+Epoch 0, Iteration 219/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 220/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 221/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 222/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 223/657 
+Train Loss: 10.52 Accuracy: 10.94%
+Epoch 0, Iteration 224/657 
+Train Loss: 10.00 Accuracy: 10.94%
+	Current speed:2.3627815753800006 iterations per second
+Epoch 0, Iteration 225/657 
+Train Loss: 12.15 Accuracy: 3.12%
+Epoch 0, Iteration 226/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 227/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 228/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 229/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 230/657 
+Train Loss: 11.72 Accuracy: 9.38%
+Epoch 0, Iteration 231/657 
+Train Loss: 9.98 Accuracy: 9.38%
+Epoch 0, Iteration 232/657 
+Train Loss: 11.25 Accuracy: 12.50%
+Epoch 0, Iteration 233/657 
+Train Loss: 11.69 Accuracy: 6.25%
+Epoch 0, Iteration 234/657 
+Train Loss: 11.74 Accuracy: 6.25%
+Epoch 0, Iteration 235/657 
+Train Loss: 13.78 Accuracy: 10.94%
+Epoch 0, Iteration 236/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 237/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 238/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 239/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 240/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 241/657 
+Train Loss: 9.92 Accuracy: 12.50%
+Epoch 0, Iteration 242/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 243/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 244/657 
+Train Loss: 10.34 Accuracy: 4.69%
+Epoch 0, Iteration 245/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 246/657 
+Train Loss: 10.26 Accuracy: 4.69%
+Epoch 0, Iteration 247/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 248/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 249/657 
+Train Loss: 10.00 Accuracy: 12.50%
+	Current speed:2.366310778634104 iterations per second
+Epoch 0, Iteration 250/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 251/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 252/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 253/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 254/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 255/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 256/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 257/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 258/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 259/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 260/657 
+Train Loss: 15.65 Accuracy: 4.69%
+Epoch 0, Iteration 261/657 
+Train Loss: 10.01 Accuracy: 4.69%
+Epoch 0, Iteration 262/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 263/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 264/657 
+Train Loss: 11.09 Accuracy: 14.06%
+Epoch 0, Iteration 265/657 
+Train Loss: 11.16 Accuracy: 7.81%
+Epoch 0, Iteration 266/657 
+Train Loss: 10.22 Accuracy: 14.06%
+Epoch 0, Iteration 267/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 268/657 
+Train Loss: 13.52 Accuracy: 6.25%
+Epoch 0, Iteration 269/657 
+Train Loss: 10.36 Accuracy: 6.25%
+Epoch 0, Iteration 270/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 271/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 272/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 273/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 274/657 
+Train Loss: 10.00 Accuracy: 7.81%
+	Current speed:2.371933266920862 iterations per second
+Epoch 0, Iteration 275/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 276/657 
+Train Loss: 18.89 Accuracy: 7.81%
+Epoch 0, Iteration 277/657 
+Train Loss: 13.32 Accuracy: 10.94%
+Epoch 0, Iteration 278/657 
+Train Loss: 10.71 Accuracy: 14.06%
+Epoch 0, Iteration 279/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 280/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 281/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 282/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 283/657 
+Train Loss: 9.99 Accuracy: 12.50%
+Epoch 0, Iteration 284/657 
+Train Loss: 11.70 Accuracy: 4.69%
+Epoch 0, Iteration 285/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 286/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 287/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 288/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 289/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 290/657 
+Train Loss: 12.26 Accuracy: 1.56%
+Epoch 0, Iteration 291/657 
+Train Loss: 10.43 Accuracy: 14.06%
+Epoch 0, Iteration 292/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 293/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 294/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 295/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 296/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 297/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 298/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 299/657 
+Train Loss: 10.00 Accuracy: 9.38%
+	Current speed:2.34932605928255 iterations per second
+Epoch 0, Iteration 300/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 301/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 302/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 303/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 304/657 
+Train Loss: 10.00 Accuracy: 17.19%
+Epoch 0, Iteration 305/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 306/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 307/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 308/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 309/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 310/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 311/657 
+Train Loss: 10.00 Accuracy: 18.75%
+Epoch 0, Iteration 312/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 313/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 314/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 315/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 316/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 317/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 318/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 319/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 320/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 321/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 322/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 323/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 324/657 
+Train Loss: 10.00 Accuracy: 6.25%
+	Current speed:2.3265489973843345 iterations per second
+Epoch 0, Iteration 325/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 326/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 327/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 328/657 
+Train Loss: 11.72 Accuracy: 7.81%
+Epoch 0, Iteration 329/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 330/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 331/657 
+Train Loss: 11.01 Accuracy: 3.12%
+Epoch 0, Iteration 332/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 333/657 
+Train Loss: 63.22 Accuracy: 14.06%
+Epoch 0, Iteration 334/657 
+Train Loss: 14.19 Accuracy: 3.12%
+Epoch 0, Iteration 335/657 
+Train Loss: 10.02 Accuracy: 4.69%
+Epoch 0, Iteration 336/657 
+Train Loss: 14.28 Accuracy: 10.94%
+Epoch 0, Iteration 337/657 
+Train Loss: 9.98 Accuracy: 7.81%
+Epoch 0, Iteration 338/657 
+Train Loss: 12.01 Accuracy: 4.69%
+Epoch 0, Iteration 339/657 
+Train Loss: 10.00 Accuracy: 3.12%
+Epoch 0, Iteration 340/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 341/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 342/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 343/657 
+Train Loss: 11.15 Accuracy: 7.81%
+Epoch 0, Iteration 344/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 345/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 346/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 347/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 348/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 349/657 
+Train Loss: 10.00 Accuracy: 14.06%
+	Current speed:2.309074601758762 iterations per second
+Epoch 0, Iteration 350/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 351/657 
+Train Loss: 9.92 Accuracy: 14.06%
+Epoch 0, Iteration 352/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 353/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 354/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 355/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 356/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 357/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 358/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 359/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 360/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 361/657 
+Train Loss: 11.25 Accuracy: 12.50%
+Epoch 0, Iteration 362/657 
+Train Loss: 11.56 Accuracy: 9.38%
+Epoch 0, Iteration 363/657 
+Train Loss: 11.63 Accuracy: 6.25%
+Epoch 0, Iteration 364/657 
+Train Loss: 11.41 Accuracy: 10.94%
+Epoch 0, Iteration 365/657 
+Train Loss: 18.26 Accuracy: 15.62%
+Epoch 0, Iteration 366/657 
+Train Loss: 11.30 Accuracy: 12.50%
+Epoch 0, Iteration 367/657 
+Train Loss: 16.09 Accuracy: 7.81%
+Epoch 0, Iteration 368/657 
+Train Loss: 14.06 Accuracy: 7.81%
+Epoch 0, Iteration 369/657 
+Train Loss: 14.53 Accuracy: 10.94%
+Epoch 0, Iteration 370/657 
+Train Loss: 10.01 Accuracy: 10.94%
+Epoch 0, Iteration 371/657 
+Train Loss: 15.73 Accuracy: 6.25%
+Epoch 0, Iteration 372/657 
+Train Loss: 14.53 Accuracy: 4.69%
+Epoch 0, Iteration 373/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 374/657 
+Train Loss: 11.74 Accuracy: 6.25%
+	Current speed:2.2942567352613934 iterations per second
+Epoch 0, Iteration 375/657 
+Train Loss: 13.44 Accuracy: 7.81%
+Epoch 0, Iteration 376/657 
+Train Loss: 13.59 Accuracy: 9.38%
+Epoch 0, Iteration 377/657 
+Train Loss: 11.56 Accuracy: 9.38%
+Epoch 0, Iteration 378/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 379/657 
+Train Loss: 12.92 Accuracy: 9.38%
+Epoch 0, Iteration 380/657 
+Train Loss: 15.70 Accuracy: 6.25%
+Epoch 0, Iteration 381/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 382/657 
+Train Loss: 9.98 Accuracy: 7.81%
+Epoch 0, Iteration 383/657 
+Train Loss: 12.22 Accuracy: 9.38%
+Epoch 0, Iteration 384/657 
+Train Loss: 9.96 Accuracy: 10.94%
+Epoch 0, Iteration 385/657 
+Train Loss: 12.40 Accuracy: 12.50%
+Epoch 0, Iteration 386/657 
+Train Loss: 11.72 Accuracy: 7.81%
+Epoch 0, Iteration 387/657 
+Train Loss: 12.50 Accuracy: 10.94%
+Epoch 0, Iteration 388/657 
+Train Loss: 11.71 Accuracy: 7.81%
+Epoch 0, Iteration 389/657 
+Train Loss: 11.56 Accuracy: 9.38%
+Epoch 0, Iteration 390/657 
+Train Loss: 12.66 Accuracy: 6.25%
+Epoch 0, Iteration 391/657 
+Train Loss: 11.79 Accuracy: 9.38%
+Epoch 0, Iteration 392/657 
+Train Loss: 11.41 Accuracy: 10.94%
+Epoch 0, Iteration 393/657 
+Train Loss: 11.31 Accuracy: 10.94%
+Epoch 0, Iteration 394/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 395/657 
+Train Loss: 10.66 Accuracy: 4.69%
+Epoch 0, Iteration 396/657 
+Train Loss: 10.25 Accuracy: 21.88%
+Epoch 0, Iteration 397/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 398/657 
+Train Loss: 11.08 Accuracy: 14.06%
+Epoch 0, Iteration 399/657 
+Train Loss: 13.87 Accuracy: 6.25%
+	Current speed:2.280727912245789 iterations per second
+Epoch 0, Iteration 400/657 
+Train Loss: 11.88 Accuracy: 6.25%
+Epoch 0, Iteration 401/657 
+Train Loss: 12.19 Accuracy: 3.12%
+Epoch 0, Iteration 402/657 
+Train Loss: 9.92 Accuracy: 15.62%
+Epoch 0, Iteration 403/657 
+Train Loss: 11.56 Accuracy: 9.38%
+Epoch 0, Iteration 404/657 
+Train Loss: 17.21 Accuracy: 7.81%
+Epoch 0, Iteration 405/657 
+Train Loss: 9.94 Accuracy: 12.50%
+Epoch 0, Iteration 406/657 
+Train Loss: 11.71 Accuracy: 7.81%
+Epoch 0, Iteration 407/657 
+Train Loss: 13.44 Accuracy: 7.81%
+Epoch 0, Iteration 408/657 
+Train Loss: 13.39 Accuracy: 6.25%
+Epoch 0, Iteration 409/657 
+Train Loss: 11.90 Accuracy: 4.69%
+Epoch 0, Iteration 410/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 411/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 412/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 413/657 
+Train Loss: 10.01 Accuracy: 1.56%
+Epoch 0, Iteration 414/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 415/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 416/657 
+Train Loss: 10.00 Accuracy: 1.56%
+Epoch 0, Iteration 417/657 
+Train Loss: 11.30 Accuracy: 10.94%
+Epoch 0, Iteration 418/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 419/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 420/657 
+Train Loss: 11.37 Accuracy: 10.94%
+Epoch 0, Iteration 421/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 422/657 
+Train Loss: 10.49 Accuracy: 7.81%
+Epoch 0, Iteration 423/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 424/657 
+Train Loss: 10.62 Accuracy: 6.25%
+	Current speed:2.2695686989451533 iterations per second
+Epoch 0, Iteration 425/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 426/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 427/657 
+Train Loss: 10.93 Accuracy: 15.62%
+Epoch 0, Iteration 428/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 429/657 
+Train Loss: 10.01 Accuracy: 9.38%
+Epoch 0, Iteration 430/657 
+Train Loss: 11.41 Accuracy: 10.94%
+Epoch 0, Iteration 431/657 
+Train Loss: 11.85 Accuracy: 6.25%
+Epoch 0, Iteration 432/657 
+Train Loss: 10.20 Accuracy: 15.62%
+Epoch 0, Iteration 433/657 
+Train Loss: 10.00 Accuracy: 18.75%
+Epoch 0, Iteration 434/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 435/657 
+Train Loss: 10.61 Accuracy: 18.75%
+Epoch 0, Iteration 436/657 
+Train Loss: 11.62 Accuracy: 20.31%
+Epoch 0, Iteration 437/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 438/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 439/657 
+Train Loss: 11.02 Accuracy: 12.50%
+Epoch 0, Iteration 440/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 441/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 442/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 443/657 
+Train Loss: 10.31 Accuracy: 6.25%
+Epoch 0, Iteration 444/657 
+Train Loss: 9.91 Accuracy: 15.62%
+Epoch 0, Iteration 445/657 
+Train Loss: 11.03 Accuracy: 9.38%
+Epoch 0, Iteration 446/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 447/657 
+Train Loss: 10.59 Accuracy: 7.81%
+Epoch 0, Iteration 448/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 449/657 
+Train Loss: 11.50 Accuracy: 9.38%
+	Current speed:2.2601656596560034 iterations per second
+Epoch 0, Iteration 450/657 
+Train Loss: 9.91 Accuracy: 9.38%
+Epoch 0, Iteration 451/657 
+Train Loss: 9.99 Accuracy: 12.50%
+Epoch 0, Iteration 452/657 
+Train Loss: 11.29 Accuracy: 14.06%
+Epoch 0, Iteration 453/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 454/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 455/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 456/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 457/657 
+Train Loss: 10.00 Accuracy: 18.75%
+Epoch 0, Iteration 458/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 459/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 460/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 461/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 462/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 463/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 464/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 465/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 466/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 467/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 468/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 469/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 470/657 
+Train Loss: 10.00 Accuracy: 18.75%
+Epoch 0, Iteration 471/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 472/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 473/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 474/657 
+Train Loss: 10.00 Accuracy: 10.94%
+	Current speed:2.2520205823436172 iterations per second
+Epoch 0, Iteration 475/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 476/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 477/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 478/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 479/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 480/657 
+Train Loss: 10.00 Accuracy: 3.12%
+Epoch 0, Iteration 481/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 482/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 483/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 484/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 485/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 486/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 487/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 488/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 489/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 490/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 491/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 492/657 
+Train Loss: 11.72 Accuracy: 7.81%
+Epoch 0, Iteration 493/657 
+Train Loss: 10.57 Accuracy: 7.81%
+Epoch 0, Iteration 494/657 
+Train Loss: 12.08 Accuracy: 7.81%
+Epoch 0, Iteration 495/657 
+Train Loss: 14.01 Accuracy: 7.81%
+Epoch 0, Iteration 496/657 
+Train Loss: 10.18 Accuracy: 12.50%
+Epoch 0, Iteration 497/657 
+Train Loss: 16.15 Accuracy: 6.25%
+Epoch 0, Iteration 498/657 
+Train Loss: 15.62 Accuracy: 12.50%
+Epoch 0, Iteration 499/657 
+Train Loss: 17.76 Accuracy: 10.94%
+	Current speed:2.2446260720631988 iterations per second
+Epoch 0, Iteration 500/657 
+Train Loss: 13.82 Accuracy: 4.69%
+Epoch 0, Iteration 501/657 
+Train Loss: 12.62 Accuracy: 12.50%
+Epoch 0, Iteration 502/657 
+Train Loss: 15.48 Accuracy: 15.62%
+Epoch 0, Iteration 503/657 
+Train Loss: 15.71 Accuracy: 6.25%
+Epoch 0, Iteration 504/657 
+Train Loss: 12.71 Accuracy: 17.19%
+Epoch 0, Iteration 505/657 
+Train Loss: 16.74 Accuracy: 9.38%
+Epoch 0, Iteration 506/657 
+Train Loss: 13.09 Accuracy: 10.94%
+Epoch 0, Iteration 507/657 
+Train Loss: 12.50 Accuracy: 17.19%
+Epoch 0, Iteration 508/657 
+Train Loss: 12.89 Accuracy: 15.62%
+Epoch 0, Iteration 509/657 
+Train Loss: 11.86 Accuracy: 6.25%
+Epoch 0, Iteration 510/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 511/657 
+Train Loss: 10.26 Accuracy: 6.25%
+Epoch 0, Iteration 512/657 
+Train Loss: 10.10 Accuracy: 3.12%
+Epoch 0, Iteration 513/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 514/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 515/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 516/657 
+Train Loss: 10.03 Accuracy: 4.69%
+Epoch 0, Iteration 517/657 
+Train Loss: 10.70 Accuracy: 9.38%
+Epoch 0, Iteration 518/657 
+Train Loss: 10.00 Accuracy: 17.19%
+Epoch 0, Iteration 519/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 520/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 521/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 522/657 
+Train Loss: 12.06 Accuracy: 3.12%
+Epoch 0, Iteration 523/657 
+Train Loss: 10.00 Accuracy: 3.12%
+Epoch 0, Iteration 524/657 
+Train Loss: 10.00 Accuracy: 10.94%
+	Current speed:2.237433858829844 iterations per second
+Epoch 0, Iteration 525/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 526/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 527/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 528/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 529/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 530/657 
+Train Loss: 11.05 Accuracy: 10.94%
+Epoch 0, Iteration 531/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 532/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 533/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 534/657 
+Train Loss: 10.16 Accuracy: 15.62%
+Epoch 0, Iteration 535/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 536/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 537/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 538/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 539/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 540/657 
+Train Loss: 11.24 Accuracy: 12.50%
+Epoch 0, Iteration 541/657 
+Train Loss: 11.86 Accuracy: 6.25%
+Epoch 0, Iteration 542/657 
+Train Loss: 11.19 Accuracy: 6.25%
+Epoch 0, Iteration 543/657 
+Train Loss: 10.82 Accuracy: 9.38%
+Epoch 0, Iteration 544/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 545/657 
+Train Loss: 11.46 Accuracy: 6.25%
+Epoch 0, Iteration 546/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 547/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 548/657 
+Train Loss: 10.00 Accuracy: 17.19%
+Epoch 0, Iteration 549/657 
+Train Loss: 10.00 Accuracy: 4.69%
+	Current speed:2.2315744839014253 iterations per second
+Epoch 0, Iteration 550/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 551/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 552/657 
+Train Loss: 11.23 Accuracy: 15.62%
+Epoch 0, Iteration 553/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 554/657 
+Train Loss: 11.20 Accuracy: 12.50%
+Epoch 0, Iteration 555/657 
+Train Loss: 10.84 Accuracy: 14.06%
+Epoch 0, Iteration 556/657 
+Train Loss: 10.44 Accuracy: 14.06%
+Epoch 0, Iteration 557/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 558/657 
+Train Loss: 9.96 Accuracy: 15.62%
+Epoch 0, Iteration 559/657 
+Train Loss: 12.99 Accuracy: 15.62%
+Epoch 0, Iteration 560/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 561/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 562/657 
+Train Loss: 12.62 Accuracy: 10.94%
+Epoch 0, Iteration 563/657 
+Train Loss: 10.68 Accuracy: 7.81%
+Epoch 0, Iteration 564/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 565/657 
+Train Loss: 11.47 Accuracy: 10.94%
+Epoch 0, Iteration 566/657 
+Train Loss: 11.41 Accuracy: 4.69%
+Epoch 0, Iteration 567/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 568/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 569/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 570/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 571/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 572/657 
+Train Loss: 11.52 Accuracy: 7.81%
+Epoch 0, Iteration 573/657 
+Train Loss: 10.97 Accuracy: 7.81%
+Epoch 0, Iteration 574/657 
+Train Loss: 10.00 Accuracy: 4.69%
+	Current speed:2.2266149563057183 iterations per second
+Epoch 0, Iteration 575/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 576/657 
+Train Loss: 11.58 Accuracy: 7.81%
+Epoch 0, Iteration 577/657 
+Train Loss: 11.60 Accuracy: 7.81%
+Epoch 0, Iteration 578/657 
+Train Loss: 10.78 Accuracy: 7.81%
+Epoch 0, Iteration 579/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 580/657 
+Train Loss: 11.30 Accuracy: 10.94%
+Epoch 0, Iteration 581/657 
+Train Loss: 11.75 Accuracy: 6.25%
+Epoch 0, Iteration 582/657 
+Train Loss: 11.26 Accuracy: 10.94%
+Epoch 0, Iteration 583/657 
+Train Loss: 11.07 Accuracy: 7.81%
+Epoch 0, Iteration 584/657 
+Train Loss: 10.00 Accuracy: 18.75%
+Epoch 0, Iteration 585/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 586/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 587/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 588/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 589/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 590/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 591/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 592/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 593/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 594/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 595/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 596/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 597/657 
+Train Loss: 10.00 Accuracy: 17.19%
+Epoch 0, Iteration 598/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 599/657 
+Train Loss: 10.00 Accuracy: 4.69%
+	Current speed:2.2215703043729738 iterations per second
+Epoch 0, Iteration 600/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 601/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 602/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 603/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 604/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 605/657 
+Train Loss: 10.00 Accuracy: 3.12%
+Epoch 0, Iteration 606/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 607/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 608/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 609/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 610/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 611/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 612/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 613/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 614/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 615/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 616/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 617/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 618/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 619/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 620/657 
+Train Loss: 12.50 Accuracy: 12.50%
+Epoch 0, Iteration 621/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 622/657 
+Train Loss: 11.41 Accuracy: 10.94%
+Epoch 0, Iteration 623/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 624/657 
+Train Loss: 10.00 Accuracy: 12.50%
+	Current speed:2.2170838189349973 iterations per second
+Epoch 0, Iteration 625/657 
+Train Loss: 10.00 Accuracy: 17.19%
+Epoch 0, Iteration 626/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 627/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 628/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 629/657 
+Train Loss: 14.22 Accuracy: 9.38%
+Epoch 0, Iteration 630/657 
+Train Loss: 12.53 Accuracy: 7.81%
+Epoch 0, Iteration 631/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 632/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 633/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 634/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 635/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 636/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 637/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 638/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 639/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 640/657 
+Train Loss: 13.22 Accuracy: 9.38%
+Epoch 0, Iteration 641/657 
+Train Loss: 20.00 Accuracy: 9.38%
+Epoch 0, Iteration 642/657 
+Train Loss: 15.93 Accuracy: 15.62%
+Epoch 0, Iteration 643/657 
+Train Loss: 15.78 Accuracy: 12.50%
+Epoch 0, Iteration 644/657 
+Train Loss: 13.91 Accuracy: 7.81%
+Epoch 0, Iteration 645/657 
+Train Loss: 14.84 Accuracy: 10.94%
+Epoch 0, Iteration 646/657 
+Train Loss: 17.03 Accuracy: 6.25%
+Epoch 0, Iteration 647/657 
+Train Loss: 13.50 Accuracy: 4.69%
+Epoch 0, Iteration 648/657 
+Train Loss: 11.15 Accuracy: 14.06%
+Epoch 0, Iteration 649/657 
+Train Loss: 10.00 Accuracy: 12.50%
+	Current speed:2.2132752035596166 iterations per second
+Epoch 0, Iteration 650/657 
+Train Loss: 12.72 Accuracy: 7.81%
+Epoch 0, Iteration 651/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 652/657 
+Train Loss: 11.67 Accuracy: 7.81%
+Epoch 0, Iteration 653/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 654/657 
+Train Loss: 12.19 Accuracy: 3.12%
+Epoch 0, Iteration 655/657 
+Train Loss: 14.41 Accuracy: 10.94%
+Epoch 0, Iteration 656/657 
+Train Loss: 14.26 Accuracy: 12.50%
+Training time (s):  296.9509663581848
+Time spent converting dataset (s / %):  47.67631936073303 16.055283451485874
+Time spent in forward pass (s / %): 148.15161061286926 49.89093399149525
+Time spent in learning (s / %) 99.2556505203247 33.42492928633938
+Time spent loading data (s / %): 1.8673858642578125 0.6288532706794951
+Total correctly classified test set images: 1787/18000
+Test Set Accuracy: 9.93%
+[('conv', {'num-filters': ['44'], 'filter-shape': ['2'], 'stride': ['1'], 'padding': ['same'], 'bias': ['True']}), ('pool-max', {'kernel-size': ['2']}), ('act', {'beta': ['0.5405288817459849'], 'beta-trainable': ['False'], 'threshold': ['0.843665232475586'], 'threshold-trainable': ['False'], 'surr-grad': ['fast_sigmoid'], 'reset': ['subtract']}), ('conv', {'num-filters': ['58'], 'filter-shape': ['3'], 'stride': ['1'], 'padding': ['valid'], 'bias': ['False']}), ('no-op', {}), ('act', {'beta': ['0.22765025495040303'], 'beta-trainable': ['True'], 'threshold': ['1.4543883671716387'], 'threshold-trainable': ['True'], 'surr-grad': ['fast_sigmoid'], 'reset': ['zero']}), ('fc', {'num-units': ['91'], 'bias': ['False']}), ('act', {'beta': ['0.2196699105052644'], 'beta-trainable': ['True'], 'threshold': ['1.3210515572515622'], 'threshold-trainable': ['False'], 'surr-grad': ['fast_sigmoid'], 'reset': ['zero']}), ('fc', {'num-units': ['10'], 'bias': ['True']}), ('act', {'beta': ['0.6930072726133314'], 'beta-trainable': ['False'], 'threshold': ['0.6589417598464633'], 'threshold-trainable': ['True'], 'surr-grad': ['fast_sigmoid'], 'reset': ['subtract']})]
+Sequential(
+  (0): Conv2d(1, 44, kernel_size=(2, 2), stride=(1, 1), padding=same)
+  (1): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (2): Leaky()
+  (3): Conv2d(44, 58, kernel_size=(3, 3), stride=(1, 1), padding=valid, bias=False)
+  (4): Leaky()
+  (5): Flatten(start_dim=1, end_dim=-1)
+  (6): Linear(in_features=8352, out_features=91, bias=False)
+  (7): Leaky()
+  (8): Linear(in_features=91, out_features=10, bias=True)
+  (9): Leaky()
+)
+	Current speed:0.0 iterations per second
+Epoch 0, Iteration 0/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 1/657 
+Train Loss: 10.00 Accuracy: 23.44%
+Epoch 0, Iteration 2/657 
+Train Loss: 9.75 Accuracy: 7.81%
+Epoch 0, Iteration 3/657 
+Train Loss: 10.12 Accuracy: 6.25%
+Epoch 0, Iteration 4/657 
+Train Loss: 10.03 Accuracy: 6.25%
+Epoch 0, Iteration 5/657 
+Train Loss: 9.13 Accuracy: 18.75%
+Epoch 0, Iteration 6/657 
+Train Loss: 9.86 Accuracy: 7.81%
+Epoch 0, Iteration 7/657 
+Train Loss: 9.87 Accuracy: 6.25%
+Epoch 0, Iteration 8/657 
+Train Loss: 9.35 Accuracy: 12.50%
+Epoch 0, Iteration 9/657 
+Train Loss: 10.05 Accuracy: 7.81%
+Epoch 0, Iteration 10/657 
+Train Loss: 9.53 Accuracy: 20.31%
+Epoch 0, Iteration 11/657 
+Train Loss: 9.50 Accuracy: 12.50%
+Epoch 0, Iteration 12/657 
+Train Loss: 9.14 Accuracy: 9.38%
+Epoch 0, Iteration 13/657 
+Train Loss: 9.14 Accuracy: 17.19%
+Epoch 0, Iteration 14/657 
+Train Loss: 9.42 Accuracy: 6.25%
+Epoch 0, Iteration 15/657 
+Train Loss: 9.42 Accuracy: 9.38%
+Epoch 0, Iteration 16/657 
+Train Loss: 9.36 Accuracy: 12.50%
+Epoch 0, Iteration 17/657 
+Train Loss: 9.51 Accuracy: 4.69%
+Epoch 0, Iteration 18/657 
+Train Loss: 9.25 Accuracy: 9.38%
+Epoch 0, Iteration 19/657 
+Train Loss: 9.01 Accuracy: 14.06%
+Epoch 0, Iteration 20/657 
+Train Loss: 9.59 Accuracy: 17.19%
+Epoch 0, Iteration 21/657 
+Train Loss: 9.35 Accuracy: 4.69%
+Epoch 0, Iteration 22/657 
+Train Loss: 9.41 Accuracy: 17.19%
+Epoch 0, Iteration 23/657 
+Train Loss: 9.54 Accuracy: 12.50%
+Epoch 0, Iteration 24/657 
+Train Loss: 9.41 Accuracy: 6.25%
+	Current speed:1.7785904743088294 iterations per second
+Epoch 0, Iteration 25/657 
+Train Loss: 9.48 Accuracy: 15.62%
+Epoch 0, Iteration 26/657 
+Train Loss: 9.39 Accuracy: 4.69%
+Epoch 0, Iteration 27/657 
+Train Loss: 9.06 Accuracy: 9.38%
+Epoch 0, Iteration 28/657 
+Train Loss: 8.99 Accuracy: 12.50%
+Epoch 0, Iteration 29/657 
+Train Loss: 9.06 Accuracy: 4.69%
+Epoch 0, Iteration 30/657 
+Train Loss: 9.22 Accuracy: 9.38%
+Epoch 0, Iteration 31/657 
+Train Loss: 9.24 Accuracy: 6.25%
+Epoch 0, Iteration 32/657 
+Train Loss: 9.28 Accuracy: 3.12%
+Epoch 0, Iteration 33/657 
+Train Loss: 9.31 Accuracy: 6.25%
+Epoch 0, Iteration 34/657 
+Train Loss: 8.97 Accuracy: 12.50%
+Epoch 0, Iteration 35/657 
+Train Loss: 9.28 Accuracy: 10.94%
+Epoch 0, Iteration 36/657 
+Train Loss: 9.19 Accuracy: 14.06%
+Epoch 0, Iteration 37/657 
+Train Loss: 9.33 Accuracy: 7.81%
+Epoch 0, Iteration 38/657 
+Train Loss: 9.18 Accuracy: 10.94%
+Epoch 0, Iteration 39/657 
+Train Loss: 9.48 Accuracy: 10.94%
+Epoch 0, Iteration 40/657 
+Train Loss: 9.22 Accuracy: 7.81%
+Epoch 0, Iteration 41/657 
+Train Loss: 9.23 Accuracy: 9.38%
+Epoch 0, Iteration 42/657 
+Train Loss: 9.12 Accuracy: 10.94%
+Epoch 0, Iteration 43/657 
+Train Loss: 9.12 Accuracy: 7.81%
+Epoch 0, Iteration 44/657 
+Train Loss: 9.06 Accuracy: 14.06%
+Epoch 0, Iteration 45/657 
+Train Loss: 9.22 Accuracy: 6.25%
+Epoch 0, Iteration 46/657 
+Train Loss: 9.15 Accuracy: 7.81%
+Epoch 0, Iteration 47/657 
+Train Loss: 9.16 Accuracy: 10.94%
+Epoch 0, Iteration 48/657 
+Train Loss: 9.12 Accuracy: 7.81%
+Epoch 0, Iteration 49/657 
+Train Loss: 9.17 Accuracy: 10.94%
+	Current speed:1.814025486914848 iterations per second
+Epoch 0, Iteration 50/657 
+Train Loss: 9.45 Accuracy: 0.00%
+Epoch 0, Iteration 51/657 
+Train Loss: 9.01 Accuracy: 10.94%
+Epoch 0, Iteration 52/657 
+Train Loss: 9.18 Accuracy: 14.06%
+Epoch 0, Iteration 53/657 
+Train Loss: 9.25 Accuracy: 6.25%
+Epoch 0, Iteration 54/657 
+Train Loss: 9.18 Accuracy: 4.69%
+Epoch 0, Iteration 55/657 
+Train Loss: 9.26 Accuracy: 10.94%
+Epoch 0, Iteration 56/657 
+Train Loss: 9.14 Accuracy: 14.06%
+Epoch 0, Iteration 57/657 
+Train Loss: 9.16 Accuracy: 7.81%
+Epoch 0, Iteration 58/657 
+Train Loss: 9.12 Accuracy: 10.94%
+Epoch 0, Iteration 59/657 
+Train Loss: 9.23 Accuracy: 18.75%
+Epoch 0, Iteration 60/657 
+Train Loss: 8.95 Accuracy: 15.62%
+Epoch 0, Iteration 61/657 
+Train Loss: 9.04 Accuracy: 14.06%
+Epoch 0, Iteration 62/657 
+Train Loss: 9.25 Accuracy: 10.94%
+Epoch 0, Iteration 63/657 
+Train Loss: 9.16 Accuracy: 9.38%
+Epoch 0, Iteration 64/657 
+Train Loss: 9.22 Accuracy: 4.69%
+Epoch 0, Iteration 65/657 
+Train Loss: 9.18 Accuracy: 6.25%
+Epoch 0, Iteration 66/657 
+Train Loss: 9.16 Accuracy: 6.25%
+Epoch 0, Iteration 67/657 
+Train Loss: 9.02 Accuracy: 9.38%
+Epoch 0, Iteration 68/657 
+Train Loss: 9.18 Accuracy: 4.69%
+Epoch 0, Iteration 69/657 
+Train Loss: 9.10 Accuracy: 7.81%
+Epoch 0, Iteration 70/657 
+Train Loss: 9.10 Accuracy: 12.50%
+Epoch 0, Iteration 71/657 
+Train Loss: 9.07 Accuracy: 12.50%
+Epoch 0, Iteration 72/657 
+Train Loss: 9.03 Accuracy: 12.50%
+Epoch 0, Iteration 73/657 
+Train Loss: 9.11 Accuracy: 4.69%
+Epoch 0, Iteration 74/657 
+Train Loss: 9.05 Accuracy: 15.62%
+	Current speed:1.8308858550930271 iterations per second
+Epoch 0, Iteration 75/657 
+Train Loss: 9.02 Accuracy: 15.62%
+Epoch 0, Iteration 76/657 
+Train Loss: 9.08 Accuracy: 4.69%
+Epoch 0, Iteration 77/657 
+Train Loss: 9.04 Accuracy: 12.50%
+Epoch 0, Iteration 78/657 
+Train Loss: 9.05 Accuracy: 7.81%
+Epoch 0, Iteration 79/657 
+Train Loss: 9.08 Accuracy: 7.81%
+Epoch 0, Iteration 80/657 
+Train Loss: 8.97 Accuracy: 9.38%
+Epoch 0, Iteration 81/657 
+Train Loss: 9.41 Accuracy: 12.50%
+Epoch 0, Iteration 82/657 
+Train Loss: 9.15 Accuracy: 9.38%
+Epoch 0, Iteration 83/657 
+Train Loss: 9.27 Accuracy: 10.94%
+Epoch 0, Iteration 84/657 
+Train Loss: 9.19 Accuracy: 4.69%
+Epoch 0, Iteration 85/657 
+Train Loss: 9.27 Accuracy: 7.81%
+Epoch 0, Iteration 86/657 
+Train Loss: 9.18 Accuracy: 10.94%
+Epoch 0, Iteration 87/657 
+Train Loss: 9.12 Accuracy: 12.50%
+Epoch 0, Iteration 88/657 
+Train Loss: 9.15 Accuracy: 14.06%
+Epoch 0, Iteration 89/657 
+Train Loss: 9.07 Accuracy: 10.94%
+Epoch 0, Iteration 90/657 
+Train Loss: 9.08 Accuracy: 10.94%
+Epoch 0, Iteration 91/657 
+Train Loss: 9.20 Accuracy: 6.25%
+Epoch 0, Iteration 92/657 
+Train Loss: 9.03 Accuracy: 10.94%
+Epoch 0, Iteration 93/657 
+Train Loss: 9.10 Accuracy: 6.25%
+Epoch 0, Iteration 94/657 
+Train Loss: 9.06 Accuracy: 9.38%
+Epoch 0, Iteration 95/657 
+Train Loss: 9.04 Accuracy: 6.25%
+Epoch 0, Iteration 96/657 
+Train Loss: 9.35 Accuracy: 12.50%
+Epoch 0, Iteration 97/657 
+Train Loss: 9.10 Accuracy: 9.38%
+Epoch 0, Iteration 98/657 
+Train Loss: 9.30 Accuracy: 3.12%
+Epoch 0, Iteration 99/657 
+Train Loss: 8.97 Accuracy: 15.62%
+	Current speed:1.870431315440005 iterations per second
+Epoch 0, Iteration 100/657 
+Train Loss: 9.03 Accuracy: 17.19%
+Epoch 0, Iteration 101/657 
+Train Loss: 9.18 Accuracy: 7.81%
+Epoch 0, Iteration 102/657 
+Train Loss: 9.13 Accuracy: 7.81%
+Epoch 0, Iteration 103/657 
+Train Loss: 9.14 Accuracy: 17.19%
+Epoch 0, Iteration 104/657 
+Train Loss: 8.95 Accuracy: 7.81%
+Epoch 0, Iteration 105/657 
+Train Loss: 9.18 Accuracy: 6.25%
+Epoch 0, Iteration 106/657 
+Train Loss: 9.22 Accuracy: 1.56%
+Epoch 0, Iteration 107/657 
+Train Loss: 9.08 Accuracy: 7.81%
+Epoch 0, Iteration 108/657 
+Train Loss: 8.98 Accuracy: 12.50%
+Epoch 0, Iteration 109/657 
+Train Loss: 9.09 Accuracy: 9.38%
+Epoch 0, Iteration 110/657 
+Train Loss: 9.06 Accuracy: 7.81%
+Epoch 0, Iteration 111/657 
+Train Loss: 9.04 Accuracy: 9.38%
+Epoch 0, Iteration 112/657 
+Train Loss: 9.07 Accuracy: 9.38%
+Epoch 0, Iteration 113/657 
+Train Loss: 9.18 Accuracy: 9.38%
+Epoch 0, Iteration 114/657 
+Train Loss: 9.02 Accuracy: 10.94%
+Epoch 0, Iteration 115/657 
+Train Loss: 9.18 Accuracy: 14.06%
+Epoch 0, Iteration 116/657 
+Train Loss: 9.10 Accuracy: 9.38%
+Epoch 0, Iteration 117/657 
+Train Loss: 9.15 Accuracy: 6.25%
+Epoch 0, Iteration 118/657 
+Train Loss: 9.06 Accuracy: 12.50%
+Epoch 0, Iteration 119/657 
+Train Loss: 9.20 Accuracy: 10.94%
+Epoch 0, Iteration 120/657 
+Train Loss: 9.00 Accuracy: 14.06%
+Epoch 0, Iteration 121/657 
+Train Loss: 9.17 Accuracy: 10.94%
+Epoch 0, Iteration 122/657 
+Train Loss: 9.31 Accuracy: 7.81%
+Epoch 0, Iteration 123/657 
+Train Loss: 9.29 Accuracy: 7.81%
+Epoch 0, Iteration 124/657 
+Train Loss: 9.27 Accuracy: 4.69%
+	Current speed:1.897500187691421 iterations per second
+Epoch 0, Iteration 125/657 
+Train Loss: 9.08 Accuracy: 14.06%
+Epoch 0, Iteration 126/657 
+Train Loss: 9.02 Accuracy: 10.94%
+Epoch 0, Iteration 127/657 
+Train Loss: 9.42 Accuracy: 3.12%
+Epoch 0, Iteration 128/657 
+Train Loss: 9.27 Accuracy: 4.69%
+Epoch 0, Iteration 129/657 
+Train Loss: 9.28 Accuracy: 6.25%
+Epoch 0, Iteration 130/657 
+Train Loss: 9.23 Accuracy: 7.81%
+Epoch 0, Iteration 131/657 
+Train Loss: 9.22 Accuracy: 9.38%
+Epoch 0, Iteration 132/657 
+Train Loss: 9.06 Accuracy: 9.38%
+Epoch 0, Iteration 133/657 
+Train Loss: 9.07 Accuracy: 10.94%
+Epoch 0, Iteration 134/657 
+Train Loss: 9.13 Accuracy: 10.94%
+Epoch 0, Iteration 135/657 
+Train Loss: 9.02 Accuracy: 12.50%
+Epoch 0, Iteration 136/657 
+Train Loss: 9.04 Accuracy: 9.38%
+Epoch 0, Iteration 137/657 
+Train Loss: 9.11 Accuracy: 12.50%
+Epoch 0, Iteration 138/657 
+Train Loss: 9.03 Accuracy: 6.25%
+Epoch 0, Iteration 139/657 
+Train Loss: 9.09 Accuracy: 7.81%
+Epoch 0, Iteration 140/657 
+Train Loss: 9.05 Accuracy: 10.94%
+Epoch 0, Iteration 141/657 
+Train Loss: 9.06 Accuracy: 14.06%
+Epoch 0, Iteration 142/657 
+Train Loss: 9.03 Accuracy: 6.25%
+Epoch 0, Iteration 143/657 
+Train Loss: 9.02 Accuracy: 20.31%
+Epoch 0, Iteration 144/657 
+Train Loss: 9.05 Accuracy: 7.81%
+Epoch 0, Iteration 145/657 
+Train Loss: 9.04 Accuracy: 10.94%
+Epoch 0, Iteration 146/657 
+Train Loss: 9.02 Accuracy: 14.06%
+Epoch 0, Iteration 147/657 
+Train Loss: 9.10 Accuracy: 18.75%
+Epoch 0, Iteration 148/657 
+Train Loss: 9.04 Accuracy: 9.38%
+Epoch 0, Iteration 149/657 
+Train Loss: 9.08 Accuracy: 12.50%
+	Current speed:1.9153194847698234 iterations per second
+Epoch 0, Iteration 150/657 
+Train Loss: 8.97 Accuracy: 9.38%
+Epoch 0, Iteration 151/657 
+Train Loss: 9.36 Accuracy: 3.12%
+Epoch 0, Iteration 152/657 
+Train Loss: 9.03 Accuracy: 10.94%
+Epoch 0, Iteration 153/657 
+Train Loss: 9.04 Accuracy: 9.38%
+Epoch 0, Iteration 154/657 
+Train Loss: 9.38 Accuracy: 14.06%
+Epoch 0, Iteration 155/657 
+Train Loss: 9.22 Accuracy: 7.81%
+Epoch 0, Iteration 156/657 
+Train Loss: 9.22 Accuracy: 9.38%
+Epoch 0, Iteration 157/657 
+Train Loss: 9.34 Accuracy: 12.50%
+Epoch 0, Iteration 158/657 
+Train Loss: 9.17 Accuracy: 6.25%
+Epoch 0, Iteration 159/657 
+Train Loss: 9.19 Accuracy: 12.50%
+Epoch 0, Iteration 160/657 
+Train Loss: 9.12 Accuracy: 9.38%
+Epoch 0, Iteration 161/657 
+Train Loss: 9.12 Accuracy: 12.50%
+Epoch 0, Iteration 162/657 
+Train Loss: 9.05 Accuracy: 12.50%
+Epoch 0, Iteration 163/657 
+Train Loss: 9.11 Accuracy: 6.25%
+Epoch 0, Iteration 164/657 
+Train Loss: 9.02 Accuracy: 6.25%
+Epoch 0, Iteration 165/657 
+Train Loss: 9.15 Accuracy: 4.69%
+Epoch 0, Iteration 166/657 
+Train Loss: 9.05 Accuracy: 4.69%
+Epoch 0, Iteration 167/657 
+Train Loss: 9.08 Accuracy: 6.25%
+Epoch 0, Iteration 168/657 
+Train Loss: 9.00 Accuracy: 10.94%
+Epoch 0, Iteration 169/657 
+Train Loss: 8.92 Accuracy: 12.50%
+Epoch 0, Iteration 170/657 
+Train Loss: 9.11 Accuracy: 9.38%
+Epoch 0, Iteration 171/657 
+Train Loss: 9.47 Accuracy: 12.50%
+Epoch 0, Iteration 172/657 
+Train Loss: 9.22 Accuracy: 3.12%
+Epoch 0, Iteration 173/657 
+Train Loss: 9.20 Accuracy: 15.62%
+Epoch 0, Iteration 174/657 
+Train Loss: 9.19 Accuracy: 12.50%
+	Current speed:1.9272017216799446 iterations per second
+Epoch 0, Iteration 175/657 
+Train Loss: 9.35 Accuracy: 9.38%
+Epoch 0, Iteration 176/657 
+Train Loss: 9.05 Accuracy: 17.19%
+Epoch 0, Iteration 177/657 
+Train Loss: 9.33 Accuracy: 7.81%
+Epoch 0, Iteration 178/657 
+Train Loss: 9.05 Accuracy: 17.19%
+Epoch 0, Iteration 179/657 
+Train Loss: 9.08 Accuracy: 10.94%
+Epoch 0, Iteration 180/657 
+Train Loss: 8.97 Accuracy: 21.88%
+Epoch 0, Iteration 181/657 
+Train Loss: 9.05 Accuracy: 12.50%
+Epoch 0, Iteration 182/657 
+Train Loss: 9.03 Accuracy: 17.19%
+Epoch 0, Iteration 183/657 
+Train Loss: 9.09 Accuracy: 9.38%
+Epoch 0, Iteration 184/657 
+Train Loss: 9.14 Accuracy: 4.69%
+Epoch 0, Iteration 185/657 
+Train Loss: 9.00 Accuracy: 14.06%
+Epoch 0, Iteration 186/657 
+Train Loss: 9.11 Accuracy: 9.38%
+Epoch 0, Iteration 187/657 
+Train Loss: 9.02 Accuracy: 9.38%
+Epoch 0, Iteration 188/657 
+Train Loss: 9.04 Accuracy: 6.25%
+Epoch 0, Iteration 189/657 
+Train Loss: 9.14 Accuracy: 7.81%
+Epoch 0, Iteration 190/657 
+Train Loss: 9.00 Accuracy: 10.94%
+Epoch 0, Iteration 191/657 
+Train Loss: 9.04 Accuracy: 3.12%
+Epoch 0, Iteration 192/657 
+Train Loss: 9.13 Accuracy: 7.81%
+Epoch 0, Iteration 193/657 
+Train Loss: 9.08 Accuracy: 7.81%
+Epoch 0, Iteration 194/657 
+Train Loss: 9.06 Accuracy: 6.25%
+Epoch 0, Iteration 195/657 
+Train Loss: 9.01 Accuracy: 3.12%
+Epoch 0, Iteration 196/657 
+Train Loss: 9.05 Accuracy: 9.38%
+Epoch 0, Iteration 197/657 
+Train Loss: 8.97 Accuracy: 12.50%
+Epoch 0, Iteration 198/657 
+Train Loss: 9.10 Accuracy: 10.94%
+Epoch 0, Iteration 199/657 
+Train Loss: 9.04 Accuracy: 6.25%
+	Current speed:1.9133198028456357 iterations per second
+Epoch 0, Iteration 200/657 
+Train Loss: 9.02 Accuracy: 14.06%
+Epoch 0, Iteration 201/657 
+Train Loss: 8.93 Accuracy: 12.50%
+Epoch 0, Iteration 202/657 
+Train Loss: 9.02 Accuracy: 14.06%
+Epoch 0, Iteration 203/657 
+Train Loss: 9.02 Accuracy: 9.38%
+Epoch 0, Iteration 204/657 
+Train Loss: 9.09 Accuracy: 12.50%
+Epoch 0, Iteration 205/657 
+Train Loss: 9.01 Accuracy: 7.81%
+Epoch 0, Iteration 206/657 
+Train Loss: 9.14 Accuracy: 9.38%
+Epoch 0, Iteration 207/657 
+Train Loss: 9.04 Accuracy: 7.81%
+Epoch 0, Iteration 208/657 
+Train Loss: 9.02 Accuracy: 7.81%
+Epoch 0, Iteration 209/657 
+Train Loss: 9.20 Accuracy: 4.69%
+Epoch 0, Iteration 210/657 
+Train Loss: 9.09 Accuracy: 6.25%
+Epoch 0, Iteration 211/657 
+Train Loss: 9.06 Accuracy: 7.81%
+Epoch 0, Iteration 212/657 
+Train Loss: 9.08 Accuracy: 6.25%
+Epoch 0, Iteration 213/657 
+Train Loss: 9.06 Accuracy: 9.38%
+Epoch 0, Iteration 214/657 
+Train Loss: 9.12 Accuracy: 9.38%
+Epoch 0, Iteration 215/657 
+Train Loss: 9.02 Accuracy: 12.50%
+Epoch 0, Iteration 216/657 
+Train Loss: 9.10 Accuracy: 10.94%
+Epoch 0, Iteration 217/657 
+Train Loss: 9.00 Accuracy: 10.94%
+Epoch 0, Iteration 218/657 
+Train Loss: 9.09 Accuracy: 6.25%
+Epoch 0, Iteration 219/657 
+Train Loss: 9.01 Accuracy: 10.94%
+Epoch 0, Iteration 220/657 
+Train Loss: 9.02 Accuracy: 7.81%
+Epoch 0, Iteration 221/657 
+Train Loss: 9.01 Accuracy: 12.50%
+Epoch 0, Iteration 222/657 
+Train Loss: 9.06 Accuracy: 9.38%
+Epoch 0, Iteration 223/657 
+Train Loss: 9.07 Accuracy: 4.69%
+Epoch 0, Iteration 224/657 
+Train Loss: 9.03 Accuracy: 7.81%
+	Current speed:1.9216796751784868 iterations per second
+Epoch 0, Iteration 225/657 
+Train Loss: 9.10 Accuracy: 3.12%
+Epoch 0, Iteration 226/657 
+Train Loss: 9.01 Accuracy: 10.94%
+Epoch 0, Iteration 227/657 
+Train Loss: 9.01 Accuracy: 10.94%
+Epoch 0, Iteration 228/657 
+Train Loss: 8.98 Accuracy: 10.94%
+Epoch 0, Iteration 229/657 
+Train Loss: 9.00 Accuracy: 14.06%
+Epoch 0, Iteration 230/657 
+Train Loss: 9.03 Accuracy: 6.25%
+Epoch 0, Iteration 231/657 
+Train Loss: 9.04 Accuracy: 7.81%
+Epoch 0, Iteration 232/657 
+Train Loss: 9.11 Accuracy: 7.81%
+Epoch 0, Iteration 233/657 
+Train Loss: 8.98 Accuracy: 12.50%
+Epoch 0, Iteration 234/657 
+Train Loss: 9.06 Accuracy: 9.38%
+Epoch 0, Iteration 235/657 
+Train Loss: 9.04 Accuracy: 15.62%
+Epoch 0, Iteration 236/657 
+Train Loss: 9.05 Accuracy: 7.81%
+Epoch 0, Iteration 237/657 
+Train Loss: 9.03 Accuracy: 10.94%
+Epoch 0, Iteration 238/657 
+Train Loss: 8.97 Accuracy: 15.62%
+Epoch 0, Iteration 239/657 
+Train Loss: 9.01 Accuracy: 15.62%
+Epoch 0, Iteration 240/657 
+Train Loss: 9.14 Accuracy: 6.25%
+Epoch 0, Iteration 241/657 
+Train Loss: 9.07 Accuracy: 7.81%
+Epoch 0, Iteration 242/657 
+Train Loss: 8.97 Accuracy: 15.62%
+Epoch 0, Iteration 243/657 
+Train Loss: 9.01 Accuracy: 10.94%
+Epoch 0, Iteration 244/657 
+Train Loss: 9.06 Accuracy: 15.62%
+Epoch 0, Iteration 245/657 
+Train Loss: 9.02 Accuracy: 17.19%
+Epoch 0, Iteration 246/657 
+Train Loss: 9.06 Accuracy: 6.25%
+Epoch 0, Iteration 247/657 
+Train Loss: 9.12 Accuracy: 9.38%
+Epoch 0, Iteration 248/657 
+Train Loss: 9.00 Accuracy: 14.06%
+Epoch 0, Iteration 249/657 
+Train Loss: 9.15 Accuracy: 9.38%
+	Current speed:1.9155982769202853 iterations per second
+Epoch 0, Iteration 250/657 
+Train Loss: 9.13 Accuracy: 6.25%
+Epoch 0, Iteration 251/657 
+Train Loss: 9.13 Accuracy: 7.81%
+Epoch 0, Iteration 252/657 
+Train Loss: 9.14 Accuracy: 9.38%
+Epoch 0, Iteration 253/657 
+Train Loss: 9.01 Accuracy: 10.94%
+Epoch 0, Iteration 254/657 
+Train Loss: 9.00 Accuracy: 12.50%
+Epoch 0, Iteration 255/657 
+Train Loss: 9.04 Accuracy: 4.69%
+Epoch 0, Iteration 256/657 
+Train Loss: 9.13 Accuracy: 7.81%
+Epoch 0, Iteration 257/657 
+Train Loss: 9.10 Accuracy: 4.69%
+Epoch 0, Iteration 258/657 
+Train Loss: 9.07 Accuracy: 10.94%
+Epoch 0, Iteration 259/657 
+Train Loss: 9.03 Accuracy: 9.38%
+Epoch 0, Iteration 260/657 
+Train Loss: 8.96 Accuracy: 15.62%
+Epoch 0, Iteration 261/657 
+Train Loss: 8.95 Accuracy: 9.38%
+Epoch 0, Iteration 262/657 
+Train Loss: 9.07 Accuracy: 7.81%
+Epoch 0, Iteration 263/657 
+Train Loss: 9.06 Accuracy: 7.81%
+Epoch 0, Iteration 264/657 
+Train Loss: 9.01 Accuracy: 7.81%
+Epoch 0, Iteration 265/657 
+Train Loss: 9.05 Accuracy: 6.25%
+Epoch 0, Iteration 266/657 
+Train Loss: 9.04 Accuracy: 9.38%
+Epoch 0, Iteration 267/657 
+Train Loss: 9.02 Accuracy: 10.94%
+Epoch 0, Iteration 268/657 
+Train Loss: 8.98 Accuracy: 6.25%
+Epoch 0, Iteration 269/657 
+Train Loss: 9.11 Accuracy: 9.38%
+Epoch 0, Iteration 270/657 
+Train Loss: 9.01 Accuracy: 10.94%
+Epoch 0, Iteration 271/657 
+Train Loss: 9.06 Accuracy: 3.12%
+Epoch 0, Iteration 272/657 
+Train Loss: 9.04 Accuracy: 10.94%
+Epoch 0, Iteration 273/657 
+Train Loss: 9.06 Accuracy: 9.38%
+Epoch 0, Iteration 274/657 
+Train Loss: 9.01 Accuracy: 17.19%
+	Current speed:1.9037252961970557 iterations per second
+Epoch 0, Iteration 275/657 
+Train Loss: 9.00 Accuracy: 10.94%
+Epoch 0, Iteration 276/657 
+Train Loss: 9.02 Accuracy: 10.94%
+Epoch 0, Iteration 277/657 
+Train Loss: 9.05 Accuracy: 10.94%
+Epoch 0, Iteration 278/657 
+Train Loss: 9.04 Accuracy: 12.50%
+Epoch 0, Iteration 279/657 
+Train Loss: 9.00 Accuracy: 9.38%
+Epoch 0, Iteration 280/657 
+Train Loss: 9.06 Accuracy: 12.50%
+Epoch 0, Iteration 281/657 
+Train Loss: 9.04 Accuracy: 12.50%
+Epoch 0, Iteration 282/657 
+Train Loss: 9.01 Accuracy: 3.12%
+Epoch 0, Iteration 283/657 
+Train Loss: 8.98 Accuracy: 10.94%
+Epoch 0, Iteration 284/657 
+Train Loss: 9.06 Accuracy: 4.69%
+Epoch 0, Iteration 285/657 
+Train Loss: 9.03 Accuracy: 4.69%
+Epoch 0, Iteration 286/657 
+Train Loss: 9.05 Accuracy: 10.94%
+Epoch 0, Iteration 287/657 
+Train Loss: 9.00 Accuracy: 10.94%
+Epoch 0, Iteration 288/657 
+Train Loss: 9.12 Accuracy: 7.81%
+Epoch 0, Iteration 289/657 
+Train Loss: 8.98 Accuracy: 12.50%
+Epoch 0, Iteration 290/657 
+Train Loss: 9.03 Accuracy: 9.38%
+Epoch 0, Iteration 291/657 
+Train Loss: 9.09 Accuracy: 4.69%
+Epoch 0, Iteration 292/657 
+Train Loss: 9.03 Accuracy: 17.19%
+Epoch 0, Iteration 293/657 
+Train Loss: 9.03 Accuracy: 4.69%
+Epoch 0, Iteration 294/657 
+Train Loss: 8.98 Accuracy: 10.94%
+Epoch 0, Iteration 295/657 
+Train Loss: 9.01 Accuracy: 14.06%
+Epoch 0, Iteration 296/657 
+Train Loss: 9.14 Accuracy: 6.25%
+Epoch 0, Iteration 297/657 
+Train Loss: 9.01 Accuracy: 6.25%
+Epoch 0, Iteration 298/657 
+Train Loss: 9.11 Accuracy: 6.25%
+Epoch 0, Iteration 299/657 
+Train Loss: 9.00 Accuracy: 14.06%
+	Current speed:1.8903524683049988 iterations per second
+Epoch 0, Iteration 300/657 
+Train Loss: 8.93 Accuracy: 17.19%
+Epoch 0, Iteration 301/657 
+Train Loss: 9.16 Accuracy: 7.81%
+Epoch 0, Iteration 302/657 
+Train Loss: 9.06 Accuracy: 7.81%
+Epoch 0, Iteration 303/657 
+Train Loss: 8.91 Accuracy: 20.31%
+Epoch 0, Iteration 304/657 
+Train Loss: 9.18 Accuracy: 10.94%
+Epoch 0, Iteration 305/657 
+Train Loss: 9.10 Accuracy: 7.81%
+Epoch 0, Iteration 306/657 
+Train Loss: 9.09 Accuracy: 10.94%
+Epoch 0, Iteration 307/657 
+Train Loss: 9.06 Accuracy: 12.50%
+Epoch 0, Iteration 308/657 
+Train Loss: 8.98 Accuracy: 14.06%
+Epoch 0, Iteration 309/657 
+Train Loss: 9.10 Accuracy: 14.06%
+Epoch 0, Iteration 310/657 
+Train Loss: 9.12 Accuracy: 9.38%
+Epoch 0, Iteration 311/657 
+Train Loss: 9.03 Accuracy: 15.62%
+Epoch 0, Iteration 312/657 
+Train Loss: 9.07 Accuracy: 12.50%
+Epoch 0, Iteration 313/657 
+Train Loss: 9.06 Accuracy: 4.69%
+Epoch 0, Iteration 314/657 
+Train Loss: 9.22 Accuracy: 10.94%
+Epoch 0, Iteration 315/657 
+Train Loss: 9.09 Accuracy: 14.06%
+Epoch 0, Iteration 316/657 
+Train Loss: 8.99 Accuracy: 12.50%
+Epoch 0, Iteration 317/657 
+Train Loss: 9.13 Accuracy: 9.38%
+Epoch 0, Iteration 318/657 
+Train Loss: 9.05 Accuracy: 10.94%
+Epoch 0, Iteration 319/657 
+Train Loss: 9.07 Accuracy: 9.38%
+Epoch 0, Iteration 320/657 
+Train Loss: 8.98 Accuracy: 12.50%
+Epoch 0, Iteration 321/657 
+Train Loss: 9.05 Accuracy: 9.38%
+Epoch 0, Iteration 322/657 
+Train Loss: 9.09 Accuracy: 4.69%
+Epoch 0, Iteration 323/657 
+Train Loss: 9.03 Accuracy: 7.81%
+Epoch 0, Iteration 324/657 
+Train Loss: 9.05 Accuracy: 12.50%
+	Current speed:1.8840533202361647 iterations per second
+Epoch 0, Iteration 325/657 
+Train Loss: 9.07 Accuracy: 6.25%
+Epoch 0, Iteration 326/657 
+Train Loss: 8.98 Accuracy: 10.94%
+Epoch 0, Iteration 327/657 
+Train Loss: 9.00 Accuracy: 6.25%
+Epoch 0, Iteration 328/657 
+Train Loss: 9.02 Accuracy: 10.94%
+Epoch 0, Iteration 329/657 
+Train Loss: 9.07 Accuracy: 7.81%
+Epoch 0, Iteration 330/657 
+Train Loss: 9.05 Accuracy: 9.38%
+Epoch 0, Iteration 331/657 
+Train Loss: 9.03 Accuracy: 1.56%
+Epoch 0, Iteration 332/657 
+Train Loss: 9.01 Accuracy: 12.50%
+Epoch 0, Iteration 333/657 
+Train Loss: 9.00 Accuracy: 10.94%
+Epoch 0, Iteration 334/657 
+Train Loss: 8.98 Accuracy: 7.81%
+Epoch 0, Iteration 335/657 
+Train Loss: 9.06 Accuracy: 9.38%
+Epoch 0, Iteration 336/657 
+Train Loss: 8.98 Accuracy: 9.38%
+Epoch 0, Iteration 337/657 
+Train Loss: 9.09 Accuracy: 6.25%
+Epoch 0, Iteration 338/657 
+Train Loss: 8.98 Accuracy: 15.62%
+Epoch 0, Iteration 339/657 
+Train Loss: 9.04 Accuracy: 15.62%
+Epoch 0, Iteration 340/657 
+Train Loss: 9.07 Accuracy: 6.25%
+Epoch 0, Iteration 341/657 
+Train Loss: 9.02 Accuracy: 6.25%
+Epoch 0, Iteration 342/657 
+Train Loss: 9.06 Accuracy: 7.81%
+Epoch 0, Iteration 343/657 
+Train Loss: 9.04 Accuracy: 7.81%
+Epoch 0, Iteration 344/657 
+Train Loss: 9.01 Accuracy: 12.50%
+Epoch 0, Iteration 345/657 
+Train Loss: 9.14 Accuracy: 7.81%
+Epoch 0, Iteration 346/657 
+Train Loss: 9.05 Accuracy: 9.38%
+Epoch 0, Iteration 347/657 
+Train Loss: 9.02 Accuracy: 14.06%
+Epoch 0, Iteration 348/657 
+Train Loss: 9.02 Accuracy: 10.94%
+Epoch 0, Iteration 349/657 
+Train Loss: 9.01 Accuracy: 6.25%
+	Current speed:1.8781172708710756 iterations per second
+Epoch 0, Iteration 350/657 
+Train Loss: 9.01 Accuracy: 12.50%
+Epoch 0, Iteration 351/657 
+Train Loss: 9.03 Accuracy: 14.06%
+Epoch 0, Iteration 352/657 
+Train Loss: 9.07 Accuracy: 12.50%
+Epoch 0, Iteration 353/657 
+Train Loss: 9.04 Accuracy: 15.62%
+Epoch 0, Iteration 354/657 
+Train Loss: 9.01 Accuracy: 15.62%
+Epoch 0, Iteration 355/657 
+Train Loss: 9.04 Accuracy: 6.25%
+Epoch 0, Iteration 356/657 
+Train Loss: 9.08 Accuracy: 7.81%
+Epoch 0, Iteration 357/657 
+Train Loss: 9.05 Accuracy: 9.38%
+Epoch 0, Iteration 358/657 
+Train Loss: 9.02 Accuracy: 14.06%
+Epoch 0, Iteration 359/657 
+Train Loss: 9.10 Accuracy: 6.25%
+Epoch 0, Iteration 360/657 
+Train Loss: 9.01 Accuracy: 10.94%
+Epoch 0, Iteration 361/657 
+Train Loss: 8.99 Accuracy: 12.50%
+Epoch 0, Iteration 362/657 
+Train Loss: 8.95 Accuracy: 14.06%
+Epoch 0, Iteration 363/657 
+Train Loss: 9.02 Accuracy: 12.50%
+Epoch 0, Iteration 364/657 
+Train Loss: 9.03 Accuracy: 6.25%
+Epoch 0, Iteration 365/657 
+Train Loss: 9.00 Accuracy: 15.62%
+Epoch 0, Iteration 366/657 
+Train Loss: 9.03 Accuracy: 17.19%
+Epoch 0, Iteration 367/657 
+Train Loss: 9.02 Accuracy: 10.94%
+Epoch 0, Iteration 368/657 
+Train Loss: 9.09 Accuracy: 10.94%
+Epoch 0, Iteration 369/657 
+Train Loss: 9.06 Accuracy: 12.50%
+Epoch 0, Iteration 370/657 
+Train Loss: 9.03 Accuracy: 10.94%
+Epoch 0, Iteration 371/657 
+Train Loss: 9.01 Accuracy: 7.81%
+Epoch 0, Iteration 372/657 
+Train Loss: 9.22 Accuracy: 10.94%
+Epoch 0, Iteration 373/657 
+Train Loss: 8.93 Accuracy: 18.75%
+Epoch 0, Iteration 374/657 
+Train Loss: 9.01 Accuracy: 14.06%
+	Current speed:1.872973827214418 iterations per second
+Epoch 0, Iteration 375/657 
+Train Loss: 9.27 Accuracy: 7.81%
+Epoch 0, Iteration 376/657 
+Train Loss: 9.05 Accuracy: 9.38%
+Epoch 0, Iteration 377/657 
+Train Loss: 9.09 Accuracy: 9.38%
+Epoch 0, Iteration 378/657 
+Train Loss: 9.16 Accuracy: 6.25%
+Epoch 0, Iteration 379/657 
+Train Loss: 9.04 Accuracy: 9.38%
+Epoch 0, Iteration 380/657 
+Train Loss: 9.03 Accuracy: 9.38%
+Epoch 0, Iteration 381/657 
+Train Loss: 9.00 Accuracy: 9.38%
+Epoch 0, Iteration 382/657 
+Train Loss: 9.03 Accuracy: 4.69%
+Epoch 0, Iteration 383/657 
+Train Loss: 9.04 Accuracy: 10.94%
+Epoch 0, Iteration 384/657 
+Train Loss: 9.04 Accuracy: 15.62%
+Epoch 0, Iteration 385/657 
+Train Loss: 8.96 Accuracy: 15.62%
+Epoch 0, Iteration 386/657 
+Train Loss: 9.07 Accuracy: 10.94%
+Epoch 0, Iteration 387/657 
+Train Loss: 9.05 Accuracy: 9.38%
+Epoch 0, Iteration 388/657 
+Train Loss: 9.00 Accuracy: 9.38%
+Epoch 0, Iteration 389/657 
+Train Loss: 9.02 Accuracy: 9.38%
+Epoch 0, Iteration 390/657 
+Train Loss: 9.05 Accuracy: 14.06%
+Epoch 0, Iteration 391/657 
+Train Loss: 9.04 Accuracy: 9.38%
+Epoch 0, Iteration 392/657 
+Train Loss: 9.08 Accuracy: 4.69%
+Epoch 0, Iteration 393/657 
+Train Loss: 9.07 Accuracy: 6.25%
+Epoch 0, Iteration 394/657 
+Train Loss: 9.04 Accuracy: 6.25%
+Epoch 0, Iteration 395/657 
+Train Loss: 9.09 Accuracy: 9.38%
+Epoch 0, Iteration 396/657 
+Train Loss: 8.97 Accuracy: 7.81%
+Epoch 0, Iteration 397/657 
+Train Loss: 9.07 Accuracy: 6.25%
+Epoch 0, Iteration 398/657 
+Train Loss: 9.03 Accuracy: 9.38%
+Epoch 0, Iteration 399/657 
+Train Loss: 9.10 Accuracy: 9.38%
+	Current speed:1.8676983995026022 iterations per second
+Epoch 0, Iteration 400/657 
+Train Loss: 9.04 Accuracy: 14.06%
+Epoch 0, Iteration 401/657 
+Train Loss: 8.99 Accuracy: 10.94%
+Epoch 0, Iteration 402/657 
+Train Loss: 9.08 Accuracy: 3.12%
+Epoch 0, Iteration 403/657 
+Train Loss: 8.98 Accuracy: 10.94%
+Epoch 0, Iteration 404/657 
+Train Loss: 9.02 Accuracy: 10.94%
+Epoch 0, Iteration 405/657 
+Train Loss: 9.00 Accuracy: 9.38%
+Epoch 0, Iteration 406/657 
+Train Loss: 9.07 Accuracy: 9.38%
+Epoch 0, Iteration 407/657 
+Train Loss: 9.03 Accuracy: 7.81%
+Epoch 0, Iteration 408/657 
+Train Loss: 9.05 Accuracy: 10.94%
+Epoch 0, Iteration 409/657 
+Train Loss: 9.02 Accuracy: 6.25%
+Epoch 0, Iteration 410/657 
+Train Loss: 9.02 Accuracy: 12.50%
+Epoch 0, Iteration 411/657 
+Train Loss: 9.09 Accuracy: 7.81%
+Epoch 0, Iteration 412/657 
+Train Loss: 9.06 Accuracy: 10.94%
+Epoch 0, Iteration 413/657 
+Train Loss: 9.01 Accuracy: 14.06%
+Epoch 0, Iteration 414/657 
+Train Loss: 9.00 Accuracy: 15.62%
+Epoch 0, Iteration 415/657 
+Train Loss: 9.19 Accuracy: 7.81%
+Epoch 0, Iteration 416/657 
+Train Loss: 8.99 Accuracy: 12.50%
+Epoch 0, Iteration 417/657 
+Train Loss: 9.03 Accuracy: 9.38%
+Epoch 0, Iteration 418/657 
+Train Loss: 9.10 Accuracy: 10.94%
+Epoch 0, Iteration 419/657 
+Train Loss: 8.99 Accuracy: 9.38%
+Epoch 0, Iteration 420/657 
+Train Loss: 8.99 Accuracy: 10.94%
+Epoch 0, Iteration 421/657 
+Train Loss: 9.02 Accuracy: 15.62%
+Epoch 0, Iteration 422/657 
+Train Loss: 9.03 Accuracy: 15.62%
+Epoch 0, Iteration 423/657 
+Train Loss: 9.02 Accuracy: 9.38%
+Epoch 0, Iteration 424/657 
+Train Loss: 9.07 Accuracy: 12.50%
+	Current speed:1.8639420856544668 iterations per second
+Epoch 0, Iteration 425/657 
+Train Loss: 9.05 Accuracy: 9.38%
+Epoch 0, Iteration 426/657 
+Train Loss: 9.01 Accuracy: 10.94%
+Epoch 0, Iteration 427/657 
+Train Loss: 9.03 Accuracy: 9.38%
+Epoch 0, Iteration 428/657 
+Train Loss: 9.04 Accuracy: 6.25%
+Epoch 0, Iteration 429/657 
+Train Loss: 9.04 Accuracy: 6.25%
+Epoch 0, Iteration 430/657 
+Train Loss: 9.00 Accuracy: 9.38%
+Epoch 0, Iteration 431/657 
+Train Loss: 9.00 Accuracy: 6.25%
+Epoch 0, Iteration 432/657 
+Train Loss: 9.02 Accuracy: 6.25%
+Epoch 0, Iteration 433/657 
+Train Loss: 9.04 Accuracy: 9.38%
+Epoch 0, Iteration 434/657 
+Train Loss: 9.06 Accuracy: 6.25%
+Epoch 0, Iteration 435/657 
+Train Loss: 9.07 Accuracy: 6.25%
+Epoch 0, Iteration 436/657 
+Train Loss: 8.97 Accuracy: 6.25%
+Epoch 0, Iteration 437/657 
+Train Loss: 9.00 Accuracy: 14.06%
+Epoch 0, Iteration 438/657 
+Train Loss: 9.05 Accuracy: 12.50%
+Epoch 0, Iteration 439/657 
+Train Loss: 9.09 Accuracy: 9.38%
+Epoch 0, Iteration 440/657 
+Train Loss: 9.11 Accuracy: 6.25%
+Epoch 0, Iteration 441/657 
+Train Loss: 9.03 Accuracy: 7.81%
+Epoch 0, Iteration 442/657 
+Train Loss: 9.01 Accuracy: 14.06%
+Epoch 0, Iteration 443/657 
+Train Loss: 9.06 Accuracy: 10.94%
+Epoch 0, Iteration 444/657 
+Train Loss: 9.02 Accuracy: 9.38%
+Epoch 0, Iteration 445/657 
+Train Loss: 8.99 Accuracy: 9.38%
+Epoch 0, Iteration 446/657 
+Train Loss: 9.08 Accuracy: 4.69%
+Epoch 0, Iteration 447/657 
+Train Loss: 9.02 Accuracy: 7.81%
+Epoch 0, Iteration 448/657 
+Train Loss: 9.06 Accuracy: 6.25%
+Epoch 0, Iteration 449/657 
+Train Loss: 9.01 Accuracy: 7.81%
+	Current speed:1.8599362402953086 iterations per second
+Epoch 0, Iteration 450/657 
+Train Loss: 8.98 Accuracy: 10.94%
+Epoch 0, Iteration 451/657 
+Train Loss: 8.97 Accuracy: 12.50%
+Epoch 0, Iteration 452/657 
+Train Loss: 9.05 Accuracy: 7.81%
+Epoch 0, Iteration 453/657 
+Train Loss: 9.15 Accuracy: 9.38%
+Epoch 0, Iteration 454/657 
+Train Loss: 9.04 Accuracy: 9.38%
+Epoch 0, Iteration 455/657 
+Train Loss: 9.00 Accuracy: 14.06%
+Epoch 0, Iteration 456/657 
+Train Loss: 9.04 Accuracy: 7.81%
+Epoch 0, Iteration 457/657 
+Train Loss: 8.98 Accuracy: 10.94%
+Epoch 0, Iteration 458/657 
+Train Loss: 8.95 Accuracy: 14.06%
+Epoch 0, Iteration 459/657 
+Train Loss: 9.03 Accuracy: 14.06%
+Epoch 0, Iteration 460/657 
+Train Loss: 9.03 Accuracy: 10.94%
+Epoch 0, Iteration 461/657 
+Train Loss: 9.11 Accuracy: 9.38%
+Epoch 0, Iteration 462/657 
+Train Loss: 9.07 Accuracy: 12.50%
+Epoch 0, Iteration 463/657 
+Train Loss: 8.99 Accuracy: 10.94%
+Epoch 0, Iteration 464/657 
+Train Loss: 9.17 Accuracy: 10.94%
+Epoch 0, Iteration 465/657 
+Train Loss: 9.06 Accuracy: 12.50%
+Epoch 0, Iteration 466/657 
+Train Loss: 9.00 Accuracy: 20.31%
+Epoch 0, Iteration 467/657 
+Train Loss: 9.02 Accuracy: 15.62%
+Epoch 0, Iteration 468/657 
+Train Loss: 9.06 Accuracy: 9.38%
+Epoch 0, Iteration 469/657 
+Train Loss: 9.03 Accuracy: 9.38%
+Epoch 0, Iteration 470/657 
+Train Loss: 9.22 Accuracy: 6.25%
+Epoch 0, Iteration 471/657 
+Train Loss: 9.04 Accuracy: 12.50%
+Epoch 0, Iteration 472/657 
+Train Loss: 8.99 Accuracy: 9.38%
+Epoch 0, Iteration 473/657 
+Train Loss: 9.03 Accuracy: 7.81%
+Epoch 0, Iteration 474/657 
+Train Loss: 9.11 Accuracy: 7.81%
+	Current speed:1.8558741883562049 iterations per second
+Epoch 0, Iteration 475/657 
+Train Loss: 9.01 Accuracy: 9.38%
+Epoch 0, Iteration 476/657 
+Train Loss: 8.97 Accuracy: 10.94%
+Epoch 0, Iteration 477/657 
+Train Loss: 9.05 Accuracy: 12.50%
+Epoch 0, Iteration 478/657 
+Train Loss: 9.10 Accuracy: 4.69%
+Epoch 0, Iteration 479/657 
+Train Loss: 9.01 Accuracy: 9.38%
+Epoch 0, Iteration 480/657 
+Train Loss: 9.26 Accuracy: 3.12%
+Epoch 0, Iteration 481/657 
+Train Loss: 9.06 Accuracy: 9.38%
+Epoch 0, Iteration 482/657 
+Train Loss: 9.08 Accuracy: 9.38%
+Epoch 0, Iteration 483/657 
+Train Loss: 9.08 Accuracy: 4.69%
+Epoch 0, Iteration 484/657 
+Train Loss: 9.06 Accuracy: 9.38%
+Epoch 0, Iteration 485/657 
+Train Loss: 8.99 Accuracy: 12.50%
+Epoch 0, Iteration 486/657 
+Train Loss: 9.18 Accuracy: 7.81%
+Epoch 0, Iteration 487/657 
+Train Loss: 9.09 Accuracy: 3.12%
+Epoch 0, Iteration 488/657 
+Train Loss: 9.04 Accuracy: 12.50%
+Epoch 0, Iteration 489/657 
+Train Loss: 9.03 Accuracy: 10.94%
+Epoch 0, Iteration 490/657 
+Train Loss: 9.06 Accuracy: 6.25%
+Epoch 0, Iteration 491/657 
+Train Loss: 9.01 Accuracy: 12.50%
+Epoch 0, Iteration 492/657 
+Train Loss: 9.05 Accuracy: 7.81%
+Epoch 0, Iteration 493/657 
+Train Loss: 8.96 Accuracy: 17.19%
+Epoch 0, Iteration 494/657 
+Train Loss: 9.05 Accuracy: 7.81%
+Epoch 0, Iteration 495/657 
+Train Loss: 9.00 Accuracy: 12.50%
+Epoch 0, Iteration 496/657 
+Train Loss: 9.07 Accuracy: 6.25%
+Epoch 0, Iteration 497/657 
+Train Loss: 9.06 Accuracy: 7.81%
+Epoch 0, Iteration 498/657 
+Train Loss: 9.02 Accuracy: 15.62%
+Epoch 0, Iteration 499/657 
+Train Loss: 9.00 Accuracy: 12.50%
+	Current speed:1.8531737547257299 iterations per second
+Epoch 0, Iteration 500/657 
+Train Loss: 9.02 Accuracy: 6.25%
+Epoch 0, Iteration 501/657 
+Train Loss: 9.04 Accuracy: 10.94%
+Epoch 0, Iteration 502/657 
+Train Loss: 9.00 Accuracy: 10.94%
+Epoch 0, Iteration 503/657 
+Train Loss: 9.01 Accuracy: 6.25%
+Epoch 0, Iteration 504/657 
+Train Loss: 9.01 Accuracy: 7.81%
+Epoch 0, Iteration 505/657 
+Train Loss: 9.08 Accuracy: 12.50%
+Epoch 0, Iteration 506/657 
+Train Loss: 9.00 Accuracy: 9.38%
+Epoch 0, Iteration 507/657 
+Train Loss: 9.02 Accuracy: 6.25%
+Epoch 0, Iteration 508/657 
+Train Loss: 9.03 Accuracy: 12.50%
+Epoch 0, Iteration 509/657 
+Train Loss: 9.03 Accuracy: 3.12%
+Epoch 0, Iteration 510/657 
+Train Loss: 9.19 Accuracy: 14.06%
+Epoch 0, Iteration 511/657 
+Train Loss: 9.06 Accuracy: 6.25%
+Epoch 0, Iteration 512/657 
+Train Loss: 9.09 Accuracy: 10.94%
+Epoch 0, Iteration 513/657 
+Train Loss: 9.12 Accuracy: 10.94%
+Epoch 0, Iteration 514/657 
+Train Loss: 9.02 Accuracy: 7.81%
+Epoch 0, Iteration 515/657 
+Train Loss: 9.36 Accuracy: 9.38%
+Epoch 0, Iteration 516/657 
+Train Loss: 9.04 Accuracy: 4.69%
+Epoch 0, Iteration 517/657 
+Train Loss: 9.16 Accuracy: 4.69%
+Epoch 0, Iteration 518/657 
+Train Loss: 9.03 Accuracy: 15.62%
+Epoch 0, Iteration 519/657 
+Train Loss: 9.11 Accuracy: 9.38%
+Epoch 0, Iteration 520/657 
+Train Loss: 8.98 Accuracy: 20.31%
+Epoch 0, Iteration 521/657 
+Train Loss: 9.20 Accuracy: 6.25%
+Epoch 0, Iteration 522/657 
+Train Loss: 9.01 Accuracy: 12.50%
+Epoch 0, Iteration 523/657 
+Train Loss: 9.09 Accuracy: 6.25%
+Epoch 0, Iteration 524/657 
+Train Loss: 9.06 Accuracy: 9.38%
+	Current speed:1.8500473820525896 iterations per second
+Epoch 0, Iteration 525/657 
+Train Loss: 9.27 Accuracy: 14.06%
+Epoch 0, Iteration 526/657 
+Train Loss: 9.02 Accuracy: 12.50%
+Epoch 0, Iteration 527/657 
+Train Loss: 9.06 Accuracy: 9.38%
+Epoch 0, Iteration 528/657 
+Train Loss: 9.02 Accuracy: 14.06%
+Epoch 0, Iteration 529/657 
+Train Loss: 9.04 Accuracy: 10.94%
+Epoch 0, Iteration 530/657 
+Train Loss: 9.12 Accuracy: 10.94%
+Epoch 0, Iteration 531/657 
+Train Loss: 9.05 Accuracy: 15.62%
+Epoch 0, Iteration 532/657 
+Train Loss: 9.16 Accuracy: 4.69%
+Epoch 0, Iteration 533/657 
+Train Loss: 9.15 Accuracy: 10.94%
+Epoch 0, Iteration 534/657 
+Train Loss: 9.06 Accuracy: 7.81%
+Epoch 0, Iteration 535/657 
+Train Loss: 9.08 Accuracy: 7.81%
+Epoch 0, Iteration 536/657 
+Train Loss: 9.05 Accuracy: 4.69%
+Epoch 0, Iteration 537/657 
+Train Loss: 9.07 Accuracy: 9.38%
+Epoch 0, Iteration 538/657 
+Train Loss: 9.00 Accuracy: 15.62%
+Epoch 0, Iteration 539/657 
+Train Loss: 9.03 Accuracy: 14.06%
+Epoch 0, Iteration 540/657 
+Train Loss: 9.01 Accuracy: 4.69%
+Epoch 0, Iteration 541/657 
+Train Loss: 8.98 Accuracy: 12.50%
+Epoch 0, Iteration 542/657 
+Train Loss: 8.99 Accuracy: 14.06%
+Epoch 0, Iteration 543/657 
+Train Loss: 9.00 Accuracy: 10.94%
+Epoch 0, Iteration 544/657 
+Train Loss: 8.97 Accuracy: 10.94%
+Epoch 0, Iteration 545/657 
+Train Loss: 8.97 Accuracy: 20.31%
+Epoch 0, Iteration 546/657 
+Train Loss: 9.05 Accuracy: 14.06%
+Epoch 0, Iteration 547/657 
+Train Loss: 9.04 Accuracy: 3.12%
+Epoch 0, Iteration 548/657 
+Train Loss: 8.92 Accuracy: 17.19%
+Epoch 0, Iteration 549/657 
+Train Loss: 9.03 Accuracy: 4.69%
+	Current speed:1.847686928909026 iterations per second
+Epoch 0, Iteration 550/657 
+Train Loss: 9.33 Accuracy: 6.25%
+Epoch 0, Iteration 551/657 
+Train Loss: 9.16 Accuracy: 4.69%
+Epoch 0, Iteration 552/657 
+Train Loss: 9.08 Accuracy: 9.38%
+Epoch 0, Iteration 553/657 
+Train Loss: 9.10 Accuracy: 7.81%
+Epoch 0, Iteration 554/657 
+Train Loss: 9.03 Accuracy: 12.50%
+Epoch 0, Iteration 555/657 
+Train Loss: 9.03 Accuracy: 14.06%
+Epoch 0, Iteration 556/657 
+Train Loss: 8.94 Accuracy: 14.06%
+Epoch 0, Iteration 557/657 
+Train Loss: 9.11 Accuracy: 17.19%
+Epoch 0, Iteration 558/657 
+Train Loss: 9.03 Accuracy: 10.94%
+Epoch 0, Iteration 559/657 
+Train Loss: 9.16 Accuracy: 6.25%
+Epoch 0, Iteration 560/657 
+Train Loss: 9.15 Accuracy: 6.25%
+Epoch 0, Iteration 561/657 
+Train Loss: 9.08 Accuracy: 7.81%
+Epoch 0, Iteration 562/657 
+Train Loss: 9.05 Accuracy: 10.94%
+Epoch 0, Iteration 563/657 
+Train Loss: 9.04 Accuracy: 7.81%
+Epoch 0, Iteration 564/657 
+Train Loss: 9.02 Accuracy: 15.62%
+Epoch 0, Iteration 565/657 
+Train Loss: 8.98 Accuracy: 10.94%
+Epoch 0, Iteration 566/657 
+Train Loss: 9.01 Accuracy: 4.69%
+Epoch 0, Iteration 567/657 
+Train Loss: 9.05 Accuracy: 10.94%
+Epoch 0, Iteration 568/657 
+Train Loss: 9.05 Accuracy: 6.25%
+Epoch 0, Iteration 569/657 
+Train Loss: 9.03 Accuracy: 10.94%
+Epoch 0, Iteration 570/657 
+Train Loss: 9.04 Accuracy: 7.81%
+Epoch 0, Iteration 571/657 
+Train Loss: 9.00 Accuracy: 7.81%
+Epoch 0, Iteration 572/657 
+Train Loss: 9.11 Accuracy: 9.38%
+Epoch 0, Iteration 573/657 
+Train Loss: 8.99 Accuracy: 12.50%
+Epoch 0, Iteration 574/657 
+Train Loss: 9.10 Accuracy: 6.25%
+	Current speed:1.8456937028753668 iterations per second
+Epoch 0, Iteration 575/657 
+Train Loss: 9.05 Accuracy: 10.94%
+Epoch 0, Iteration 576/657 
+Train Loss: 9.01 Accuracy: 20.31%
+Epoch 0, Iteration 577/657 
+Train Loss: 9.04 Accuracy: 15.62%
+Epoch 0, Iteration 578/657 
+Train Loss: 9.03 Accuracy: 14.06%
+Epoch 0, Iteration 579/657 
+Train Loss: 9.03 Accuracy: 12.50%
+Epoch 0, Iteration 580/657 
+Train Loss: 9.02 Accuracy: 9.38%
+Epoch 0, Iteration 581/657 
+Train Loss: 9.04 Accuracy: 10.94%
+Epoch 0, Iteration 582/657 
+Train Loss: 8.96 Accuracy: 20.31%
+Epoch 0, Iteration 583/657 
+Train Loss: 8.95 Accuracy: 17.19%
+Epoch 0, Iteration 584/657 
+Train Loss: 8.96 Accuracy: 12.50%
+Epoch 0, Iteration 585/657 
+Train Loss: 9.11 Accuracy: 7.81%
+Epoch 0, Iteration 586/657 
+Train Loss: 8.95 Accuracy: 18.75%
+Epoch 0, Iteration 587/657 
+Train Loss: 9.00 Accuracy: 17.19%
+Epoch 0, Iteration 588/657 
+Train Loss: 9.11 Accuracy: 9.38%
+Epoch 0, Iteration 589/657 
+Train Loss: 9.11 Accuracy: 9.38%
+Epoch 0, Iteration 590/657 
+Train Loss: 9.02 Accuracy: 10.94%
+Epoch 0, Iteration 591/657 
+Train Loss: 9.03 Accuracy: 14.06%
+Epoch 0, Iteration 592/657 
+Train Loss: 9.05 Accuracy: 6.25%
+Epoch 0, Iteration 593/657 
+Train Loss: 9.02 Accuracy: 14.06%
+Epoch 0, Iteration 594/657 
+Train Loss: 9.04 Accuracy: 7.81%
+Epoch 0, Iteration 595/657 
+Train Loss: 8.99 Accuracy: 12.50%
+Epoch 0, Iteration 596/657 
+Train Loss: 9.04 Accuracy: 10.94%
+Epoch 0, Iteration 597/657 
+Train Loss: 9.00 Accuracy: 12.50%
+Epoch 0, Iteration 598/657 
+Train Loss: 9.03 Accuracy: 9.38%
+Epoch 0, Iteration 599/657 
+Train Loss: 9.20 Accuracy: 4.69%
+	Current speed:1.8433070684190649 iterations per second
+Epoch 0, Iteration 600/657 
+Train Loss: 9.01 Accuracy: 9.38%
+Epoch 0, Iteration 601/657 
+Train Loss: 9.05 Accuracy: 10.94%
+Epoch 0, Iteration 602/657 
+Train Loss: 9.00 Accuracy: 12.50%
+Epoch 0, Iteration 603/657 
+Train Loss: 9.13 Accuracy: 4.69%
+Epoch 0, Iteration 604/657 
+Train Loss: 9.04 Accuracy: 18.75%
+Epoch 0, Iteration 605/657 
+Train Loss: 9.01 Accuracy: 17.19%
+Epoch 0, Iteration 606/657 
+Train Loss: 9.03 Accuracy: 7.81%
+Epoch 0, Iteration 607/657 
+Train Loss: 9.03 Accuracy: 12.50%
+Epoch 0, Iteration 608/657 
+Train Loss: 9.01 Accuracy: 18.75%
+Epoch 0, Iteration 609/657 
+Train Loss: 8.99 Accuracy: 14.06%
+Epoch 0, Iteration 610/657 
+Train Loss: 8.83 Accuracy: 20.31%
+Epoch 0, Iteration 611/657 
+Train Loss: 9.00 Accuracy: 9.38%
+Epoch 0, Iteration 612/657 
+Train Loss: 9.11 Accuracy: 10.94%
+Epoch 0, Iteration 613/657 
+Train Loss: 9.01 Accuracy: 12.50%
+Epoch 0, Iteration 614/657 
+Train Loss: 9.08 Accuracy: 10.94%
+Epoch 0, Iteration 615/657 
+Train Loss: 9.00 Accuracy: 14.06%
+Epoch 0, Iteration 616/657 
+Train Loss: 8.94 Accuracy: 18.75%
+Epoch 0, Iteration 617/657 
+Train Loss: 9.09 Accuracy: 10.94%
+Epoch 0, Iteration 618/657 
+Train Loss: 9.00 Accuracy: 9.38%
+Epoch 0, Iteration 619/657 
+Train Loss: 9.06 Accuracy: 7.81%
+Epoch 0, Iteration 620/657 
+Train Loss: 9.18 Accuracy: 12.50%
+Epoch 0, Iteration 621/657 
+Train Loss: 9.05 Accuracy: 18.75%
+Epoch 0, Iteration 622/657 
+Train Loss: 9.05 Accuracy: 10.94%
+Epoch 0, Iteration 623/657 
+Train Loss: 9.09 Accuracy: 10.94%
+Epoch 0, Iteration 624/657 
+Train Loss: 9.03 Accuracy: 7.81%
+	Current speed:1.8417780124066272 iterations per second
+Epoch 0, Iteration 625/657 
+Train Loss: 9.11 Accuracy: 7.81%
+Epoch 0, Iteration 626/657 
+Train Loss: 9.15 Accuracy: 6.25%
+Epoch 0, Iteration 627/657 
+Train Loss: 9.07 Accuracy: 7.81%
+Epoch 0, Iteration 628/657 
+Train Loss: 9.06 Accuracy: 9.38%
+Epoch 0, Iteration 629/657 
+Train Loss: 9.05 Accuracy: 4.69%
+Epoch 0, Iteration 630/657 
+Train Loss: 9.05 Accuracy: 7.81%
+Epoch 0, Iteration 631/657 
+Train Loss: 9.00 Accuracy: 15.62%
+Epoch 0, Iteration 632/657 
+Train Loss: 9.06 Accuracy: 10.94%
+Epoch 0, Iteration 633/657 
+Train Loss: 8.99 Accuracy: 9.38%
+Epoch 0, Iteration 634/657 
+Train Loss: 9.04 Accuracy: 7.81%
+Epoch 0, Iteration 635/657 
+Train Loss: 8.97 Accuracy: 14.06%
+Epoch 0, Iteration 636/657 
+Train Loss: 9.05 Accuracy: 7.81%
+Epoch 0, Iteration 637/657 
+Train Loss: 9.00 Accuracy: 15.62%
+Epoch 0, Iteration 638/657 
+Train Loss: 9.02 Accuracy: 14.06%
+Epoch 0, Iteration 639/657 
+Train Loss: 9.05 Accuracy: 6.25%
+Epoch 0, Iteration 640/657 
+Train Loss: 9.07 Accuracy: 7.81%
+Epoch 0, Iteration 641/657 
+Train Loss: 8.95 Accuracy: 14.06%
+Epoch 0, Iteration 642/657 
+Train Loss: 8.94 Accuracy: 14.06%
+Epoch 0, Iteration 643/657 
+Train Loss: 9.22 Accuracy: 15.62%
+Epoch 0, Iteration 644/657 
+Train Loss: 9.05 Accuracy: 7.81%
+Epoch 0, Iteration 645/657 
+Train Loss: 9.04 Accuracy: 10.94%
+Epoch 0, Iteration 646/657 
+Train Loss: 9.12 Accuracy: 6.25%
+Epoch 0, Iteration 647/657 
+Train Loss: 9.05 Accuracy: 9.38%
+Epoch 0, Iteration 648/657 
+Train Loss: 9.01 Accuracy: 9.38%
+Epoch 0, Iteration 649/657 
+Train Loss: 9.01 Accuracy: 12.50%
+	Current speed:1.840681125776178 iterations per second
+Epoch 0, Iteration 650/657 
+Train Loss: 8.95 Accuracy: 9.38%
+Epoch 0, Iteration 651/657 
+Train Loss: 9.04 Accuracy: 7.81%
+Epoch 0, Iteration 652/657 
+Train Loss: 9.05 Accuracy: 10.94%
+Epoch 0, Iteration 653/657 
+Train Loss: 9.03 Accuracy: 10.94%
+Epoch 0, Iteration 654/657 
+Train Loss: 9.05 Accuracy: 7.81%
+Epoch 0, Iteration 655/657 
+Train Loss: 9.03 Accuracy: 10.94%
+Epoch 0, Iteration 656/657 
+Train Loss: 8.98 Accuracy: 12.50%
+Training time (s):  357.0195462703705
+Time spent converting dataset (s / %):  47.6222140789032 13.338825444262637
+Time spent in forward pass (s / %): 197.26210689544678 55.25246697447215
+Time spent in learning (s / %) 109.79355263710022 30.752812775677466
+Time spent loading data (s / %): 2.341672658920288 0.6558948055877428
+Total correctly classified test set images: 1787/18000
+Test Set Accuracy: 9.93%
+[('conv', {'num-filters': ['113'], 'filter-shape': ['4'], 'stride': ['1'], 'padding': ['valid'], 'bias': ['True']}), ('no-op', {}), ('act', {'beta': ['0.5790415377626313'], 'beta-trainable': ['True'], 'threshold': ['0.8935262397202577'], 'threshold-trainable': ['False'], 'surr-grad': ['fast_sigmoid'], 'reset': ['zero']}), ('conv', {'num-filters': ['88'], 'filter-shape': ['3'], 'stride': ['1'], 'padding': ['same'], 'bias': ['False']}), ('pool-avg', {'kernel-size': ['3']}), ('act', {'beta': ['0.14046790424207745'], 'beta-trainable': ['True'], 'threshold': ['1.438674866779509'], 'threshold-trainable': ['False'], 'surr-grad': ['fast_sigmoid'], 'reset': ['zero']}), ('dropout', {'rate': ['0.05800195289188159']}), ('fc', {'num-units': ['10'], 'bias': ['True']}), ('act', {'beta': ['0.22888226833214942'], 'beta-trainable': ['True'], 'threshold': ['1.006609589703333'], 'threshold-trainable': ['True'], 'surr-grad': ['atan'], 'reset': ['zero']})]
+Sequential(
+  (0): Conv2d(1, 113, kernel_size=(4, 4), stride=(1, 1), padding=valid)
+  (1): Leaky()
+  (2): Conv2d(113, 88, kernel_size=(3, 3), stride=(1, 1), padding=same, bias=False)
+  (3): AvgPool2d(kernel_size=3, stride=3, padding=0)
+  (4): Leaky()
+  (5): Dropout(p=0.05800195289188159, inplace=False)
+  (6): Flatten(start_dim=1, end_dim=-1)
+  (7): Linear(in_features=5632, out_features=10, bias=True)
+  (8): Leaky()
+)
+	Current speed:0.0 iterations per second
+Traceback (most recent call last):
+  File "/home/branquinho/snn/fast_denser/utils.py", line 403, in evaluate
+    acc_hist, loss_hist, time_stats = train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps)
+  File "/home/branquinho/snn/fast_denser/utils.py", line 539, in train_network
+    spk_rec = forward_pass(model, data)
+  File "/home/branquinho/snn/fast_denser/utils.py", line 471, in forward_pass
+    spk_out, mem_out = net(data[step])
+  File "/home/branquinho/.local/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/branquinho/.local/lib/python3.7/site-packages/torch/nn/modules/container.py", line 204, in forward
+    input = module(input)
+  File "/home/branquinho/.local/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/branquinho/.local/lib/python3.7/site-packages/snntorch/_neurons/leaky.py", line 186, in forward
+    self.reset = self.mem_reset(self.mem)
+  File "/home/branquinho/.local/lib/python3.7/site-packages/snntorch/_neurons/neurons.py", line 102, in mem_reset
+    reset = self.spike_grad(mem_shift).clone().detach()
+  File "/home/branquinho/.local/lib/python3.7/site-packages/snntorch/surrogate.py", line 150, in inner
+    return FastSigmoid.apply(x, slope)
+  File "/home/branquinho/.local/lib/python3.7/site-packages/snntorch/surrogate.py", line 134, in forward
+    out = (input_ > 0).float()
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 18.00 MiB (GPU 0; 11.78 GiB total capacity; 6.63 GiB already allocated; 17.75 MiB free; 6.64 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+[0] Best fitness of generation 0: 0.669778
+[0] Best overall fitness: 0.669778
+[0] Performing generation: 1
+[('dropout', {'rate': ['0.4758588514133684']}), ('dropout', {'rate': ['0.21675721744770188']}), ('fc', {'num-units': ['220'], 'bias': ['False']}), ('act', {'beta': ['0.658815986908692'], 'beta-trainable': ['True'], 'threshold': ['0.729705216805681'], 'threshold-trainable': ['True'], 'surr-grad': ['atan'], 'reset': ['subtract']}), ('fc', {'num-units': ['10'], 'bias': ['True']}), ('act', {'beta': ['0.9633157837008631'], 'beta-trainable': ['True'], 'threshold': ['1.456100646116651'], 'threshold-trainable': ['False'], 'surr-grad': ['fast_sigmoid'], 'reset': ['subtract']})]
+Sequential(
+  (0): Dropout(p=0.4758588514133684, inplace=False)
+  (1): Dropout(p=0.21675721744770188, inplace=False)
+  (2): Flatten(start_dim=1, end_dim=-1)
+  (3): Linear(in_features=784, out_features=220, bias=False)
+  (4): Leaky()
+  (5): Linear(in_features=220, out_features=10, bias=True)
+  (6): Leaky()
+)
+	Current speed:0.0 iterations per second
+Epoch 0, Iteration 0/657 
+Train Loss: 9.77 Accuracy: 12.50%
+Epoch 0, Iteration 1/657 
+Train Loss: 39.75 Accuracy: 10.94%
+Epoch 0, Iteration 2/657 
+Train Loss: 24.84 Accuracy: 12.50%
+Epoch 0, Iteration 3/657 
+Train Loss: 25.25 Accuracy: 12.50%
+Epoch 0, Iteration 4/657 
+Train Loss: 19.44 Accuracy: 10.94%
+Epoch 0, Iteration 5/657 
+Train Loss: 17.42 Accuracy: 9.38%
+Epoch 0, Iteration 6/657 
+Train Loss: 14.90 Accuracy: 6.25%
+Epoch 0, Iteration 7/657 
+Train Loss: 11.23 Accuracy: 6.25%
+Epoch 0, Iteration 8/657 
+Train Loss: 9.51 Accuracy: 31.25%
+Epoch 0, Iteration 9/657 
+Train Loss: 10.00 Accuracy: 17.19%
+Epoch 0, Iteration 10/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 11/657 
+Train Loss: 10.00 Accuracy: 10.94%
+Epoch 0, Iteration 12/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 13/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 14/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 15/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 16/657 
+Train Loss: 10.00 Accuracy: 6.25%
+Epoch 0, Iteration 17/657 
+Train Loss: 10.00 Accuracy: 7.81%
+Epoch 0, Iteration 18/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 19/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 20/657 
+Train Loss: 10.00 Accuracy: 17.19%
+Epoch 0, Iteration 21/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 22/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 23/657 
+Train Loss: 10.00 Accuracy: 14.06%
+Epoch 0, Iteration 24/657 
+Train Loss: 10.00 Accuracy: 15.62%
+	Current speed:3.4930946008699957 iterations per second
+Epoch 0, Iteration 25/657 
+Train Loss: 10.00 Accuracy: 15.62%
+Epoch 0, Iteration 26/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 27/657 
+Train Loss: 10.00 Accuracy: 9.38%
+Epoch 0, Iteration 28/657 
+Train Loss: 10.00 Accuracy: 12.50%
+Epoch 0, Iteration 29/657 
+Train Loss: 10.00 Accuracy: 4.69%
+Epoch 0, Iteration 30/657 
+Train Loss: 9.97 Accuracy: 12.50%
+Epoch 0, Iteration 31/657 
+Train Loss: 9.88 Accuracy: 9.38%
+Epoch 0, Iteration 32/657 
+Train Loss: 9.66 Accuracy: 10.94%
+Epoch 0, Iteration 33/657 
+Train Loss: 9.52 Accuracy: 12.50%
+Epoch 0, Iteration 34/657 
+Train Loss: 9.65 Accuracy: 12.50%
+Epoch 0, Iteration 35/657 
+Train Loss: 9.65 Accuracy: 10.94%
+Epoch 0, Iteration 36/657 
+Train Loss: 9.35 Accuracy: 14.06%
+Epoch 0, Iteration 37/657 
+Train Loss: 9.62 Accuracy: 7.81%
+Epoch 0, Iteration 38/657 
+Train Loss: 9.52 Accuracy: 10.94%
+Epoch 0, Iteration 39/657 
+Train Loss: 9.37 Accuracy: 10.94%
+Epoch 0, Iteration 40/657 
+Train Loss: 9.52 Accuracy: 7.81%
+Epoch 0, Iteration 41/657 
+Train Loss: 9.41 Accuracy: 9.38%
+Epoch 0, Iteration 42/657 
+Train Loss: 9.05 Accuracy: 12.50%
+Epoch 0, Iteration 43/657 
+Train Loss: 9.74 Accuracy: 4.69%
+Epoch 0, Iteration 44/657 
+Train Loss: 9.24 Accuracy: 10.94%
+Epoch 0, Iteration 45/657 
+Train Loss: 9.20 Accuracy: 12.50%
+Epoch 0, Iteration 46/657 
+Train Loss: 9.43 Accuracy: 7.81%
+Epoch 0, Iteration 47/657 
+Train Loss: 10.15 Accuracy: 1.56%
+Epoch 0, Iteration 48/657 
+Train Loss: 9.18 Accuracy: 10.94%
+Epoch 0, Iteration 49/657 
+Train Loss: 9.12 Accuracy: 9.38%
+	Current speed:3.6061221153200007 iterations per second
+Epoch 0, Iteration 50/657 
+Train Loss: 9.27 Accuracy: 9.38%
+Epoch 0, Iteration 51/657 
+Train Loss: 9.41 Accuracy: 7.81%
+Epoch 0, Iteration 52/657 
+Train Loss: 9.67 Accuracy: 6.25%
+Epoch 0, Iteration 53/657 
+Train Loss: 9.49 Accuracy: 7.81%
+Epoch 0, Iteration 54/657 
+Train Loss: 9.19 Accuracy: 9.38%
+Epoch 0, Iteration 55/657 
+Train Loss: 9.46 Accuracy: 9.38%
+Epoch 0, Iteration 56/657 
+Train Loss: 9.41 Accuracy: 6.25%
+Epoch 0, Iteration 57/657 
+Train Loss: 8.85 Accuracy: 12.50%
+Epoch 0, Iteration 58/657 
+Train Loss: 9.35 Accuracy: 7.81%
+Epoch 0, Iteration 59/657 
+Train Loss: 9.13 Accuracy: 10.94%
+Epoch 0, Iteration 60/657 
+Train Loss: 9.12 Accuracy: 9.38%
+Epoch 0, Iteration 61/657 
+Train Loss: 8.80 Accuracy: 12.50%
+Epoch 0, Iteration 62/657 
+Train Loss: 9.29 Accuracy: 7.81%
+Epoch 0, Iteration 63/657 
+Train Loss: 8.99 Accuracy: 10.94%
+Epoch 0, Iteration 64/657 
+Train Loss: 8.98 Accuracy: 10.94%
+Epoch 0, Iteration 65/657 
+Train Loss: 9.29 Accuracy: 7.81%
+Epoch 0, Iteration 66/657 
+Train Loss: 9.28 Accuracy: 14.06%
+Epoch 0, Iteration 67/657 
+Train Loss: 8.81 Accuracy: 20.31%
+Epoch 0, Iteration 68/657 
+Train Loss: 8.79 Accuracy: 20.31%
+Epoch 0, Iteration 69/657 
+Train Loss: 9.63 Accuracy: 10.94%
+Epoch 0, Iteration 70/657 
+Train Loss: 8.32 Accuracy: 25.00%
+Epoch 0, Iteration 71/657 
+Train Loss: 8.37 Accuracy: 26.56%
+Epoch 0, Iteration 72/657 
+Train Loss: 9.25 Accuracy: 17.19%
+Epoch 0, Iteration 73/657 
+Train Loss: 8.89 Accuracy: 18.75%
+Epoch 0, Iteration 74/657 
+Train Loss: 8.35 Accuracy: 26.56%
+	Current speed:3.6554060548031324 iterations per second
+Epoch 0, Iteration 75/657 
+Train Loss: 8.75 Accuracy: 18.75%
+Epoch 0, Iteration 76/657 
+Train Loss: 9.23 Accuracy: 14.06%
+Epoch 0, Iteration 77/657 
+Train Loss: 8.92 Accuracy: 15.62%
+Epoch 0, Iteration 78/657 
+Train Loss: 8.49 Accuracy: 20.31%
+Epoch 0, Iteration 79/657 
+Train Loss: 8.03 Accuracy: 29.69%
+Epoch 0, Iteration 80/657 
+Train Loss: 8.42 Accuracy: 23.44%
+Epoch 0, Iteration 81/657 
+Train Loss: 9.01 Accuracy: 14.06%
+Epoch 0, Iteration 82/657 
+Train Loss: 8.86 Accuracy: 14.06%
+Epoch 0, Iteration 83/657 
+Train Loss: 8.27 Accuracy: 20.31%
+Epoch 0, Iteration 84/657 
+Train Loss: 8.95 Accuracy: 10.94%
+Epoch 0, Iteration 85/657 
+Train Loss: 8.09 Accuracy: 25.00%
+Epoch 0, Iteration 86/657 
+Train Loss: 8.67 Accuracy: 17.19%
+Epoch 0, Iteration 87/657 
+Train Loss: 8.24 Accuracy: 26.56%
+Epoch 0, Iteration 88/657 
+Train Loss: 8.32 Accuracy: 20.31%
+Epoch 0, Iteration 89/657 
+Train Loss: 8.36 Accuracy: 20.31%
+Epoch 0, Iteration 90/657 
+Train Loss: 8.67 Accuracy: 15.62%
+Epoch 0, Iteration 91/657 
+Train Loss: 7.58 Accuracy: 26.56%
+Epoch 0, Iteration 92/657 
+Train Loss: 8.76 Accuracy: 17.19%
+Epoch 0, Iteration 93/657 
+Train Loss: 8.41 Accuracy: 18.75%
+Epoch 0, Iteration 94/657 
+Train Loss: 8.09 Accuracy: 23.44%
+Epoch 0, Iteration 95/657 
+Train Loss: 7.53 Accuracy: 28.12%
+Epoch 0, Iteration 96/657 
+Train Loss: 8.64 Accuracy: 17.19%
+Epoch 0, Iteration 97/657 
+Train Loss: 7.86 Accuracy: 28.12%
+Epoch 0, Iteration 98/657 
+Train Loss: 7.39 Accuracy: 34.38%
+Epoch 0, Iteration 99/657 
+Train Loss: 8.73 Accuracy: 18.75%
+	Current speed:3.6812514463048522 iterations per second
+Epoch 0, Iteration 100/657 
+Train Loss: 8.21 Accuracy: 23.44%
+Epoch 0, Iteration 101/657 
+Train Loss: 8.32 Accuracy: 23.44%
+Epoch 0, Iteration 102/657 
+Train Loss: 8.12 Accuracy: 25.00%
+Epoch 0, Iteration 103/657 
+Train Loss: 7.95 Accuracy: 28.12%
+Epoch 0, Iteration 104/657 
+Train Loss: 7.84 Accuracy: 28.12%
+Epoch 0, Iteration 105/657 
+Train Loss: 8.04 Accuracy: 26.56%
+Epoch 0, Iteration 106/657 
+Train Loss: 8.25 Accuracy: 23.44%
+Epoch 0, Iteration 107/657 
+Train Loss: 7.46 Accuracy: 31.25%
+Epoch 0, Iteration 108/657 
+Train Loss: 8.23 Accuracy: 20.31%
+Epoch 0, Iteration 109/657 
+Train Loss: 7.78 Accuracy: 28.12%
+Epoch 0, Iteration 110/657 
+Train Loss: 8.72 Accuracy: 17.19%
+Epoch 0, Iteration 111/657 
+Train Loss: 8.37 Accuracy: 21.88%
+Epoch 0, Iteration 112/657 
+Train Loss: 7.75 Accuracy: 29.69%
+Epoch 0, Iteration 113/657 
+Train Loss: 7.99 Accuracy: 26.56%
+Epoch 0, Iteration 114/657 
+Train Loss: 7.65 Accuracy: 28.12%
+Epoch 0, Iteration 115/657 
+Train Loss: 7.31 Accuracy: 31.25%
+Epoch 0, Iteration 116/657 
+Train Loss: 9.09 Accuracy: 12.50%
+Epoch 0, Iteration 117/657 
+Train Loss: 7.50 Accuracy: 28.12%
+Epoch 0, Iteration 118/657 
+Train Loss: 8.07 Accuracy: 21.88%
+Epoch 0, Iteration 119/657 
+Train Loss: 8.05 Accuracy: 25.00%
+Epoch 0, Iteration 120/657 
+Train Loss: 7.17 Accuracy: 34.38%
+Epoch 0, Iteration 121/657 
+Train Loss: 6.73 Accuracy: 35.94%
+Epoch 0, Iteration 122/657 
+Train Loss: 8.24 Accuracy: 23.44%
+Epoch 0, Iteration 123/657 
+Train Loss: 8.02 Accuracy: 23.44%
+Epoch 0, Iteration 124/657 
+Train Loss: 7.78 Accuracy: 23.44%
+	Current speed:3.6859180345411255 iterations per second
+Epoch 0, Iteration 125/657 
+Train Loss: 8.39 Accuracy: 17.19%
+Epoch 0, Iteration 126/657 
+Train Loss: 7.38 Accuracy: 29.69%
+Epoch 0, Iteration 127/657 
+Train Loss: 7.89 Accuracy: 23.44%
+Epoch 0, Iteration 128/657 
+Train Loss: 8.80 Accuracy: 15.62%
+Epoch 0, Iteration 129/657 
+Train Loss: 7.18 Accuracy: 31.25%
+Epoch 0, Iteration 130/657 
+Train Loss: 7.74 Accuracy: 23.44%
+Epoch 0, Iteration 131/657 
+Train Loss: 6.06 Accuracy: 42.19%
+Epoch 0, Iteration 132/657 
+Train Loss: 8.26 Accuracy: 23.44%
+Epoch 0, Iteration 133/657 
+Train Loss: 7.80 Accuracy: 25.00%
+Epoch 0, Iteration 134/657 
+Train Loss: 7.73 Accuracy: 26.56%
+Epoch 0, Iteration 135/657 
+Train Loss: 7.70 Accuracy: 26.56%
+Epoch 0, Iteration 136/657 
+Train Loss: 7.22 Accuracy: 31.25%
+Epoch 0, Iteration 137/657 
+Train Loss: 7.26 Accuracy: 31.25%
+Epoch 0, Iteration 138/657 
+Train Loss: 7.90 Accuracy: 25.00%
+Epoch 0, Iteration 139/657 
+Train Loss: 7.91 Accuracy: 21.88%
+Epoch 0, Iteration 140/657 
+Train Loss: 6.95 Accuracy: 37.50%
+Epoch 0, Iteration 141/657 
+Train Loss: 8.26 Accuracy: 18.75%
+Epoch 0, Iteration 142/657 
+Train Loss: 7.27 Accuracy: 32.81%
+Epoch 0, Iteration 143/657 
+Train Loss: 7.90 Accuracy: 21.88%
+Epoch 0, Iteration 144/657 
+Train Loss: 7.97 Accuracy: 23.44%
+Epoch 0, Iteration 145/657 
+Train Loss: 7.23 Accuracy: 31.25%
+Epoch 0, Iteration 146/657 
+Train Loss: 7.43 Accuracy: 31.25%
+Epoch 0, Iteration 147/657 
+Train Loss: 7.74 Accuracy: 28.12%
+Epoch 0, Iteration 148/657 
+Train Loss: 8.17 Accuracy: 23.44%
+Epoch 0, Iteration 149/657 
+Train Loss: 6.87 Accuracy: 35.94%
+	Current speed:3.6966323505461625 iterations per second
+Epoch 0, Iteration 150/657 
+Train Loss: 7.87 Accuracy: 23.44%
+Epoch 0, Iteration 151/657 
+Train Loss: 6.62 Accuracy: 37.50%
+Epoch 0, Iteration 152/657 
+Train Loss: 7.41 Accuracy: 29.69%
+Epoch 0, Iteration 153/657 
+Train Loss: 7.62 Accuracy: 28.12%
+Epoch 0, Iteration 154/657 
+Train Loss: 7.61 Accuracy: 26.56%
+Epoch 0, Iteration 155/657 
+Train Loss: 7.57 Accuracy: 26.56%
+Epoch 0, Iteration 156/657 
+Train Loss: 8.35 Accuracy: 18.75%
+Epoch 0, Iteration 157/657 
+Train Loss: 7.54 Accuracy: 29.69%
+Epoch 0, Iteration 158/657 
+Train Loss: 6.99 Accuracy: 32.81%
+Epoch 0, Iteration 159/657 
+Train Loss: 7.86 Accuracy: 25.00%
+Epoch 0, Iteration 160/657 
+Train Loss: 7.61 Accuracy: 28.12%
+Epoch 0, Iteration 161/657 
+Train Loss: 7.39 Accuracy: 26.56%
+Epoch 0, Iteration 162/657 
+Train Loss: 8.49 Accuracy: 17.19%
+Epoch 0, Iteration 163/657 
+Train Loss: 6.96 Accuracy: 37.50%
+Epoch 0, Iteration 164/657 
+Train Loss: 6.94 Accuracy: 31.25%
+Epoch 0, Iteration 165/657 
+Train Loss: 7.72 Accuracy: 29.69%
+Epoch 0, Iteration 166/657 
+Train Loss: 6.97 Accuracy: 31.25%
+Epoch 0, Iteration 167/657 
+Train Loss: 7.15 Accuracy: 31.25%
+Epoch 0, Iteration 168/657 
+Train Loss: 6.73 Accuracy: 34.38%
+Epoch 0, Iteration 169/657 
+Train Loss: 7.50 Accuracy: 26.56%
+Epoch 0, Iteration 170/657 
+Train Loss: 6.89 Accuracy: 32.81%
+Epoch 0, Iteration 171/657 
+Train Loss: 8.27 Accuracy: 20.31%
+Epoch 0, Iteration 172/657 
+Train Loss: 7.21 Accuracy: 32.81%
+Epoch 0, Iteration 173/657 
+Train Loss: 8.24 Accuracy: 21.88%
+Epoch 0, Iteration 174/657 
+Train Loss: 7.99 Accuracy: 21.88%
+	Current speed:3.7081216218982482 iterations per second
+Epoch 0, Iteration 175/657 
+Train Loss: 7.29 Accuracy: 29.69%
+Epoch 0, Iteration 176/657 
+Train Loss: 7.57 Accuracy: 29.69%
+Epoch 0, Iteration 177/657 
+Train Loss: 7.13 Accuracy: 32.81%
+Epoch 0, Iteration 178/657 
+Train Loss: 7.49 Accuracy: 29.69%
+Epoch 0, Iteration 179/657 
+Train Loss: 6.34 Accuracy: 39.06%
+Epoch 0, Iteration 180/657 
+Train Loss: 7.31 Accuracy: 28.12%
+Epoch 0, Iteration 181/657 
+Train Loss: 6.99 Accuracy: 31.25%
+Epoch 0, Iteration 182/657 
+Train Loss: 6.06 Accuracy: 42.19%
+Epoch 0, Iteration 183/657 
+Train Loss: 7.69 Accuracy: 26.56%
+Epoch 0, Iteration 184/657 
+Train Loss: 8.02 Accuracy: 20.31%
+Epoch 0, Iteration 185/657 
+Train Loss: 7.47 Accuracy: 28.12%
+Epoch 0, Iteration 186/657 
+Train Loss: 7.42 Accuracy: 28.12%
+Epoch 0, Iteration 187/657 
+Train Loss: 7.18 Accuracy: 29.69%
+Epoch 0, Iteration 188/657 
+Train Loss: 7.56 Accuracy: 26.56%
+Epoch 0, Iteration 189/657 
+Train Loss: 8.15 Accuracy: 20.31%
+Epoch 0, Iteration 190/657 
+Train Loss: 7.29 Accuracy: 26.56%
+Epoch 0, Iteration 191/657 
+Train Loss: 7.28 Accuracy: 28.12%
+Epoch 0, Iteration 192/657 
+Train Loss: 6.08 Accuracy: 42.19%
+Epoch 0, Iteration 193/657 
+Train Loss: 7.97 Accuracy: 23.44%
+Epoch 0, Iteration 194/657 
+Train Loss: 7.33 Accuracy: 28.12%
+Epoch 0, Iteration 195/657 
+Train Loss: 8.03 Accuracy: 21.88%
+Epoch 0, Iteration 196/657 
+Train Loss: 8.65 Accuracy: 15.62%
+Epoch 0, Iteration 197/657 
+Train Loss: 7.60 Accuracy: 26.56%
+Epoch 0, Iteration 198/657 
+Train Loss: 6.88 Accuracy: 34.38%
+Epoch 0, Iteration 199/657 
+Train Loss: 7.18 Accuracy: 31.25%
+	Current speed:3.709710327116838 iterations per second
+Epoch 0, Iteration 200/657 
+Train Loss: 7.28 Accuracy: 31.25%
+Epoch 0, Iteration 201/657 
+Train Loss: 7.72 Accuracy: 26.56%
+Epoch 0, Iteration 202/657 
+Train Loss: 7.15 Accuracy: 29.69%
+Epoch 0, Iteration 203/657 
+Train Loss: 7.97 Accuracy: 21.88%
+Epoch 0, Iteration 204/657 
+Train Loss: 7.18 Accuracy: 29.69%
+Epoch 0, Iteration 205/657 
+Train Loss: 6.75 Accuracy: 35.94%
+Epoch 0, Iteration 206/657 
+Train Loss: 6.76 Accuracy: 34.38%
+Epoch 0, Iteration 207/657 
+Train Loss: 6.99 Accuracy: 32.81%
+Epoch 0, Iteration 208/657 
+Train Loss: 7.18 Accuracy: 29.69%
+Epoch 0, Iteration 209/657 
+Train Loss: 8.09 Accuracy: 21.88%
+Epoch 0, Iteration 210/657 
+Train Loss: 8.41 Accuracy: 18.75%
+Epoch 0, Iteration 211/657 
+Train Loss: 7.55 Accuracy: 25.00%
+Epoch 0, Iteration 212/657 
+Train Loss: 8.20 Accuracy: 18.75%
+Epoch 0, Iteration 213/657 
+Train Loss: 7.78 Accuracy: 25.00%
+Epoch 0, Iteration 214/657 
+Train Loss: 7.63 Accuracy: 25.00%
+Epoch 0, Iteration 215/657 
+Train Loss: 6.88 Accuracy: 34.38%
+Epoch 0, Iteration 216/657 
+Train Loss: 7.32 Accuracy: 29.69%
+Epoch 0, Iteration 217/657 
+Train Loss: 7.51 Accuracy: 25.00%
+Epoch 0, Iteration 218/657 
+Train Loss: 7.98 Accuracy: 23.44%
+Epoch 0, Iteration 219/657 
+Train Loss: 7.56 Accuracy: 26.56%
+Epoch 0, Iteration 220/657 
+Train Loss: 7.62 Accuracy: 26.56%
+Epoch 0, Iteration 221/657 
+Train Loss: 8.34 Accuracy: 20.31%
+Epoch 0, Iteration 222/657 
+Train Loss: 7.73 Accuracy: 25.00%
+Epoch 0, Iteration 223/657 
+Train Loss: 7.62 Accuracy: 26.56%
+Epoch 0, Iteration 224/657 
+Train Loss: 7.17 Accuracy: 31.25%
+	Current speed:3.712230219902456 iterations per second
+Epoch 0, Iteration 225/657 
+Train Loss: 6.04 Accuracy: 40.62%
+Epoch 0, Iteration 226/657 
+Train Loss: 7.30 Accuracy: 31.25%
+Epoch 0, Iteration 227/657 
+Train Loss: 7.48 Accuracy: 26.56%
+Epoch 0, Iteration 228/657 
+Train Loss: 7.83 Accuracy: 25.00%
+Epoch 0, Iteration 229/657 
+Train Loss: 7.09 Accuracy: 31.25%
+Epoch 0, Iteration 230/657 
+Train Loss: 7.35 Accuracy: 29.69%
+Epoch 0, Iteration 231/657 
+Train Loss: 7.55 Accuracy: 28.12%
+Epoch 0, Iteration 232/657 
+Train Loss: 7.72 Accuracy: 23.44%
+Epoch 0, Iteration 233/657 
+Train Loss: 8.06 Accuracy: 21.88%
+Epoch 0, Iteration 234/657 
+Train Loss: 7.51 Accuracy: 28.12%
+Epoch 0, Iteration 235/657 
+Train Loss: 6.06 Accuracy: 40.62%
+Epoch 0, Iteration 236/657 
+Train Loss: 7.62 Accuracy: 25.00%
+Epoch 0, Iteration 237/657 
+Train Loss: 6.88 Accuracy: 35.94%
+Epoch 0, Iteration 238/657 
+Train Loss: 7.48 Accuracy: 28.12%
+Epoch 0, Iteration 239/657 
+Train Loss: 7.06 Accuracy: 31.25%
+Epoch 0, Iteration 240/657 
+Train Loss: 7.80 Accuracy: 23.44%
+Epoch 0, Iteration 241/657 
+Train Loss: 7.40 Accuracy: 28.12%
+Epoch 0, Iteration 242/657 
+Train Loss: 6.98 Accuracy: 31.25%
+Epoch 0, Iteration 243/657 
+Train Loss: 7.01 Accuracy: 31.25%
+Epoch 0, Iteration 244/657 
+Train Loss: 7.58 Accuracy: 28.12%
+Epoch 0, Iteration 245/657 
+Train Loss: 7.46 Accuracy: 29.69%
+Epoch 0, Iteration 246/657 
+Train Loss: 7.04 Accuracy: 32.81%
+Epoch 0, Iteration 247/657 
+Train Loss: 7.18 Accuracy: 29.69%
+Epoch 0, Iteration 248/657 
+Train Loss: 7.16 Accuracy: 29.69%
+Epoch 0, Iteration 249/657 
+Train Loss: 7.47 Accuracy: 26.56%
+	Current speed:3.7186390330684547 iterations per second
+Epoch 0, Iteration 250/657 
+Train Loss: 6.50 Accuracy: 35.94%
+Epoch 0, Iteration 251/657 
+Train Loss: 6.38 Accuracy: 37.50%
+Epoch 0, Iteration 252/657 
+Train Loss: 6.79 Accuracy: 34.38%
+Epoch 0, Iteration 253/657 
+Train Loss: 8.12 Accuracy: 21.88%
+Epoch 0, Iteration 254/657 
+Train Loss: 8.71 Accuracy: 15.62%
+Epoch 0, Iteration 255/657 
+Train Loss: 7.82 Accuracy: 23.44%
+Epoch 0, Iteration 256/657 
+Train Loss: 6.65 Accuracy: 35.94%
+Epoch 0, Iteration 257/657 
+Train Loss: 7.12 Accuracy: 31.25%
+Epoch 0, Iteration 258/657 
+Train Loss: 7.34 Accuracy: 28.12%
+Epoch 0, Iteration 259/657 
+Train Loss: 7.06 Accuracy: 32.81%
+Epoch 0, Iteration 260/657 
+Train Loss: 7.92 Accuracy: 21.88%
+Epoch 0, Iteration 261/657 
+Train Loss: 7.87 Accuracy: 23.44%
+Epoch 0, Iteration 262/657 
+Train Loss: 7.46 Accuracy: 26.56%
+Epoch 0, Iteration 263/657 
+Train Loss: 7.63 Accuracy: 26.56%
+Epoch 0, Iteration 264/657 
+Train Loss: 7.80 Accuracy: 26.56%
+Epoch 0, Iteration 265/657 
+Train Loss: 7.47 Accuracy: 28.12%
+Epoch 0, Iteration 266/657 
+Train Loss: 7.17 Accuracy: 29.69%
+Epoch 0, Iteration 267/657 
+Train Loss: 6.84 Accuracy: 34.38%
+Epoch 0, Iteration 268/657 
+Train Loss: 7.20 Accuracy: 31.25%
+Epoch 0, Iteration 269/657 
+Train Loss: 9.11 Accuracy: 10.94%
+Epoch 0, Iteration 270/657 
+Train Loss: 7.85 Accuracy: 23.44%
+Epoch 0, Iteration 271/657 
+Train Loss: 7.82 Accuracy: 23.44%
+Epoch 0, Iteration 272/657 
+Train Loss: 6.70 Accuracy: 35.94%
+Epoch 0, Iteration 273/657 
+Train Loss: 6.70 Accuracy: 34.38%
+Epoch 0, Iteration 274/657 
+Train Loss: 7.97 Accuracy: 21.88%
+	Current speed:3.721539621589942 iterations per second
+Epoch 0, Iteration 275/657 
+Train Loss: 7.31 Accuracy: 29.69%
+Epoch 0, Iteration 276/657 
+Train Loss: 7.47 Accuracy: 26.56%
+Epoch 0, Iteration 277/657 
+Train Loss: 8.19 Accuracy: 20.31%
+Epoch 0, Iteration 278/657 
+Train Loss: 6.87 Accuracy: 32.81%
+Epoch 0, Iteration 279/657 
+Train Loss: 7.90 Accuracy: 25.00%
+Epoch 0, Iteration 280/657 
+Train Loss: 6.93 Accuracy: 32.81%
+Epoch 0, Iteration 281/657 
+Train Loss: 8.09 Accuracy: 20.31%
+Epoch 0, Iteration 282/657 
+Train Loss: 7.33 Accuracy: 29.69%
+Epoch 0, Iteration 283/657 
+Train Loss: 7.04 Accuracy: 31.25%
+Epoch 0, Iteration 284/657 
+Train Loss: 7.83 Accuracy: 25.00%
+Epoch 0, Iteration 285/657 
+Train Loss: 6.84 Accuracy: 35.94%
+Epoch 0, Iteration 286/657 
+Train Loss: 6.16 Accuracy: 39.06%
+Epoch 0, Iteration 287/657 
+Train Loss: 6.90 Accuracy: 32.81%
+Epoch 0, Iteration 288/657 
+Train Loss: 7.55 Accuracy: 28.12%
+Epoch 0, Iteration 289/657 
+Train Loss: 6.92 Accuracy: 32.81%
+Epoch 0, Iteration 290/657 
+Train Loss: 7.44 Accuracy: 28.12%
+Epoch 0, Iteration 291/657 
+Train Loss: 7.05 Accuracy: 32.81%
+Epoch 0, Iteration 292/657 
+Train Loss: 7.71 Accuracy: 26.56%
+Epoch 0, Iteration 293/657 
+Train Loss: 7.84 Accuracy: 25.00%
+Epoch 0, Iteration 294/657 
+Train Loss: 7.45 Accuracy: 26.56%
+Epoch 0, Iteration 295/657 
+Train Loss: 7.26 Accuracy: 29.69%
+Epoch 0, Iteration 296/657 
+Train Loss: 6.12 Accuracy: 40.62%
+Epoch 0, Iteration 297/657 
+Train Loss: 7.17 Accuracy: 32.81%
+Epoch 0, Iteration 298/657 
+Train Loss: 6.75 Accuracy: 34.38%
+Epoch 0, Iteration 299/657 
+Train Loss: 6.44 Accuracy: 37.50%
+	Current speed:3.724683280488471 iterations per second
+Epoch 0, Iteration 300/657 
+Train Loss: 5.79 Accuracy: 43.75%
+Epoch 0, Iteration 301/657 
+Train Loss: 8.54 Accuracy: 15.62%
+Epoch 0, Iteration 302/657 
+Train Loss: 7.57 Accuracy: 26.56%
+Epoch 0, Iteration 303/657 
+Train Loss: 7.03 Accuracy: 34.38%
+Epoch 0, Iteration 304/657 
+Train Loss: 6.47 Accuracy: 35.94%
+Epoch 0, Iteration 305/657 
+Train Loss: 7.06 Accuracy: 31.25%
+Epoch 0, Iteration 306/657 
+Train Loss: 7.74 Accuracy: 25.00%
+Epoch 0, Iteration 307/657 
+Train Loss: 7.17 Accuracy: 31.25%
+Epoch 0, Iteration 308/657 
+Train Loss: 8.08 Accuracy: 21.88%
+Epoch 0, Iteration 309/657 
+Train Loss: 8.18 Accuracy: 23.44%
+Epoch 0, Iteration 310/657 
+Train Loss: 7.15 Accuracy: 29.69%
+Epoch 0, Iteration 311/657 
+Train Loss: 6.27 Accuracy: 39.06%
+Epoch 0, Iteration 312/657 
+Train Loss: 6.06 Accuracy: 42.19%
+Epoch 0, Iteration 313/657 
+Train Loss: 7.97 Accuracy: 21.88%
+Epoch 0, Iteration 314/657 
+Train Loss: 7.38 Accuracy: 29.69%
+Epoch 0, Iteration 315/657 
+Train Loss: 8.14 Accuracy: 21.88%
+Epoch 0, Iteration 316/657 
+Train Loss: 7.77 Accuracy: 25.00%
+Epoch 0, Iteration 317/657 
+Train Loss: 7.37 Accuracy: 28.12%
+Epoch 0, Iteration 318/657 
+Train Loss: 6.83 Accuracy: 34.38%
+Epoch 0, Iteration 319/657 
+Train Loss: 7.19 Accuracy: 29.69%
+Epoch 0, Iteration 320/657 
+Train Loss: 6.72 Accuracy: 34.38%
+Epoch 0, Iteration 321/657 
+Train Loss: 6.40 Accuracy: 37.50%
+Epoch 0, Iteration 322/657 
+Train Loss: 6.93 Accuracy: 34.38%
+Epoch 0, Iteration 323/657 
+Train Loss: 7.54 Accuracy: 26.56%
+Epoch 0, Iteration 324/657 
+Train Loss: 7.12 Accuracy: 29.69%
+	Current speed:3.7258961958092125 iterations per second
+Epoch 0, Iteration 325/657 
+Train Loss: 7.78 Accuracy: 23.44%
+Epoch 0, Iteration 326/657 
+Train Loss: 7.47 Accuracy: 28.12%
+Epoch 0, Iteration 327/657 
+Train Loss: 7.66 Accuracy: 25.00%
+Epoch 0, Iteration 328/657 
+Train Loss: 7.27 Accuracy: 28.12%
+Epoch 0, Iteration 329/657 
+Train Loss: 7.33 Accuracy: 28.12%
+Epoch 0, Iteration 330/657 
+Train Loss: 7.49 Accuracy: 26.56%
+Epoch 0, Iteration 331/657 
+Train Loss: 8.68 Accuracy: 15.62%
+Epoch 0, Iteration 332/657 
+Train Loss: 6.75 Accuracy: 37.50%
+Epoch 0, Iteration 333/657 
+Train Loss: 6.70 Accuracy: 37.50%
+Epoch 0, Iteration 334/657 
+Train Loss: 7.60 Accuracy: 23.44%
+Epoch 0, Iteration 335/657 
+Train Loss: 7.30 Accuracy: 28.12%
+Epoch 0, Iteration 336/657 
+Train Loss: 6.78 Accuracy: 34.38%
+Epoch 0, Iteration 337/657 
+Train Loss: 7.78 Accuracy: 26.56%
+Epoch 0, Iteration 338/657 
+Train Loss: 7.72 Accuracy: 25.00%
+Epoch 0, Iteration 339/657 
+Train Loss: 8.06 Accuracy: 20.31%
+Epoch 0, Iteration 340/657 
+Train Loss: 7.56 Accuracy: 26.56%
+Epoch 0, Iteration 341/657 
+Train Loss: 7.10 Accuracy: 31.25%
+Epoch 0, Iteration 342/657 
+Train Loss: 7.35 Accuracy: 28.12%
+Epoch 0, Iteration 343/657 
+Train Loss: 7.50 Accuracy: 28.12%
+Epoch 0, Iteration 344/657 
+Train Loss: 7.28 Accuracy: 28.12%
+Epoch 0, Iteration 345/657 
+Train Loss: 6.57 Accuracy: 35.94%
+Epoch 0, Iteration 346/657 
+Train Loss: 7.78 Accuracy: 26.56%
+Epoch 0, Iteration 347/657 
+Train Loss: 6.80 Accuracy: 34.38%
+Epoch 0, Iteration 348/657 
+Train Loss: 7.38 Accuracy: 28.12%
+Epoch 0, Iteration 349/657 
+Train Loss: 7.08 Accuracy: 31.25%
+	Current speed:3.7283246865361193 iterations per second
+Epoch 0, Iteration 350/657 
+Train Loss: 7.38 Accuracy: 29.69%
+Epoch 0, Iteration 351/657 
+Train Loss: 8.19 Accuracy: 18.75%
+Epoch 0, Iteration 352/657 
+Train Loss: 7.16 Accuracy: 29.69%
+Epoch 0, Iteration 353/657 
+Train Loss: 9.22 Accuracy: 12.50%
+Epoch 0, Iteration 354/657 
+Train Loss: 7.39 Accuracy: 29.69%
+Epoch 0, Iteration 355/657 
+Train Loss: 7.34 Accuracy: 29.69%
+Epoch 0, Iteration 356/657 
+Train Loss: 7.76 Accuracy: 25.00%
+Epoch 0, Iteration 357/657 
+Train Loss: 7.41 Accuracy: 28.12%
+Epoch 0, Iteration 358/657 
+Train Loss: 7.05 Accuracy: 32.81%
+Epoch 0, Iteration 359/657 
+Train Loss: 7.62 Accuracy: 25.00%
+Epoch 0, Iteration 360/657 
+Train Loss: 7.47 Accuracy: 26.56%
+Epoch 0, Iteration 361/657 
+Train Loss: 7.80 Accuracy: 23.44%
+Epoch 0, Iteration 362/657 
+Train Loss: 7.55 Accuracy: 25.00%
+Epoch 0, Iteration 363/657 
+Train Loss: 6.99 Accuracy: 32.81%
+Epoch 0, Iteration 364/657 
+Train Loss: 7.91 Accuracy: 21.88%
+Epoch 0, Iteration 365/657 
+Train Loss: 7.20 Accuracy: 32.81%
+Epoch 0, Iteration 366/657 
+Train Loss: 6.96 Accuracy: 34.38%
+Epoch 0, Iteration 367/657 
+Train Loss: 7.45 Accuracy: 26.56%
+Epoch 0, Iteration 368/657 
+Train Loss: 7.06 Accuracy: 31.25%
+Epoch 0, Iteration 369/657 
+Train Loss: 7.63 Accuracy: 25.00%
+Epoch 0, Iteration 370/657 
+Train Loss: 7.28 Accuracy: 28.12%
+Epoch 0, Iteration 371/657 
+Train Loss: 6.86 Accuracy: 32.81%
+Epoch 0, Iteration 372/657 
+Train Loss: 7.75 Accuracy: 26.56%
+Epoch 0, Iteration 373/657 
+Train Loss: 7.29 Accuracy: 28.12%
+Epoch 0, Iteration 374/657 
+Train Loss: 7.28 Accuracy: 28.12%
+	Current speed:3.7308862776731107 iterations per second
+Epoch 0, Iteration 375/657 
+Train Loss: 7.04 Accuracy: 31.25%
+Epoch 0, Iteration 376/657 
+Train Loss: 7.66 Accuracy: 26.56%
+Epoch 0, Iteration 377/657 
+Train Loss: 7.21 Accuracy: 29.69%
+Epoch 0, Iteration 378/657 
+Train Loss: 7.39 Accuracy: 28.12%
+Epoch 0, Iteration 379/657 
+Train Loss: 7.62 Accuracy: 26.56%
+Epoch 0, Iteration 380/657 
+Train Loss: 6.95 Accuracy: 32.81%
+Epoch 0, Iteration 381/657 
+Train Loss: 6.70 Accuracy: 34.38%
+Epoch 0, Iteration 382/657 
+Train Loss: 7.59 Accuracy: 26.56%
+Epoch 0, Iteration 383/657 
+Train Loss: 7.51 Accuracy: 26.56%
+Epoch 0, Iteration 384/657 
+Train Loss: 8.02 Accuracy: 21.88%
+Epoch 0, Iteration 385/657 
+Train Loss: 7.55 Accuracy: 26.56%
+Epoch 0, Iteration 386/657 
+Train Loss: 8.23 Accuracy: 20.31%
+Epoch 0, Iteration 387/657 
+Train Loss: 7.02 Accuracy: 31.25%
+Epoch 0, Iteration 388/657 
+Train Loss: 7.30 Accuracy: 28.12%
+Epoch 0, Iteration 389/657 
+Train Loss: 7.93 Accuracy: 25.00%
+Epoch 0, Iteration 390/657 
+Train Loss: 7.64 Accuracy: 26.56%
+Epoch 0, Iteration 391/657 
+Train Loss: 7.16 Accuracy: 31.25%
+Epoch 0, Iteration 392/657 
+Train Loss: 7.47 Accuracy: 28.12%
+Epoch 0, Iteration 393/657 
+Train Loss: 7.63 Accuracy: 25.00%
+Epoch 0, Iteration 394/657 
+Train Loss: 7.17 Accuracy: 31.25%
+Epoch 0, Iteration 395/657 
+Train Loss: 7.58 Accuracy: 25.00%
+Epoch 0, Iteration 396/657 
+Train Loss: 7.25 Accuracy: 28.12%
+Epoch 0, Iteration 397/657 
+Train Loss: 6.53 Accuracy: 35.94%
+Epoch 0, Iteration 398/657 
+Train Loss: 7.47 Accuracy: 26.56%
+Epoch 0, Iteration 399/657 
+Train Loss: 8.05 Accuracy: 21.88%
+	Current speed:3.73301525791656 iterations per second
+Epoch 0, Iteration 400/657 
+Train Loss: 7.23 Accuracy: 28.12%
+Epoch 0, Iteration 401/657 
+Train Loss: 6.99 Accuracy: 31.25%
+Epoch 0, Iteration 402/657 
+Train Loss: 6.52 Accuracy: 35.94%
+Epoch 0, Iteration 403/657 
+Train Loss: 6.85 Accuracy: 32.81%
+Epoch 0, Iteration 404/657 
+Train Loss: 7.07 Accuracy: 31.25%
+Epoch 0, Iteration 405/657 
+Train Loss: 6.65 Accuracy: 34.38%
+Epoch 0, Iteration 406/657 
+Train Loss: 7.62 Accuracy: 25.00%
+Epoch 0, Iteration 407/657 
+Train Loss: 8.18 Accuracy: 20.31%
+Epoch 0, Iteration 408/657 
+Train Loss: 7.21 Accuracy: 29.69%
+Epoch 0, Iteration 409/657 
+Train Loss: 7.59 Accuracy: 26.56%
+Epoch 0, Iteration 410/657 
+Train Loss: 7.41 Accuracy: 26.56%
+Epoch 0, Iteration 411/657 
+Train Loss: 7.63 Accuracy: 26.56%
+Epoch 0, Iteration 412/657 
+Train Loss: 6.86 Accuracy: 32.81%
+Epoch 0, Iteration 413/657 
+Train Loss: 8.27 Accuracy: 20.31%
+Epoch 0, Iteration 414/657 
+Train Loss: 7.37 Accuracy: 28.12%
+Epoch 0, Iteration 415/657 
+Train Loss: 7.05 Accuracy: 32.81%
+Epoch 0, Iteration 416/657 
+Train Loss: 7.92 Accuracy: 21.88%
+Epoch 0, Iteration 417/657 
+Train Loss: 7.39 Accuracy: 28.12%
+Epoch 0, Iteration 418/657 
+Train Loss: 7.46 Accuracy: 26.56%
+Epoch 0, Iteration 419/657 
+Train Loss: 7.45 Accuracy: 26.56%
+Epoch 0, Iteration 420/657 
+Train Loss: 7.36 Accuracy: 28.12%
+Epoch 0, Iteration 421/657 
+Train Loss: 7.09 Accuracy: 29.69%
+Epoch 0, Iteration 422/657 
+Train Loss: 7.02 Accuracy: 31.25%
+Epoch 0, Iteration 423/657 
+Train Loss: 7.65 Accuracy: 26.56%
+Epoch 0, Iteration 424/657 
+Train Loss: 7.19 Accuracy: 29.69%
+	Current speed:3.7329261189597545 iterations per second
+Epoch 0, Iteration 425/657 
+Train Loss: 8.36 Accuracy: 20.31%
+Epoch 0, Iteration 426/657 
+Train Loss: 6.80 Accuracy: 32.81%
+Epoch 0, Iteration 427/657 
+Train Loss: 7.11 Accuracy: 29.69%
+Epoch 0, Iteration 428/657 
+Train Loss: 6.81 Accuracy: 32.81%
+Epoch 0, Iteration 429/657 
+Train Loss: 7.93 Accuracy: 25.00%
+Epoch 0, Iteration 430/657 
+Train Loss: 7.71 Accuracy: 25.00%
+Epoch 0, Iteration 431/657 
+Train Loss: 7.09 Accuracy: 29.69%
+Epoch 0, Iteration 432/657 
+Train Loss: 7.70 Accuracy: 26.56%
+Epoch 0, Iteration 433/657 
+Train Loss: 6.42 Accuracy: 37.50%
+Epoch 0, Iteration 434/657 
+Train Loss: 7.87 Accuracy: 25.00%
+Epoch 0, Iteration 435/657 
+Train Loss: 7.03 Accuracy: 32.81%
+Epoch 0, Iteration 436/657 
+Train Loss: 6.82 Accuracy: 34.38%
+Epoch 0, Iteration 437/657 
+Train Loss: 7.06 Accuracy: 29.69%
+Epoch 0, Iteration 438/657 
+Train Loss: 6.87 Accuracy: 35.94%
+Epoch 0, Iteration 439/657 
+Train Loss: 7.22 Accuracy: 29.69%
+Epoch 0, Iteration 440/657 
+Train Loss: 7.42 Accuracy: 29.69%
+Epoch 0, Iteration 441/657 
+Train Loss: 6.71 Accuracy: 34.38%
+Epoch 0, Iteration 442/657 
+Train Loss: 7.08 Accuracy: 31.25%
+Epoch 0, Iteration 443/657 
+Train Loss: 7.40 Accuracy: 28.12%
+Epoch 0, Iteration 444/657 
+Train Loss: 7.27 Accuracy: 29.69%
+Epoch 0, Iteration 445/657 
+Train Loss: 7.47 Accuracy: 29.69%
+Epoch 0, Iteration 446/657 
+Train Loss: 7.83 Accuracy: 25.00%
+Epoch 0, Iteration 447/657 
+Train Loss: 8.01 Accuracy: 20.31%
+Epoch 0, Iteration 448/657 
+Train Loss: 7.12 Accuracy: 31.25%
+Epoch 0, Iteration 449/657 
+Train Loss: 7.53 Accuracy: 26.56%
+	Current speed:3.733571369945684 iterations per second
+Epoch 0, Iteration 450/657 
+Train Loss: 7.81 Accuracy: 25.00%
+Epoch 0, Iteration 451/657 
+Train Loss: 7.72 Accuracy: 25.00%
+Epoch 0, Iteration 452/657 
+Train Loss: 6.16 Accuracy: 40.62%
+Epoch 0, Iteration 453/657 
+Train Loss: 7.64 Accuracy: 26.56%
+Epoch 0, Iteration 454/657 
+Train Loss: 7.88 Accuracy: 23.44%
+Epoch 0, Iteration 455/657 
+Train Loss: 7.29 Accuracy: 29.69%
+Epoch 0, Iteration 456/657 
+Train Loss: 7.28 Accuracy: 29.69%
+Epoch 0, Iteration 457/657 
+Train Loss: 6.83 Accuracy: 35.94%
+Epoch 0, Iteration 458/657 
+Train Loss: 8.11 Accuracy: 20.31%
+Epoch 0, Iteration 459/657 
+Train Loss: 7.52 Accuracy: 28.12%
+Epoch 0, Iteration 460/657 
+Train Loss: 6.75 Accuracy: 35.94%
+Epoch 0, Iteration 461/657 
+Train Loss: 6.86 Accuracy: 32.81%
+Epoch 0, Iteration 462/657 
+Train Loss: 7.11 Accuracy: 34.38%
+Epoch 0, Iteration 463/657 
+Train Loss: 7.49 Accuracy: 32.81%
+Epoch 0, Iteration 464/657 
+Train Loss: 6.39 Accuracy: 46.88%
+Epoch 0, Iteration 465/657 
+Train Loss: 7.60 Accuracy: 31.25%
+Epoch 0, Iteration 466/657 
+Train Loss: 7.55 Accuracy: 34.38%
+Epoch 0, Iteration 467/657 
+Train Loss: 6.10 Accuracy: 46.88%
+Epoch 0, Iteration 468/657 
+Train Loss: 7.72 Accuracy: 28.12%
+Epoch 0, Iteration 469/657 
+Train Loss: 7.05 Accuracy: 35.94%
+Epoch 0, Iteration 470/657 
+Train Loss: 6.21 Accuracy: 43.75%
+Epoch 0, Iteration 471/657 
+Train Loss: 6.03 Accuracy: 45.31%
+Epoch 0, Iteration 472/657 
+Train Loss: 4.80 Accuracy: 57.81%
+Epoch 0, Iteration 473/657 
+Train Loss: 6.19 Accuracy: 43.75%
+Epoch 0, Iteration 474/657 
+Train Loss: 6.59 Accuracy: 40.62%
+	Current speed:3.7342351593134198 iterations per second
+Epoch 0, Iteration 475/657 
+Train Loss: 5.78 Accuracy: 48.44%
+Epoch 0, Iteration 476/657 
+Train Loss: 6.13 Accuracy: 45.31%
+Epoch 0, Iteration 477/657 
+Train Loss: 6.86 Accuracy: 34.38%
+Epoch 0, Iteration 478/657 
+Train Loss: 7.08 Accuracy: 31.25%
+Epoch 0, Iteration 479/657 
+Train Loss: 6.71 Accuracy: 35.94%
+Epoch 0, Iteration 480/657 
+Train Loss: 5.89 Accuracy: 45.31%
+Epoch 0, Iteration 481/657 
+Train Loss: 7.37 Accuracy: 31.25%
+Epoch 0, Iteration 482/657 
+Train Loss: 6.78 Accuracy: 35.94%
+Epoch 0, Iteration 483/657 
+Train Loss: 6.84 Accuracy: 34.38%
+Epoch 0, Iteration 484/657 
+Train Loss: 6.28 Accuracy: 39.06%
+Epoch 0, Iteration 485/657 
+Train Loss: 6.46 Accuracy: 40.62%
+Epoch 0, Iteration 486/657 
+Train Loss: 6.93 Accuracy: 34.38%
+Epoch 0, Iteration 487/657 
+Train Loss: 6.87 Accuracy: 34.38%
+Epoch 0, Iteration 488/657 
+Train Loss: 5.81 Accuracy: 43.75%
+Epoch 0, Iteration 489/657 
+Train Loss: 6.18 Accuracy: 40.62%
+Epoch 0, Iteration 490/657 
+Train Loss: 6.42 Accuracy: 39.06%
+Epoch 0, Iteration 491/657 
+Train Loss: 6.13 Accuracy: 40.62%
+Epoch 0, Iteration 492/657 
+Train Loss: 6.65 Accuracy: 35.94%
+Epoch 0, Iteration 493/657 
+Train Loss: 5.59 Accuracy: 46.88%
+Epoch 0, Iteration 494/657 
+Train Loss: 6.32 Accuracy: 40.62%
+Epoch 0, Iteration 495/657 
+Train Loss: 6.48 Accuracy: 37.50%
+Epoch 0, Iteration 496/657 
+Train Loss: 7.25 Accuracy: 29.69%
+Epoch 0, Iteration 497/657 
+Train Loss: 6.46 Accuracy: 37.50%
+Epoch 0, Iteration 498/657 
+Train Loss: 7.05 Accuracy: 31.25%
+Epoch 0, Iteration 499/657 
+Train Loss: 6.92 Accuracy: 32.81%
+	Current speed:3.733650129961487 iterations per second
+Epoch 0, Iteration 500/657 
+Train Loss: 6.74 Accuracy: 34.38%
+Epoch 0, Iteration 501/657 
+Train Loss: 6.50 Accuracy: 37.50%
+Epoch 0, Iteration 502/657 
+Train Loss: 6.43 Accuracy: 37.50%
+Epoch 0, Iteration 503/657 
+Train Loss: 5.98 Accuracy: 43.75%
+Epoch 0, Iteration 504/657 
+Train Loss: 6.86 Accuracy: 34.38%
+Epoch 0, Iteration 505/657 
+Train Loss: 6.77 Accuracy: 37.50%
+Epoch 0, Iteration 506/657 
+Train Loss: 5.60 Accuracy: 45.31%
+Epoch 0, Iteration 507/657 
+Train Loss: 5.36 Accuracy: 50.00%
+Epoch 0, Iteration 508/657 
+Train Loss: 5.73 Accuracy: 48.44%
+Epoch 0, Iteration 509/657 
+Train Loss: 6.16 Accuracy: 42.19%
+Epoch 0, Iteration 510/657 
+Train Loss: 6.24 Accuracy: 39.06%
+Epoch 0, Iteration 511/657 
+Train Loss: 6.53 Accuracy: 35.94%
+Epoch 0, Iteration 512/657 
+Train Loss: 6.29 Accuracy: 39.06%
+Epoch 0, Iteration 513/657 
+Train Loss: 5.86 Accuracy: 43.75%
+Epoch 0, Iteration 514/657 
+Train Loss: 5.56 Accuracy: 46.88%
+Epoch 0, Iteration 515/657 
+Train Loss: 6.58 Accuracy: 35.94%
+Epoch 0, Iteration 516/657 
+Train Loss: 6.48 Accuracy: 35.94%
+Epoch 0, Iteration 517/657 
+Train Loss: 6.64 Accuracy: 37.50%
+Epoch 0, Iteration 518/657 
+Train Loss: 5.78 Accuracy: 43.75%
+Epoch 0, Iteration 519/657 
+Train Loss: 5.56 Accuracy: 45.31%
+Epoch 0, Iteration 520/657 
+Train Loss: 6.61 Accuracy: 35.94%
+Epoch 0, Iteration 521/657 
+Train Loss: 6.39 Accuracy: 37.50%
+Epoch 0, Iteration 522/657 
+Train Loss: 6.60 Accuracy: 37.50%
+Epoch 0, Iteration 523/657 
+Train Loss: 7.11 Accuracy: 31.25%
+Epoch 0, Iteration 524/657 
+Train Loss: 5.39 Accuracy: 48.44%
+	Current speed:3.7348719075037122 iterations per second
+Epoch 0, Iteration 525/657 
+Train Loss: 6.31 Accuracy: 42.19%
+Epoch 0, Iteration 526/657 
+Train Loss: 5.87 Accuracy: 43.75%
+Epoch 0, Iteration 527/657 
+Train Loss: 6.30 Accuracy: 40.62%
+Epoch 0, Iteration 528/657 
+Train Loss: 6.44 Accuracy: 37.50%
+Epoch 0, Iteration 529/657 
+Train Loss: 6.13 Accuracy: 40.62%
+Epoch 0, Iteration 530/657 
+Train Loss: 6.07 Accuracy: 40.62%
+Epoch 0, Iteration 531/657 
+Train Loss: 5.93 Accuracy: 43.75%
+Epoch 0, Iteration 532/657 
+Train Loss: 8.05 Accuracy: 21.88%
+Epoch 0, Iteration 533/657 
+Train Loss: 5.63 Accuracy: 45.31%
+Epoch 0, Iteration 534/657 
+Train Loss: 5.94 Accuracy: 42.19%
+Epoch 0, Iteration 535/657 
+Train Loss: 6.67 Accuracy: 35.94%
+Epoch 0, Iteration 536/657 
+Train Loss: 6.42 Accuracy: 37.50%
+Epoch 0, Iteration 537/657 
+Train Loss: 6.74 Accuracy: 35.94%
+Epoch 0, Iteration 538/657 
+Train Loss: 6.27 Accuracy: 39.06%
+Epoch 0, Iteration 539/657 
+Train Loss: 6.14 Accuracy: 40.62%
+Epoch 0, Iteration 540/657 
+Train Loss: 5.98 Accuracy: 42.19%
+Epoch 0, Iteration 541/657 
+Train Loss: 5.67 Accuracy: 45.31%
+Epoch 0, Iteration 542/657 
+Train Loss: 6.05 Accuracy: 42.19%
+Epoch 0, Iteration 543/657 
+Train Loss: 5.46 Accuracy: 46.88%
+Epoch 0, Iteration 544/657 
+Train Loss: 6.85 Accuracy: 34.38%
+Epoch 0, Iteration 545/657 
+Train Loss: 5.72 Accuracy: 45.31%
+Epoch 0, Iteration 546/657 
+Train Loss: 6.06 Accuracy: 40.62%
+Epoch 0, Iteration 547/657 
+Train Loss: 7.12 Accuracy: 32.81%
+Epoch 0, Iteration 548/657 
+Train Loss: 5.52 Accuracy: 46.88%
+Epoch 0, Iteration 549/657 
+Train Loss: 5.40 Accuracy: 48.44%
+	Current speed:3.7367644328171914 iterations per second
+Epoch 0, Iteration 550/657 
+Train Loss: 6.51 Accuracy: 35.94%
+Epoch 0, Iteration 551/657 
+Train Loss: 7.29 Accuracy: 31.25%
+Epoch 0, Iteration 552/657 
+Train Loss: 5.82 Accuracy: 45.31%
+Epoch 0, Iteration 553/657 
+Train Loss: 6.11 Accuracy: 40.62%
+Epoch 0, Iteration 554/657 
+Train Loss: 6.62 Accuracy: 34.38%
+Epoch 0, Iteration 555/657 
+Train Loss: 6.34 Accuracy: 37.50%
+Epoch 0, Iteration 556/657 
+Train Loss: 8.54 Accuracy: 17.19%
+Epoch 0, Iteration 557/657 
+Train Loss: 7.05 Accuracy: 31.25%
+Epoch 0, Iteration 558/657 
+Train Loss: 6.11 Accuracy: 42.19%
+Epoch 0, Iteration 559/657 
+Train Loss: 7.07 Accuracy: 31.25%
+Epoch 0, Iteration 560/657 
+Train Loss: 6.13 Accuracy: 40.62%
+Epoch 0, Iteration 561/657 
+Train Loss: 6.00 Accuracy: 42.19%
+Epoch 0, Iteration 562/657 
+Train Loss: 6.15 Accuracy: 42.19%
+Epoch 0, Iteration 563/657 
+Train Loss: 6.54 Accuracy: 35.94%
+Epoch 0, Iteration 564/657 
+Train Loss: 7.03 Accuracy: 32.81%
+Epoch 0, Iteration 565/657 
+Train Loss: 5.96 Accuracy: 42.19%
+Epoch 0, Iteration 566/657 
+Train Loss: 5.02 Accuracy: 51.56%
+Epoch 0, Iteration 567/657 
+Train Loss: 6.63 Accuracy: 35.94%
+Epoch 0, Iteration 568/657 
+Train Loss: 5.73 Accuracy: 43.75%
+Epoch 0, Iteration 569/657 
+Train Loss: 6.27 Accuracy: 40.62%
+Epoch 0, Iteration 570/657 
+Train Loss: 6.15 Accuracy: 40.62%
+Epoch 0, Iteration 571/657 
+Train Loss: 6.36 Accuracy: 39.06%
+Epoch 0, Iteration 572/657 
+Train Loss: 6.38 Accuracy: 40.62%
+Epoch 0, Iteration 573/657 
+Train Loss: 6.40 Accuracy: 40.62%
+Epoch 0, Iteration 574/657 
+Train Loss: 6.41 Accuracy: 37.50%
+	Current speed:3.736033525178342 iterations per second
+Epoch 0, Iteration 575/657 
+Train Loss: 6.09 Accuracy: 42.19%
+Epoch 0, Iteration 576/657 
+Train Loss: 6.78 Accuracy: 34.38%
+Epoch 0, Iteration 577/657 
+Train Loss: 5.61 Accuracy: 46.88%
+Epoch 0, Iteration 578/657 
+Train Loss: 6.10 Accuracy: 40.62%
+Epoch 0, Iteration 579/657 
+Train Loss: 6.24 Accuracy: 39.06%
+Epoch 0, Iteration 580/657 
+Train Loss: 6.55 Accuracy: 37.50%
+Epoch 0, Iteration 581/657 
+Train Loss: 7.14 Accuracy: 32.81%
+Epoch 0, Iteration 582/657 
+Train Loss: 6.39 Accuracy: 40.62%
+Epoch 0, Iteration 583/657 
+Train Loss: 5.85 Accuracy: 42.19%
+Epoch 0, Iteration 584/657 
+Train Loss: 5.30 Accuracy: 50.00%
+Epoch 0, Iteration 585/657 
+Train Loss: 5.83 Accuracy: 42.19%
+Epoch 0, Iteration 586/657 
+Train Loss: 6.16 Accuracy: 42.19%
+Epoch 0, Iteration 587/657 
+Train Loss: 6.08 Accuracy: 40.62%
+Epoch 0, Iteration 588/657 
+Train Loss: 6.31 Accuracy: 39.06%
+Epoch 0, Iteration 589/657 
+Train Loss: 6.13 Accuracy: 40.62%
+Epoch 0, Iteration 590/657 
+Train Loss: 6.63 Accuracy: 34.38%
+Epoch 0, Iteration 591/657 
+Train Loss: 5.15 Accuracy: 51.56%
+Epoch 0, Iteration 592/657 
+Train Loss: 6.76 Accuracy: 34.38%
+Epoch 0, Iteration 593/657 
+Train Loss: 6.46 Accuracy: 39.06%
+Epoch 0, Iteration 594/657 
+Train Loss: 6.26 Accuracy: 39.06%
+Epoch 0, Iteration 595/657 
+Train Loss: 6.26 Accuracy: 39.06%
+Epoch 0, Iteration 596/657 
+Train Loss: 6.46 Accuracy: 37.50%
+Epoch 0, Iteration 597/657 
+Train Loss: 5.90 Accuracy: 42.19%
+Epoch 0, Iteration 598/657 
+Train Loss: 6.23 Accuracy: 40.62%
+Epoch 0, Iteration 599/657 
+Train Loss: 6.92 Accuracy: 32.81%
+	Current speed:3.7331752771679887 iterations per second
+Epoch 0, Iteration 600/657 
+Train Loss: 6.65 Accuracy: 35.94%
+Epoch 0, Iteration 601/657 
+Train Loss: 6.45 Accuracy: 37.50%
+Epoch 0, Iteration 602/657 
+Train Loss: 6.47 Accuracy: 35.94%
+Epoch 0, Iteration 603/657 
+Train Loss: 5.38 Accuracy: 50.00%
+Epoch 0, Iteration 604/657 
+Train Loss: 5.63 Accuracy: 46.88%
+Epoch 0, Iteration 605/657 
+Train Loss: 6.13 Accuracy: 40.62%
+Epoch 0, Iteration 606/657 
+Train Loss: 6.20 Accuracy: 39.06%
+Epoch 0, Iteration 607/657 
+Train Loss: 6.18 Accuracy: 40.62%
+Epoch 0, Iteration 608/657 
+Train Loss: 5.34 Accuracy: 48.44%
+Epoch 0, Iteration 609/657 
+Train Loss: 5.24 Accuracy: 50.00%
+Epoch 0, Iteration 610/657 
+Train Loss: 5.54 Accuracy: 46.88%
+Epoch 0, Iteration 611/657 
+Train Loss: 5.73 Accuracy: 46.88%
+Epoch 0, Iteration 612/657 
+Train Loss: 5.40 Accuracy: 46.88%
+Epoch 0, Iteration 613/657 
+Train Loss: 6.26 Accuracy: 39.06%
+Epoch 0, Iteration 614/657 
+Train Loss: 6.60 Accuracy: 35.94%
+Epoch 0, Iteration 615/657 
+Train Loss: 6.19 Accuracy: 40.62%
+Epoch 0, Iteration 616/657 
+Train Loss: 5.03 Accuracy: 51.56%
+Epoch 0, Iteration 617/657 
+Train Loss: 6.25 Accuracy: 39.06%
+Epoch 0, Iteration 618/657 
+Train Loss: 6.46 Accuracy: 37.50%
+Epoch 0, Iteration 619/657 
+Train Loss: 5.86 Accuracy: 43.75%
+Epoch 0, Iteration 620/657 
+Train Loss: 6.21 Accuracy: 39.06%
+Epoch 0, Iteration 621/657 
+Train Loss: 5.41 Accuracy: 46.88%
+Epoch 0, Iteration 622/657 
+Train Loss: 5.84 Accuracy: 43.75%
+Epoch 0, Iteration 623/657 
+Train Loss: 6.55 Accuracy: 35.94%
+Epoch 0, Iteration 624/657 
+Train Loss: 6.20 Accuracy: 40.62%
+	Current speed:3.749540323940837 iterations per second
+Epoch 0, Iteration 625/657 
+Train Loss: 5.58 Accuracy: 46.88%
+Epoch 0, Iteration 626/657 
+Train Loss: 5.45 Accuracy: 45.31%
+Epoch 0, Iteration 627/657 
+Train Loss: 5.77 Accuracy: 42.19%
+Epoch 0, Iteration 628/657 
+Train Loss: 6.46 Accuracy: 39.06%
+Epoch 0, Iteration 629/657 
+Train Loss: 6.63 Accuracy: 39.06%
+Epoch 0, Iteration 630/657 
+Train Loss: 5.86 Accuracy: 43.75%
+Epoch 0, Iteration 631/657 
+Train Loss: 5.99 Accuracy: 40.62%
+Epoch 0, Iteration 632/657 
+Train Loss: 6.24 Accuracy: 40.62%
+Epoch 0, Iteration 633/657 
+Train Loss: 5.66 Accuracy: 45.31%
+Epoch 0, Iteration 634/657 
+Train Loss: 6.63 Accuracy: 35.94%
+Epoch 0, Iteration 635/657 
+Train Loss: 5.85 Accuracy: 45.31%

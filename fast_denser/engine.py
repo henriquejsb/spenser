@@ -17,9 +17,10 @@ import warnings
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:512"
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+#os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:512"
+#os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 
 def save_pop(population, save_path, run, gen):
     """

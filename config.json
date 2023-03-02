@@ -8,16 +8,16 @@
       "numpy_seeds": [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000],
   
       //Maximum number of generations
-      "num_generations": 150,
+      "num_generations": 300,
   
       //lambda, i.e., number of offspring
-      "lambda": 4,
+      "lambda": 10,
   
       //maximum of epochs to perform. Evolution is halted when the current number of epochs surpasses this value
       "max_epochs": 10000000,
   
       //place where the experiment is saved
-      "save_path": "./experiments/",
+      "save_path": "./experiments_reevaluate_parent/",
       
       "skip_parent": "False",
 
@@ -37,10 +37,10 @@
     //network specific parameters
     "NETWORK": {
       //structure to the hidden layers of the network [[non-terminal, min, max], ...]
-      "network_structure": [["features", 1, 10], ["classification", 1, 10]],
+      "network_structure": [["features", 1, 5], ["classification", 1, 5]],
   
       //number of layers on initialisation
-      "network_structure_init": {"features":[2,4,12], "classification":[1]},
+      "network_structure_init": {"features":[1,3,5], "classification":[1]},
 
       //output layer
       "output": "output",
