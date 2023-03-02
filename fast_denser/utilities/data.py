@@ -8,12 +8,11 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 
 # Training Parameters
-batch_size=64
+
 data_path='./data/mnist'
 num_classes = 10  # MNIST has 10 output classes
 
-# Temporal Dynamics
-num_steps = 10
+
 
 # Torch Variables
 dtype = torch.float
