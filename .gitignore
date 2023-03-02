@@ -131,4 +131,4 @@ dmypy.json
 cache/
 data/
 
-experiments/
+experiments*/
