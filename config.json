@@ -17,9 +17,9 @@
       "max_epochs": 10000000,
   
       //place where the experiment is saved
-      "save_path": "./experiments_reevaluate_parent/",
+      "save_path": "./experiments_mnist",
       
-      "skip_parent": "False",
+      "skip_parent": "True",
 
       //rates of the different mutations [0, 1]
       "MUTATIONS": {

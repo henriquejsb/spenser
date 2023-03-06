@@ -18,7 +18,7 @@ import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 #os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:512"
 #os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 
@@ -598,7 +598,7 @@ def main(run, dataset, config_file, grammar_path): #pragma: no cover
             population_fits = []
             for idx, ind in enumerate(population):
                 ind.current_time = 0
-                ind.num_epochs = 1
+                ind.num_epochs = int(config["TRAINING"]["epochs"])
                 population_fits.append(ind.evaluate(grammar, cnn_eval,'%s/run_%d/best_%d_%d' % (config["EVOLUTIONARY"]["save_path"], run, gen, idx)))
                 ind.id = idx
 
@@ -617,16 +617,19 @@ def main(run, dataset, config_file, grammar_path): #pragma: no cover
             #population[0].current_time = 0
             
             
-            #population[0].num_epochs = 0
+            population[0].num_epochs = 0
+            population[0].is_parent = True
             parent_id = parent.id
             parent.is_parent = True
             #evaluate population
             population_fits = []
             for idx, ind in enumerate(population):
-                if idx == 0 and skip_parent:
-                    population_fits.append(ind.fitness)
-                    continue
-                ind.num_epochs = 1
+                if ind.is_parent and skip_parent:
+                    #population_fits.append(ind.fitness)
+                    #continue
+                    ind.num_epochs = 0
+                else:
+                    ind.num_epochs = int(config["TRAINING"]["epochs"])
                 population_fits.append(ind.evaluate(grammar, cnn_eval,  '%s/run_%d/best_%d_%d' % (config["EVOLUTIONARY"]["save_path"], run, gen, idx), '%s/run_%d/best_%d_%d' % (config["EVOLUTIONARY"]["save_path"], run, gen-1, parent_id)))
                 ind.id = idx
 

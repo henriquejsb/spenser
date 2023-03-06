@@ -194,6 +194,8 @@ class Evaluator:
         }
 
         for layer_type, layer_params in torch_layers:
+            if last_output[1] <= 0:
+                return None
             if layer_type == 'act':
                 spike_grad = grads_dict[layer_params["surr-grad"][0]]
                 layer = snn.Leaky(beta=float(layer_params["beta"][0]),
@@ -212,22 +214,22 @@ class Evaluator:
                     idx += 1
                     first_fc = False
                     #print("Flattening",last_output)
-                    last_output = last_output[0] * last_output[1] * last_output[2]
-                
+                    last_output = (1,last_output[0] * last_output[1] * last_output[2])
+
                 num_units = int(layer_params['num-units'][0])
                 
                 #print(layer_params)
                 #input()
                 #Adding layers as tuple (string_id,layer) so that we can assemble them using Sequential(OrderededDict)
                 fc = nn.Linear(
-                    in_features=last_output, 
+                    in_features=last_output[1], 
                     out_features=num_units,
                     bias=eval(layer_params['bias'][0]))
               
                 layers += [(str(idx),fc)]
                 idx += 1
                 
-                last_output = num_units
+                last_output = (1,num_units)
 
             elif layer_type == 'conv':
                 
@@ -363,27 +365,9 @@ class Evaluator:
                 num_epochs, input_size=(1,28,28)): #pragma: no cover
         
         start = t()
-        model_phenotype, learning_phenotype = phenotype.split('learning:')
-        
-        learning_phenotype = 'learning:'+learning_phenotype.rstrip().lstrip()
-        model_phenotype = model_phenotype.rstrip().lstrip().replace('  ', ' ')
-
-        torch_layers = self.get_layers(model_phenotype)
-        torch_learning = self.get_learning(learning_phenotype)
-       
-        
-        model = self.assemble_network(torch_layers, input_size)
-        model.to(device)
-       
-
-        optimizer = self.assemble_optimiser(torch_learning,model)
-        loss_fn = SF.mse_count_loss(correct_rate=1.0, incorrect_rate=0.0)
-        loss_val = None
-
-
         trainloader = self.dataset["evo_train"]
         testloader = self.dataset["evo_test"]
-   
+
         
 
         loss_hist = []
@@ -395,25 +379,56 @@ class Evaluator:
 
         time_stats = {}
 
-        
-        
-        
+        model = None
+        optimizer = None
+        loss_fn = None
+        loss_val = None   
         try:
 
-            acc_hist, loss_hist, time_stats = train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps)
+            if num_epochs > 0:
+                model_phenotype, learning_phenotype = phenotype.split('learning:')
+                
+                learning_phenotype = 'learning:'+learning_phenotype.rstrip().lstrip()
+                model_phenotype = model_phenotype.rstrip().lstrip().replace('  ', ' ')
 
-            history['accuracy'] = acc_hist
-            history['loss'] = loss_hist
+                torch_layers = self.get_layers(model_phenotype)
+                torch_learning = self.get_learning(learning_phenotype)
+            
+                
+                model = self.assemble_network(torch_layers, input_size)
+                if model == None:
+                    return None
+                model.to(device)
+            
 
+                optimizer = self.assemble_optimiser(torch_learning,model)
+                loss_fn = SF.mse_count_loss(correct_rate=1.0, incorrect_rate=0.0)
+                loss_val = None        
+                
             
-            
+                acc_hist, loss_hist, time_stats = train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps)
 
-            self.save(model, optimizer, loss_fn, torch_layers, torch_learning, input_size, weights_save_path)
+                history['accuracy'] = acc_hist
+                history['loss'] = loss_hist
+
+                
+                
+
+                self.save(model, optimizer, loss_fn, torch_layers, torch_learning, input_size, weights_save_path)
             
+            else:
+                #Is parent, already trained
+                model, optimizer, loss_fn = self.load(parent_weights_path)
+                model.to(device)
+
             #measure test performance
             start_fitness = t()
+
+
             accuracy_test = get_fitness(model,testloader,num_steps)
             
+
+
             time_stats["fitness_time"] = t() - start_fitness
             time_stats["total_time"] = t()-start
 
@@ -442,18 +457,19 @@ class Evaluator:
         except KeyboardInterrupt:
             # quit
             exit(0)
-        except Exception as e:
+        except torch.cuda.OutOfMemoryError as e:
             history = None
             traceback.print_exc()
         #Cleaning up
-        with torch.no_grad():
+        #with torch.no_grad():
+        if model:
             model.to('cpu')
-            del model
-            del loss_val
-            del loss_fn
-            del optimizer
-            torch.cuda.empty_cache()
+        del model
+        del loss_val
+        del loss_fn
+        del optimizer
         gc.collect()
+        torch.cuda.empty_cache()
         #print("Here")
         #input()
         return history
@@ -551,16 +567,16 @@ def train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps):
 
             # Store loss history for future plotting
             loss_hist.append(loss_val.item())
-            print(loss_val)
-            print(loss_val.item())
-            del loss_val
+            #print(loss_val)
+            #print(loss_val.item())
 
             acc = SF.accuracy_rate(spk_rec, targets)
-            print("ACC",acc)
-            input()
+            #print("ACC",acc)
+            #input()
             acc_hist.append(acc)
             if DEBUG:
                 print(f"Epoch {epoch}, Iteration {i}/{len(trainloader)} \nTrain Loss: {loss_val.item():.2f} Accuracy: {acc * 100:.2f}%")
+            del loss_val
             #print(f"Accuracy: {acc * 100:.2f}%\n")
     training_time = t()-start
     dataloading_time = training_time - forward_time - learning_time - spikegen_time
@@ -617,8 +633,9 @@ def evaluate(args): #pragma: no cover
     
 
     scnn_eval, phenotype, weights_save_path, parent_weights_path, num_epochs = args
-    try:
-        return scnn_eval.evaluate(phenotype, weights_save_path, parent_weights_path, num_epochs)
+    
+    return scnn_eval.evaluate(phenotype, weights_save_path, parent_weights_path, num_epochs)
+    '''
     except Exception as e:
         traceback.print_exc()
         with torch.no_grad():
@@ -626,6 +643,7 @@ def evaluate(args): #pragma: no cover
         gc.collect()
         #input()
         return None
+    '''
 
 
 class Module:
@@ -815,34 +833,41 @@ class Individual:
                             self.num_epochs))
         
         
-
+        
         if metrics is not None:
-            if 'accuracy' in metrics:
-                if type(metrics['accuracy']) is list:
-                    metrics['accuracy'] = [i for i in metrics['accuracy']]
-                else:
-                    metrics['accuracy'] = [i.item() for i in metrics['accuracy']]
-            
-            if 'loss' in metrics:
-                if type(metrics['loss']) is list:
-                    metrics['loss'] = [i for i in metrics['loss']]
-                else:
-                    metrics['loss'] = [i.item() for i in metrics['loss']]
+            if self.num_epochs == 0 and self.metrics is not None:
+                if 'accuracy_test' in metrics:
+                    if type(self.metrics['accuracy_test']) is float:
+                        self.fitness = self.metrics['accuracy_test']
+                    else:
+                        self.fitness = self.metrics['accuracy_test'].item()
+            else:
+                if 'accuracy' in metrics:
+                    if type(metrics['accuracy']) is list:
+                        metrics['accuracy'] = [i for i in metrics['accuracy']]
+                    else:
+                        metrics['accuracy'] = [i.item() for i in metrics['accuracy']]
+                
+                if 'loss' in metrics:
+                    if type(metrics['loss']) is list:
+                        metrics['loss'] = [i for i in metrics['loss']]
+                    else:
+                        metrics['loss'] = [i.item() for i in metrics['loss']]
 
 
-            self.metrics = metrics
+                self.metrics = metrics
 
-            if 'accuracy_test' in metrics:
-                if type(self.metrics['accuracy_test']) is float:
-                    self.fitness = self.metrics['accuracy_test']
-                else:
-                    self.fitness = self.metrics['accuracy_test'].item()
-            if 'time_stats' in metrics:
-                time_stats = metrics['time_stats']
-                if 'total_time' in time_stats:
-                    self.time = time_stats['total_time']
-                if 'traininig_time' in time_stats:
-                    self.train_time = time_stats['training_time']
+                if 'accuracy_test' in metrics:
+                    if type(self.metrics['accuracy_test']) is float:
+                        self.fitness = self.metrics['accuracy_test']
+                    else:
+                        self.fitness = self.metrics['accuracy_test'].item()
+                if 'time_stats' in metrics:
+                    time_stats = metrics['time_stats']
+                    if 'total_time' in time_stats:
+                        self.time = time_stats['total_time']
+                    if 'traininig_time' in time_stats:
+                        self.train_time = time_stats['training_time']
 
         else:
             self.metrics = None
