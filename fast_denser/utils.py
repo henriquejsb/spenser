@@ -551,9 +551,13 @@ def train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps):
 
             # Store loss history for future plotting
             loss_hist.append(loss_val.item())
-
+            print(loss_val)
+            print(loss_val.item())
+            del loss_val
 
             acc = SF.accuracy_rate(spk_rec, targets)
+            print("ACC",acc)
+            input()
             acc_hist.append(acc)
             if DEBUG:
                 print(f"Epoch {epoch}, Iteration {i}/{len(trainloader)} \nTrain Loss: {loss_val.item():.2f} Accuracy: {acc * 100:.2f}%")
