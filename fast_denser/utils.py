@@ -458,8 +458,15 @@ class Evaluator:
             # quit
             exit(0)
         except torch.cuda.OutOfMemoryError as e:
-            history = None
             traceback.print_exc()
+            for obj in gc.get_objects():
+                try:
+                    if torch.is_tensor(obj) or (hasattr(obj, 'data') and torch.is_tensor(obj.data)):
+                        print(type(obj), obj.size())
+                except:
+                    pass
+            history = None
+            input()
         #Cleaning up
         #with torch.no_grad():
         if model:
