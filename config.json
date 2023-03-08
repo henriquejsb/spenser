@@ -57,7 +57,7 @@
       "num_steps":100,
       "epochs":1,
       "batch_size":64,
-      "subset":1  
+      "subset":1 
     }
     
   }

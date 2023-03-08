@@ -18,7 +18,7 @@ import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 #os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:512"
 #os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 
@@ -627,9 +627,13 @@ def main(run, dataset, config_file, grammar_path): #pragma: no cover
                 if ind.is_parent and skip_parent:
                     #population_fits.append(ind.fitness)
                     #continue
+                    #print("Is parent")
                     ind.num_epochs = 0
                 else:
+                    #print("Not parent")
                     ind.num_epochs = int(config["TRAINING"]["epochs"])
+                
+                #input()
                 population_fits.append(ind.evaluate(grammar, cnn_eval,  '%s/run_%d/best_%d_%d' % (config["EVOLUTIONARY"]["save_path"], run, gen, idx), '%s/run_%d/best_%d_%d' % (config["EVOLUTIONARY"]["save_path"], run, gen-1, parent_id)))
                 ind.id = idx
 
