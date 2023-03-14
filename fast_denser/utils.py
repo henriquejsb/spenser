@@ -99,7 +99,7 @@ class Evaluator:
         """
         self.config = config
         self.dataset = load_dataset(dataset,config)
-        set_start_method('spawn')
+        
 
 
     def get_layers(self, phenotype):
@@ -880,7 +880,7 @@ class Individual:
                     self.metrics['time_stats'] = time_stats
                     if 'total_time' in time_stats:
                         self.time = time_stats['total_time']
-                    if 'traininig_time' in time_stats:
+                    if 'training_time' in time_stats:
                         self.train_time = time_stats['training_time']
             #del metrics
         else:

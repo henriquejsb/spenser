@@ -19,6 +19,9 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+
+from multiprocessing import set_start_method
+
 #os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:512"
 #os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 
@@ -456,7 +459,8 @@ def mutation(individual, grammar, add_layer, re_use_layer, remove_layer, dsge_la
     #the training time is reseted
     ind.current_time = 0
     ind.num_epochs = 0
-      
+    ind.is_parent = False
+    ind.metrics = None
     for module in ind.modules:
 
         #add-layer (duplicate or new)
@@ -556,7 +560,7 @@ def main(run, dataset, config_file, grammar_path): #pragma: no cover
     #load previous population content (if any)
     unpickle = unpickle_population(config["EVOLUTIONARY"]["save_path"], run)
 
-
+    set_start_method('spawn')
      #if there is not a previous population
     if unpickle is None:
         makedirs('%s/run_%d/' % (config["EVOLUTIONARY"]["save_path"], run), exist_ok=True)
