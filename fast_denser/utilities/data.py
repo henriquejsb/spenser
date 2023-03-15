@@ -9,10 +9,8 @@ import numpy as np
 
 # Training Parameters
 
-data_path='./data/mnist'
-num_classes = 10  # MNIST has 10 output classes
-
-
+MNIST='./data/mnist'
+FMNIST='./data/fashion_mnist'
 
 # Torch Variables
 dtype = torch.float
@@ -25,54 +23,35 @@ transform = transforms.Compose([
                 transforms.Normalize((0,), (1,))])
 
 def load_MNIST(train=True):
-    mnist = datasets.MNIST(data_path, train=train, download=True, transform=transform)
+    mnist = datasets.MNIST(MNIST, train=train, download=True, transform=transform)
     return mnist
 
-def auxiliary():
-    subset = 100
-    mnist_train = utils.data_subset(mnist_train, subset)
-
-    print(mnist_train.data)
-    spike_data = spikegen.rate(mnist_train.data, num_steps=num_steps)
-    print(spike_data)
-
-    #train_loader = DataLoader(mnist_train, batch_size=batch_size, shuffle=True)
+def load_FashionMNIST(train=True):
+    fmnist = datasets.FashionMNIST(FMNIST, train=train, download=True, transform=transform)
+    return fmnist
 
 
+def prepare_dataset(trainset,testset,subset,batch_size):
 
-def load_dataset(dataset, config):
+    train = utils.data_subset(trainset, subset)
 
-    mnist_train = load_MNIST(train=True)
-    mnist_test = load_MNIST(train=False)
+    indices = np.arange(0,len(train))
 
-    subset = int(config["TRAINING"]["subset"])
-
-    batch_size = int(config["TRAINING"]["batch_size"])
-    num_steps = int(config["TRAINING"]["num_steps"])
-
-    mnist_train = utils.data_subset(mnist_train, subset)
-    #print(mnist_train.data.shape)
-    #spikegen.rate(mnist_train.data.to('cuda'), num_steps=100)
-    #print(type(mnist_train.data))
-    #exit(0)
-    indices = np.arange(0,len(mnist_train))
-
-    evo_train_idx, evo_test_idx = train_test_split(indices, test_size = 0.3, shuffle=True, stratify=mnist_train.targets)
+    evo_train_idx, evo_test_idx = train_test_split(indices, test_size = 0.3, shuffle=True, stratify=train.targets)
     
-    #print(evo_train_idx)
-    #print(evo_test_idx)
-    # print(type(evo_test_idx))
-    
-    evo_train = Subset(mnist_train, evo_train_idx)
-    evo_test = Subset(mnist_train, evo_test_idx)
+
+    evo_train = Subset(train, evo_train_idx)
+    evo_test = Subset(train, evo_test_idx)
+
     print(f"Evo train dataset has {len(evo_train)} samples")
     print(f"Evo test dataset has {len(evo_test)} samples")
+
     evo_train = DataLoader(evo_train, batch_size=batch_size, pin_memory=False,num_workers=8)
+
     evo_test = DataLoader(evo_test, batch_size=batch_size)
-    test = DataLoader(mnist_test, batch_size=batch_size)
-    #print(evo_train.data)
-    #wtf(evo_train)
-    #exit(0)
+
+    test = DataLoader(testset, batch_size=batch_size)
+
     dataset = {
         "evo_train": evo_train,
         "evo_test": evo_test,
@@ -80,12 +59,27 @@ def load_dataset(dataset, config):
     }
     return dataset
 
-def wtf(loader):
-    output = torch.tensor()
-    for i, (data, targets) in enumerate(iter(loader)):
-        print(type(data))
-        data.data = spikegen.rate(data.data, num_steps=num_steps)
-        print(type(data))
-        #print(type(targets))
+
+
+def load_dataset(dataset, config):
+    subset = int(config["TRAINING"]["subset"])
+    batch_size = int(config["TRAINING"]["batch_size"])
+    num_steps = int(config["TRAINING"]["num_steps"])
+
+    if dataset == 'mnist':
+        trainset = load_MNIST(train=True)
+        testset = load_MNIST(train=False)
+    elif dataset == 'fashion_mnist':
+        trainset = load_MNIST(train=True)
+        testset = load_MNIST(train=False)
+    else:
+        print("Error: the dataset is not valid")
+        exit(-1)
+
+    dataset = prepare_dataset(trainset,testset,subset,batch_size)
+    return dataset
+
+
+
 if __name__ == '__main__':
     load_dataset('asd',None)

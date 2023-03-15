@@ -17,7 +17,7 @@
       "max_epochs": 10000000,
   
       //place where the experiment is saved
-      "save_path": "./experiments_mnist_t_10_epochs_1_pop_10",
+      "save_path": "./experiments_fashion_mnist_t_10_epochs_1_pop_10",
       
       "skip_parent": "True",
 

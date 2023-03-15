@@ -436,7 +436,12 @@ class Evaluator:
         history['accuracy_test'] = accuracy_test
         history['time_stats'] = time_stats
 
+        total_params = sum(p.numel() for p in model.parameters())
 
+        total_trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+        history['trainable_parameters'] = total_trainable_params
+        history['total_parameters'] = total_params
         #input()
         '''
         #-------------------------------------------------------------
@@ -737,6 +742,7 @@ class Individual:
         self.metrics = None
         self.num_epochs = 0
         self.trainable_parameters = None
+        self.total_parameters = None
         self.time = None
         self.current_time = 0
         self.train_time = 0
@@ -882,6 +888,9 @@ class Individual:
                         self.time = time_stats['total_time']
                     if 'training_time' in time_stats:
                         self.train_time = time_stats['training_time']
+                self.trainable_parameters = metrics['trainable_parameters']
+                self.total_parameters = metrics['total_parameters']
+
             #del metrics
         else:
             self.metrics = None
