@@ -30,7 +30,6 @@ from torch.utils.data import DataLoader
 #import tonic
 from snntorch import spikegen
 
-
 from multiprocessing import Pool
 from multiprocessing import Queue
 from multiprocessing import set_start_method
@@ -38,6 +37,10 @@ from multiprocessing import Process
 import contextlib
 from time import time as t
 #from tqdm import tqdm
+
+
+import torch.multiprocessing
+torch.multiprocessing.set_sharing_strategy('file_system')
 
 DEBUG = True
 
@@ -472,7 +475,7 @@ def forward_pass(net, data):
     spk_rec = []
     utils.reset(net)  # resets hidden states for all LIF neurons in net
 
-    #data = data.transpose(0,1)
+    
 
     for step in range(data.size(0)):  # data.size(0) = number of time steps
         spk_out, mem_out = net(data[step])
@@ -492,6 +495,7 @@ def get_fitness(model,testloader,num_steps):
         for data, targets in testloader:
             
             data = spikegen.rate(data.data, num_steps=num_steps).to(device)
+            #data = data.to(device)
             targets = targets.to(device)
             
             
@@ -529,8 +533,16 @@ def train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps):
                     print(f"\tCurrent speed:{i/(t()-start)} iterations per second")
                 
             a = t()
+            #print("Before:",_data.shape)
+
             data = spikegen.rate(_data.data, num_steps=num_steps).to(device)
+            
+            
+            #data = _data.transpose(0,1).to(device)
+            
             #del _data
+            #print("After:",data.shape)
+            #input()
             spikegen_time += t() - a
         
 
@@ -540,7 +552,10 @@ def train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps):
             print(np.asarray((unique, counts)).T)
             '''
             a = t()
+            #print("Targets before:", targets.shape)
+            #targets = targets.view(targets.shape[0]).to(device)
             targets = targets.to(device)
+            #print("Targets",targets.shape)
             dataloading_time += time()-a
             
             model.train()

@@ -31,8 +31,9 @@ def load_FashionMNIST(train=True):
     return fmnist
 
 
-def prepare_dataset(trainset,testset,subset,batch_size):
+def prepare_dataset(trainset,testset,subset,batch_size,num_steps):
 
+    CONVERT = False
     train = utils.data_subset(trainset, subset)
 
     indices = np.arange(0,len(train))
@@ -46,11 +47,19 @@ def prepare_dataset(trainset,testset,subset,batch_size):
     print(f"Evo train dataset has {len(evo_train)} samples")
     print(f"Evo test dataset has {len(evo_test)} samples")
 
-    evo_train = DataLoader(evo_train, batch_size=batch_size, pin_memory=False,num_workers=8)
+    if CONVERT:
+        evo_train = DataLoader(evo_train)
+        evo_test = DataLoader(evo_test)
+        test = DataLoader(testset)
 
-    evo_test = DataLoader(evo_test, batch_size=batch_size)
+        #evo_train = preprocess_dataloader(evo_train, batch_size, num_steps)
+        #evo_test = preprocess_dataloader(evo_test,batch_size, num_steps)
+        #test = preprocess_dataloader(test,batch_size,num_steps)
 
-    test = DataLoader(testset, batch_size=batch_size)
+    else:
+        evo_train = DataLoader(evo_train,batch_size=batch_size,shuffle=True,num_workers=8,persistent_workers=True)
+        evo_test = DataLoader(evo_test,batch_size=batch_size,shuffle=True,num_workers=8,persistent_workers=True)
+        test = DataLoader(testset,batch_size=batch_size,shuffle=True)
 
     dataset = {
         "evo_train": evo_train,
@@ -58,6 +67,21 @@ def prepare_dataset(trainset,testset,subset,batch_size):
         "test": test
     }
     return dataset
+
+def preprocess_dataloader(data_loader, batch_size, num_steps):
+    instances = []
+    i = 0
+    for x, y in data_loader:
+        i += 1
+        #print("X",x.shape)
+        #print("X.data",x.data.shape)
+        x = spikegen.rate(x[0].data, num_steps=num_steps)
+        #print("Spike X",x.shape)
+        instances.append((x, y))
+    print("Iterations:",i)
+    new_data_loader = DataLoader(instances, batch_size=batch_size, pin_memory=False, num_workers=0)
+    return new_data_loader
+
 
 
 
@@ -76,10 +100,29 @@ def load_dataset(dataset, config):
         print("Error: the dataset is not valid")
         exit(-1)
 
-    dataset = prepare_dataset(trainset,testset,subset,batch_size)
+    dataset = prepare_dataset(trainset,testset,subset,batch_size,num_steps)
+    
     return dataset
 
 
+def test_load_dataset(dataset):
+    subset = 1
+    batch_size = 32
+    num_steps = 10
+
+    if dataset == 'mnist':
+        trainset = load_MNIST(train=True)
+        testset = load_MNIST(train=False)
+    elif dataset == 'fashion_mnist':
+        trainset = load_MNIST(train=True)
+        testset = load_MNIST(train=False)
+    else:
+        print("Error: the dataset is not valid")
+        exit(-1)
+
+    #dataset = prepare_dataset(trainset,testset,subset,batch_size)
+    #dataset = prepare_dataset_2(trainset,testset,subset,batch_size, num_steps)
+    return dataset
 
 if __name__ == '__main__':
-    load_dataset('asd',None)
+    test_load_dataset('mnist')

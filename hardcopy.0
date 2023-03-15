@@ -1,0 +1,40 @@
+  File "/usr/local/lib/python3.7/dist-packages/sklearn/model_selection/__init__.py"
+, line 19, in <module>
+    from ._validation import cross_val_score
+  File "/usr/local/lib/python3.7/dist-packages/sklearn/model_selection/_validation.
+py", line 27, in <module>
+    from ..metrics.scorer import check_scoring, _check_multimetric_scoring
+  File "/usr/local/lib/python3.7/dist-packages/sklearn/metrics/__init__.py", line 7
+, in <module>
+    from .ranking import auc
+  File "/usr/local/lib/python3.7/dist-packages/sklearn/metrics/ranking.py", line 26
+, in <module>
+    from scipy.stats import rankdata
+  File "/home/branquinho/.local/lib/python3.7/site-packages/scipy/stats/__init__.py
+", line 441, in <module>
+    from .stats import *
+  File "/home/branquinho/.local/lib/python3.7/site-packages/scipy/stats/stats.py",
+line 37, in <module>
+    from scipy.spatial.distance import cdist
+  File "/home/branquinho/.local/lib/python3.7/site-packages/scipy/spatial/__init__.
+py", line 102, in <module>
+    from ._geometric_slerp import geometric_slerp
+  File "/home/branquinho/.local/lib/python3.7/site-packages/scipy/spatial/_geometri
+c_slerp.py", line 8, in <module>
+    from scipy.spatial.distance import euclidean
+  File "/home/branquinho/.local/lib/python3.7/site-packages/scipy/spatial/distance.
+py", line 1727, in <module>
+    @dataclasses.dataclass(frozen=True)
+  File "/usr/lib/python3.7/dataclasses.py", line 1002, in wrap
+    return _process_class(cls, init, repr, eq, order, unsafe_hash, frozen)
+  File "/usr/lib/python3.7/dataclasses.py", line 961, in _process_class
+    for fn in _frozen_get_del_attr(cls, field_list, globals):
+  File "/usr/lib/python3.7/dataclasses.py", line 558, in _frozen_get_del_attr
+    globals=globals),
+  File "/usr/lib/python3.7/dataclasses.py", line 387, in _create_fn
+    exec(txt, globals, ns)
+  File "<string>", line 1, in <module>
+KeyboardInterrupt
+branquinho@pamela:~/snn$ ^C
+branquinho@pamela:~/snn$ ^C
+branquinho@pamela:~/snn$ H
