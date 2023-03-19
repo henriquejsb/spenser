@@ -94,8 +94,8 @@ def load_dataset(dataset, config):
         trainset = load_MNIST(train=True)
         testset = load_MNIST(train=False)
     elif dataset == 'fashion_mnist':
-        trainset = load_MNIST(train=True)
-        testset = load_MNIST(train=False)
+        trainset = load_FashionMNIST(train=True)
+        testset = load_FashionMNIST(train=False)
     else:
         print("Error: the dataset is not valid")
         exit(-1)
