@@ -370,7 +370,7 @@ class Evaluator:
         return model, optimizer, loss_fn, torch_layers, torch_learning
 
     def evaluate(self, phenotype, weights_save_path, parent_weights_path,\
-                num_epochs, input_size=(1,28,28)): #pragma: no cover
+                num_epochs): #pragma: no cover
         
         start = t()
         trainloader = self.dataset["evo_train"]
@@ -383,6 +383,7 @@ class Evaluator:
         history = {}
 
         num_steps = int(self.config["TRAINING"]["num_steps"])
+        input_size = self.dataset["input_size"]
         spk_rec = []
 
         time_stats = {}
