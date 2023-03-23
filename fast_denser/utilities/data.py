@@ -17,13 +17,13 @@ dtype = torch.float
 
 # Define a transform
 transform = transforms.Compose([
-                transforms.Resize((32,32)),
+                transforms.Resize((28,28)),
                 transforms.Grayscale(),
                 transforms.ToTensor(),
                 transforms.Normalize((0,), (1,))])
 
 transform_cifar =  transforms.Compose([
-                transforms.Resize((28,28)),
+                transforms.Resize((32,32)),
                 transforms.ToTensor(),
                 transforms.Normalize((0,), (1,))])
 
