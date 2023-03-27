@@ -18,7 +18,7 @@ import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 from multiprocessing import set_start_method
 
@@ -530,7 +530,7 @@ def load_config(config_file):
     return config
 
 
-def main(run, dataset, config_file, grammar_path): #pragma: no cover
+def main(run, dataset, config_file, grammar_path, evaluate_test, retrain_epochs): #pragma: no cover
     """
         (1+lambda)-ES
 
@@ -585,6 +585,30 @@ def main(run, dataset, config_file, grammar_path): #pragma: no cover
         last_gen, cnn_eval, population, parent, population_fits, pkl_random, pkl_numpy, total_epochs,best_fitness = unpickle
         random.setstate(pkl_random)
         np.random.set_state(pkl_numpy)
+
+    if evaluate_test or retrain_epochs:
+        best_path = str(Path('%s' % config["EVOLUTIONARY"]["save_path"], 
+                             'run_%d' % run, 'best'))
+        accuracy_log_file = str(Path('%s' % config["EVOLUTIONARY"]["save_path"], 
+                             'run_%d' % run, 'best_test_accuracy.txt'))
+        if retrain_epochs:
+            retrain_path = str(Path('%s' % config["EVOLUTIONARY"]["save_path"], 
+                             'run_%d' % run, 'best_retrained_%d' % retrain_epochs))
+            retrain_log_file = str(Path('%s' % config["EVOLUTIONARY"]["save_path"], 
+                             'run_%d' % run, 'best_retrained_%d_log.txt' % retrain_epochs))
+            history = cnn_eval.retrain_longer(best_path, retrain_epochs, retrain_path)
+            with open(retrain_log_file, 'w') as f:
+                f.write(str(history)+'\n')
+            
+            
+            best_path = retrain_path
+        
+        
+        test_accuracy = cnn_eval.testing_performance(best_path)
+        print("Test accuracy:",test_accuracy)
+        with open(accuracy_log_file, 'w') as f:
+            f.write(str(test_accuracy))
+        return
 
     for gen in range(last_gen+1, config["EVOLUTIONARY"]["num_generations"]):
 
@@ -692,9 +716,10 @@ def process_input(argv): #pragma: no cover
     config_file = None
     run = 0
     grammar = None
-
+    evaluate_test = False
+    retrain_epochs = 0
     try:
-        opts, args = getopt.getopt(argv, "hd:c:r:g:",["dataset=","config=","run=","grammar="]   )
+        opts, args = getopt.getopt(argv, "hd:c:r:g:R:E",["dataset=","config=","run=","grammar=","evaluate","retrain="]   )
     except getopt.GetoptError:
         print('f_denser.py -d <dataset> -c <config> -r <run> -g <grammar>')
         sys.exit(2)
@@ -717,8 +742,12 @@ def process_input(argv): #pragma: no cover
         elif opt in ("-g", "--grammar"):
             grammar = arg
         
+        elif opt in ("--retrain"):
+            retrain_epochs = int(arg)
         
-        
+        elif opt in ("--evaluate"):
+            evaluate_test = True
+            
 
 
     error = False
@@ -751,7 +780,7 @@ def process_input(argv): #pragma: no cover
 
 
     if not error:
-        main(run, dataset, config_file, grammar)
+        main(run, dataset, config_file, grammar, evaluate_test, retrain_epochs)
     else:
         print('f_denser.py -d <dataset> -c <config> -r <run> -g <grammar>')
 
