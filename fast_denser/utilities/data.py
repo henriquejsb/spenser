@@ -57,8 +57,8 @@ def prepare_dataset(trainset,testset,subset,batch_size,num_steps):
         #test = preprocess_dataloader(test,batch_size,num_steps)
 
     else:
-        evo_train = DataLoader(evo_train,batch_size=batch_size,shuffle=True,num_workers=8,persistent_workers=True)
-        evo_test = DataLoader(evo_test,batch_size=batch_size,shuffle=True,num_workers=8,persistent_workers=True)
+        evo_train = DataLoader(evo_train,batch_size=batch_size,shuffle=True,num_workers=0)
+        evo_test = DataLoader(evo_test,batch_size=batch_size,shuffle=True,num_workers=0)
         test = DataLoader(testset,batch_size=batch_size,shuffle=True)
 
     dataset = {

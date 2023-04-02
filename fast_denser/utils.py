@@ -40,12 +40,12 @@ from time import time as t
 
 
 import torch.multiprocessing
-torch.multiprocessing.set_sharing_strategy('file_system')
+#torch.multiprocessing.set_sharing_strategy('file_system')
 
 DEBUG = True
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-torch.set_num_threads(os.cpu_count() - 1)
+#torch.set_num_threads(os.cpu_count() - 1)
 
 if DEBUG:
     #print("Running on Device = ", device)
@@ -411,7 +411,8 @@ class Evaluator:
             optimizer = self.assemble_optimiser(torch_learning,model)
                             
             loss_fn = SF.mse_count_loss(correct_rate=1.0, incorrect_rate=0.0)
-            
+            #loss_fn = SF.ce_rate_loss()
+            #print("Rate loss")
             acc_hist, loss_hist, time_stats = train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps)
             
             history['accuracy'] = acc_hist
@@ -431,7 +432,8 @@ class Evaluator:
 
         accuracy_test = get_fitness(model,testloader,num_steps)
         #accuracy_test = 0.8
-
+        if DEBUG:
+            print("Exited get_fitness")
 
         time_stats["fitness_time"] = t() - start_fitness
         time_stats["total_time"] = t()-start
@@ -445,6 +447,8 @@ class Evaluator:
 
         history['trainable_parameters'] = total_trainable_params
         history['total_parameters'] = total_params
+        if DEBUG:
+            print("No. of parameters collected.")
         #input()
         '''
         #-------------------------------------------------------------
@@ -530,7 +534,7 @@ def train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps):
             if DEBUG:
                 
                 if i%25 == 0:
-                    print(f"\tCurrent speed:{i/(t()-start)} iterations per second")
+                    print(f"\t[{i+1}/{num_epochs}] Current speed:{i/(t()-start)} iterations per second")
                 
             a = t()
             #print("Before:",_data.shape)
@@ -651,7 +655,10 @@ def evaluate(args): #pragma: no cover
         exit(0)
     except torch.cuda.OutOfMemoryError as e:
         traceback.print_exc()
+        print("CUDA ERROR")
         history = None
+    if DEBUG:
+        print("Returning from evaluate.")
     return_val.put(history)
 
     
@@ -848,7 +855,8 @@ class Individual:
         # wait for the process to finish
         #print('Waiting for the process...')
         process.join()
-
+        if DEBUG:
+            print("Process terminated")
         metrics = return_val.get()
         
         '''
