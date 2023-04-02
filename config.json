@@ -1,63 +1,63 @@
 {
-    //Evolutionary algorithm parameters
-    "EVOLUTIONARY": {
-  
-      //Seeds for setting the initial random and numpy seeds. Enable reproducibility.
-      //Warining: the current seeds only enable performing runs from 0 to 14.
-      "random_seeds": [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000],
-      "numpy_seeds": [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000],
-  
-      //Maximum number of generations
-      "num_generations": 1,
-  
-      //lambda, i.e., number of offspring
-      "lambda": 10,
-  
-      //maximum of epochs to perform. Evolution is halted when the current number of epochs surpasses this value
-      "max_epochs": 10000000,
-  
-      //place where the experiment is saved
-      "save_path": "./experiments_fashion_mnist_t_25_epochs_5_pop_10",
-      
-      "skip_parent": "True",
+  //Evolutionary algorithm parameters
+  "EVOLUTIONARY": {
 
-      //rates of the different mutations [0, 1]
-      "MUTATIONS": {
-        "add_layer": 0.25,
-        "reuse_layer": 0.15,
-        "remove_layer": 0.25,
-        "add_connection": 0,
-        "remove_connection": 0,
-        "dsge_layer": 0.15,
-        "macro_layer": 0.3,
-        "train_longer": 0.2
-      }
-    },
-  
-    //network specific parameters
-    "NETWORK": {
-      //structure to the hidden layers of the network [[non-terminal, min, max], ...]
-      "network_structure": [["features", 1, 6], ["classification", 1, 4]],
-  
-      //number of layers on initialisation
-      "network_structure_init": {"features":[1,3,5], "classification":[1]},
+    //Seeds for setting the initial random and numpy seeds. Enable reproducibility.
+    //Warining: the current seeds only enable performing runs from 0 to 14.
+    "random_seeds": [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000],
+    "numpy_seeds": [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000],
 
-      //output layer
-      "output": "output",
+    //Maximum number of generations
+    "num_generations": 200,
 
-      //macro blocks: currently only learning
-      "macro_structure": ["learning"]
+    //lambda, i.e., number of offspring
+    "lambda": 10,
 
-    },
-  
-    //training parameters
-    "TRAINING": {
-      //maximum training time for each network (in seconds)
-      "default_train_time": 600,
-      "num_steps":25,
-      "epochs":1,
-      "batch_size":64,
-      "subset":1 
-    }
+    //maximum of epochs to perform. Evolution is halted when the current number of epochs surpasses this value
+    "max_epochs": 10000000,
+
+    //place where the experiment is saved
+    "save_path": "./experiments_fashion_mnist_t_25_epochs_1_pop_10",
     
+    "skip_parent": "True",
+
+    //rates of the different mutations [0, 1]
+    "MUTATIONS": {
+      "add_layer": 0.25,
+      "reuse_layer": 0.15,
+      "remove_layer": 0.25,
+      "add_connection": 0,
+      "remove_connection": 0,
+      "dsge_layer": 0.15,
+      "macro_layer": 0.3,
+      "train_longer": 0.2
+    }
+  },
+
+  //network specific parameters
+  "NETWORK": {
+    //structure to the hidden layers of the network [[non-terminal, min, max], ...]
+    "network_structure": [["features", 1, 6], ["classification", 1, 4]],
+
+    //number of layers on initialisation
+    "network_structure_init": {"features":[1,3,5], "classification":[1]},
+
+    //output layer
+    "output": "output",
+
+    //macro blocks: currently only learning
+    "macro_structure": ["learning"]
+
+  },
+
+  //training parameters
+  "TRAINING": {
+    //maximum training time for each network (in seconds)
+    "default_train_time": 600,
+    "num_steps":25,
+    "epochs":1,
+    "batch_size":64,
+    "subset":1 
   }
+  
+}

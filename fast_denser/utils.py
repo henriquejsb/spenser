@@ -365,12 +365,59 @@ class Evaluator:
 
         
         #model.to(device)
+        #print(checkpoint['model_state_dict'])
         model.load_state_dict(checkpoint['model_state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
         return model, optimizer, loss_fn, torch_layers, torch_learning
 
+    def testing_performance(self, weights_save_path):
+        testloader = self.dataset["test"]
+        num_steps = int(self.config["TRAINING"]["num_steps"])
+        model, optimizer, loss_fn, torch_layers, torch_learning = self.load(weights_save_path)
+        model.to(device)
+        accuracy_test = get_fitness(model,testloader,num_steps)
+        return accuracy_test
+
+    def retrain_longer(self, weights_save_path, num_epochs, save_path):
+
+        
+        model, optimizer, loss_fn, torch_layers, torch_learning = self.load(weights_save_path)
+        model.to(device)
+
+        trainloader = self.dataset["evo_train"]
+        testloader = self.dataset["evo_test"]
+
+        
+        #input_size = self.dataset["input_size"]
+        input_size = (1,28,28)
+        loss_hist = []
+        acc_hist = []
+        history = {}
+        history['accuracy'] = []
+        history['loss'] = []
+        history['time_stats'] = []
+        num_steps = int(self.config["TRAINING"]["num_steps"])
+        
+        
+
+        for epoch in range(num_epochs):
+            
+            acc_hist, loss_hist, time_stats = train_network(model,trainloader,optimizer,loss_fn,1,num_steps)
+            history['accuracy'] += acc_hist
+            history['loss'] += loss_hist
+            history['time_stats'] += [time_stats]
+
+
+            acc_hist, loss_hist, time_stats = train_network(model,testloader,optimizer,loss_fn,1,num_steps)
+            history['accuracy'] += acc_hist
+            history['loss'] += loss_hist
+            history['time_stats'] += [time_stats]
+
+        self.save(self, model, optimizer, loss_fn, torch_layers, torch_learning, input_size, save_path)
+        return history
+
     def evaluate(self, phenotype, weights_save_path, parent_weights_path,\
-                num_epochs, input_size=(1,28,28)): #pragma: no cover
+                num_epochs): #pragma: no cover
         
         start = t()
         trainloader = self.dataset["evo_train"]
@@ -383,6 +430,7 @@ class Evaluator:
         history = {}
 
         num_steps = int(self.config["TRAINING"]["num_steps"])
+        input_size = self.dataset["input_size"]
         spk_rec = []
 
         time_stats = {}
@@ -537,18 +585,10 @@ def train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps):
                     print(f"\t[{i+1}/{num_epochs}] Current speed:{i/(t()-start)} iterations per second")
                 
             a = t()
-            #print("Before:",_data.shape)
-
+          
             data = spikegen.rate(_data.data, num_steps=num_steps).to(device)
-            
-            
-            #data = _data.transpose(0,1).to(device)
-            
-            #del _data
-            #print("After:",data.shape)
-            #input()
+
             spikegen_time += t() - a
-        
 
             '''
             (unique, counts) = np.unique(np.asarray(targets), return_counts=True)
@@ -556,10 +596,9 @@ def train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps):
             print(np.asarray((unique, counts)).T)
             '''
             a = t()
-            #print("Targets before:", targets.shape)
-            #targets = targets.view(targets.shape[0]).to(device)
+         
             targets = targets.to(device)
-            #print("Targets",targets.shape)
+ 
             dataloading_time += time()-a
             
             model.train()
@@ -571,8 +610,7 @@ def train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps):
             
             a = t()
             loss_val = loss_fn(spk_rec, targets)
-            #print(loss_val)
-            #input()
+         
             # Gradient calculation + weight update
             optimizer.zero_grad()
             loss_val.backward()

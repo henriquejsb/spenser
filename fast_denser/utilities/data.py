@@ -11,7 +11,7 @@ import numpy as np
 
 MNIST='./data/mnist'
 FMNIST='./data/fashion_mnist'
-
+CIFAR_10='./data/cifar-10'
 # Torch Variables
 dtype = torch.float
 
@@ -19,6 +19,11 @@ dtype = torch.float
 transform = transforms.Compose([
                 transforms.Resize((28,28)),
                 transforms.Grayscale(),
+                transforms.ToTensor(),
+                transforms.Normalize((0,), (1,))])
+
+transform_cifar =  transforms.Compose([
+                transforms.Resize((32,32)),
                 transforms.ToTensor(),
                 transforms.Normalize((0,), (1,))])
 
@@ -30,6 +35,9 @@ def load_FashionMNIST(train=True):
     fmnist = datasets.FashionMNIST(FMNIST, train=train, download=True, transform=transform)
     return fmnist
 
+def load_CIFAR10(train=True):
+    cifar_10 = datasets.CIFAR10(CIFAR_10, train=train, download=True, transform=transform_cifar)
+    return cifar_10
 
 def prepare_dataset(trainset,testset,subset,batch_size,num_steps):
 
@@ -93,15 +101,21 @@ def load_dataset(dataset, config):
     if dataset == 'mnist':
         trainset = load_MNIST(train=True)
         testset = load_MNIST(train=False)
+        input_size = (1,28,28)
     elif dataset == 'fashion_mnist':
         trainset = load_FashionMNIST(train=True)
         testset = load_FashionMNIST(train=False)
+        input_size = (1,28,28)
+    elif dataset == 'cifar-10':
+        trainset = load_CIFAR10(train=True)
+        testset = load_CIFAR10(train=False)
+        input_size = (3,32,32)
     else:
         print("Error: the dataset is not valid")
         exit(-1)
 
     dataset = prepare_dataset(trainset,testset,subset,batch_size,num_steps)
-    
+    dataset["input_size"] = input_size
     return dataset
 
 
@@ -114,8 +128,8 @@ def test_load_dataset(dataset):
         trainset = load_MNIST(train=True)
         testset = load_MNIST(train=False)
     elif dataset == 'fashion_mnist':
-        trainset = load_MNIST(train=True)
-        testset = load_MNIST(train=False)
+        trainset = load_FashionMNIST(train=True)
+        testset = load_FashionMNIST(train=False)
     else:
         print("Error: the dataset is not valid")
         exit(-1)
