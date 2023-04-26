@@ -17,8 +17,8 @@ import warnings
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
-os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+#os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+#os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 
 from multiprocessing import set_start_method
 
@@ -65,7 +65,6 @@ def save_pop(population, save_path, run, gen):
                           'fitness': str(ind.fitness),
                           'metrics': str(ind.metrics),
                           'trainable_parameters': str(ind.trainable_parameters),
-                          'total_parameters': str(ind.total_parameters),
                           'num_epochs': str(ind.num_epochs),
                           'time': str(ind.time),
                           'train_time': str(ind.train_time),

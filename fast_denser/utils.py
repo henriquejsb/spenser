@@ -364,7 +364,7 @@ class Evaluator:
         optimizer = self.assemble_optimiser(torch_learning,model)
 
         
-        #model.to(device)
+        model.to(device)
         #print(checkpoint['model_state_dict'])
         model.load_state_dict(checkpoint['model_state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
@@ -374,7 +374,7 @@ class Evaluator:
         testloader = self.dataset["test"]
         num_steps = int(self.config["TRAINING"]["num_steps"])
         model, optimizer, loss_fn, torch_layers, torch_learning = self.load(weights_save_path)
-        model.to(device)
+        #model.to(device)
         accuracy_test = get_fitness(model,testloader,num_steps)
         return accuracy_test
 
@@ -382,14 +382,14 @@ class Evaluator:
 
         
         model, optimizer, loss_fn, torch_layers, torch_learning = self.load(weights_save_path)
-        model.to(device)
+        #model.to(device)
 
         trainloader = self.dataset["evo_train"]
         testloader = self.dataset["evo_test"]
 
         
-        #input_size = self.dataset["input_size"]
-        input_size = (1,28,28)
+        input_size = self.dataset["input_size"]
+        #input_size = (1,28,28)
         loss_hist = []
         acc_hist = []
         history = {}
@@ -413,7 +413,7 @@ class Evaluator:
             history['loss'] += loss_hist
             history['time_stats'] += [time_stats]
 
-        self.save(self, model, optimizer, loss_fn, torch_layers, torch_learning, input_size, save_path)
+        self.save(model, optimizer, loss_fn, torch_layers, torch_learning, input_size, save_path)
         return history
 
     def evaluate(self, phenotype, weights_save_path, parent_weights_path,\
@@ -431,6 +431,7 @@ class Evaluator:
 
         num_steps = int(self.config["TRAINING"]["num_steps"])
         input_size = self.dataset["input_size"]
+        #input_size = (1,28,28)
         spk_rec = []
 
         time_stats = {}
@@ -695,6 +696,13 @@ def evaluate(args): #pragma: no cover
         traceback.print_exc()
         print("CUDA ERROR")
         history = None
+    except RuntimeError as e:
+        if 'Unable to find a valid cuDNN algorithm' in traceback.format_exc():
+            print("CUDA ERROR")
+            traceback.print_exc()
+            history = None
+        else:
+            exit(-5)
     if DEBUG:
         print("Returning from evaluate.")
     return_val.put(history)

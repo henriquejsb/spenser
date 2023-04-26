@@ -24,6 +24,7 @@ transform = transforms.Compose([
 
 transform_cifar =  transforms.Compose([
                 transforms.Resize((32,32)),
+                transforms.Grayscale(),
                 transforms.ToTensor(),
                 transforms.Normalize((0,), (1,))])
 
@@ -65,8 +66,8 @@ def prepare_dataset(trainset,testset,subset,batch_size,num_steps):
         #test = preprocess_dataloader(test,batch_size,num_steps)
 
     else:
-        evo_train = DataLoader(evo_train,batch_size=batch_size,shuffle=True,num_workers=0)
-        evo_test = DataLoader(evo_test,batch_size=batch_size,shuffle=True,num_workers=0)
+        evo_train = DataLoader(evo_train,batch_size=batch_size,shuffle=True,num_workers=8)
+        evo_test = DataLoader(evo_test,batch_size=batch_size,shuffle=True,num_workers=8)
         test = DataLoader(testset,batch_size=batch_size,shuffle=True)
 
     dataset = {
@@ -109,7 +110,7 @@ def load_dataset(dataset, config):
     elif dataset == 'cifar-10':
         trainset = load_CIFAR10(train=True)
         testset = load_CIFAR10(train=False)
-        input_size = (3,32,32)
+        input_size = (1,32,32)
     else:
         print("Error: the dataset is not valid")
         exit(-1)
