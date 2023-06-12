@@ -1,55 +1,17 @@
+from spenser.data import load_dataset
+from time import time as t
 
-# Copyright 2019 Filipe Assuncao
-
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-
-#    http://www.apache.org/licenses/LICENSE-2.0
-
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-import traceback
-import random
-from time import time
-import numpy as np
-import os
-from fast_denser.utilities.data import load_dataset
-import gc
 import torch, torch.nn as nn
 import snntorch as snn
 from snntorch import surrogate
 from snntorch import functional as SF
 from snntorch import utils
 from typing import OrderedDict
-from torch.utils.data import DataLoader
-#import tonic
 from snntorch import spikegen
-
-from multiprocessing import Pool
-from multiprocessing import Queue
-from multiprocessing import set_start_method
-from multiprocessing import Process
-import contextlib
-from time import time as t
-#from tqdm import tqdm
-
-
-import torch.multiprocessing
-#torch.multiprocessing.set_sharing_strategy('file_system')
 
 DEBUG = True
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-#torch.set_num_threads(os.cpu_count() - 1)
-
-if DEBUG:
-    #print("Running on Device = ", device)
-    pass
 
 class Evaluator:
     """
@@ -185,13 +147,12 @@ class Evaluator:
     def assemble_network(self, torch_layers, input_size):
         if DEBUG:
             print(torch_layers)
-        #last_output = input_size[0]*input_size[1]
+        
         last_output = input_size
         
         layers = []
         idx = 0
-        #beta = 0.9  # neuron decay rate
-        #spike_grad = surrogate.fast_sigmoid()
+        
         first_fc = True
 
         grads_dict = {
@@ -201,6 +162,9 @@ class Evaluator:
         }
 
         for layer_type, layer_params in torch_layers:
+            #Adding layers as tuple (string_id,layer) so that we can assemble them using Sequential(OrderededDict)
+
+
             if last_output[1] <= 0:
                 return None
             if layer_type == 'act':
@@ -225,9 +189,8 @@ class Evaluator:
 
                 num_units = int(layer_params['num-units'][0])
                 
-                #print(layer_params)
-                #input()
-                #Adding layers as tuple (string_id,layer) so that we can assemble them using Sequential(OrderededDict)
+               
+               
                 fc = nn.Linear(
                     in_features=last_output[1], 
                     out_features=num_units,
@@ -279,9 +242,6 @@ class Evaluator:
 
                 new_dim = int(((last_output[1] - K) / K) + 1)
                 last_output = (last_output[0], new_dim, new_dim)
-
-            elif layer_type == 'pool-max':
-                pass
 
 
             elif layer_type == 'dropout':
@@ -498,27 +458,8 @@ class Evaluator:
         history['total_parameters'] = total_params
         if DEBUG:
             print("No. of parameters collected.")
-        #input()
-        '''
-        #-------------------------------------------------------------
 
-        #In case we need to load the module we need phenotype and weights
-        
-        model = None
-        gc.collect()
 
-        model,optimizer,loss_fn = self.load(weights_save_path)
-        
-        #model = torch.jit.load(weights_save_path)
-        model.to(device)
-
-        get_fitness(model,testloader,num_steps)
-        #---------------------------------------------------
-        '''
-
-            
-        #gc.collect()
-        #torch.cuda.empty_cache()
         return history
 
 
@@ -600,7 +541,7 @@ def train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps):
          
             targets = targets.to(device)
  
-            dataloading_time += time()-a
+            dataloading_time += t()-a
             
             model.train()
             a = t()
@@ -616,7 +557,7 @@ def train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps):
             optimizer.zero_grad()
             loss_val.backward()
             optimizer.step()
-            learning_time += time() - a
+            learning_time += t() - a
 
             
             # Store loss history for future plotting
@@ -646,337 +587,3 @@ def train_network(model,trainloader,optimizer,loss_fn,num_epochs,num_steps):
         print("Time spent in learning (s / %)",learning_time,100*learning_time/training_time)
         print("Time spent loading data (s / %):", dataloading_time,100*dataloading_time/training_time)
     return acc_hist, loss_hist, time_stats
-
-def evaluate(args): #pragma: no cover
-    """
-        Function used to deploy a new process to train a candidate solution.
-        Each candidate solution is trained in a separe process to avoid memory problems.
-
-        Parameters
-        ----------
-        args : tuple
-            cnn_eval : Evaluator
-                network evaluator
-
-            phenotype : str
-                individual phenotype
-
-            load_prev_weights : bool
-                resume training from a previous train or not
-
-            weights_save_path : str
-                path where to save the model weights after training
-
-            parent_weights_path : str
-                path to the weights of the previous training
-
-            train_time : float
-                maximum training time
-
-            num_epochs : int
-                maximum number of epochs
-
-        Returns
-        -------
-        score_history : dict
-            training data: loss and accuracy
-    """
-
-    
-
-    return_val, scnn_eval, phenotype, weights_save_path, parent_weights_path, num_epochs = args
-    
-    try:
-        history = scnn_eval.evaluate(phenotype, weights_save_path, parent_weights_path, num_epochs)
-        
-    except KeyboardInterrupt:
-        # quit
-        exit(0)
-    except torch.cuda.OutOfMemoryError as e:
-        traceback.print_exc()
-        print("CUDA ERROR")
-        history = None
-    except RuntimeError as e:
-        if 'Unable to find a valid cuDNN algorithm' in traceback.format_exc():
-            print("CUDA ERROR")
-            traceback.print_exc()
-            history = None
-        else:
-            exit(-5)
-    if DEBUG:
-        print("Returning from evaluate.")
-    return_val.put(history)
-
-    
-
-
-class Module:
-    """
-        Each of the units of the outer-level genotype
-
-
-        Attributes
-        ----------
-        module : str
-            non-terminal symbol
-
-        min_expansions : int
-            minimum expansions of the block
-
-        max_expansions : int
-            maximum expansions of the block
-
-        levels_back : dict
-            number of previous layers a given layer can receive as input
-
-        layers : list
-            list of layers of the module
-
-        connections : dict
-            list of connetions of each layer
-
-
-        Methods
-        -------
-            initialise(grammar, reuse)
-                Randomly creates a module
-    """
-
-    def __init__(self, module, min_expansions, max_expansions):
-        """
-            Parameters
-            ----------
-            module : str
-                non-terminal symbol
-
-            min_expansions : int
-                minimum expansions of the block
-        
-            max_expansions : int
-                maximum expansions of the block
-
-        """
-
-        self.module = module
-        self.min_expansions = min_expansions
-        self.max_expansions = max_expansions
-        self.layers = []
-
-    def initialise(self, grammar, reuse, init_max):
-        """
-            Randomly creates a module
-
-            Parameters
-            ----------
-            grammar : Grammar
-                grammar instace that stores the expansion rules
-
-            reuse : float
-                likelihood of reusing an existing layer
-
-            Returns
-            -------
-            score_history : dict
-                training data: loss and accuracy
-        """
-
-        num_expansions = random.choice(init_max[self.module])
-
-        #Initialise layers
-        for idx in range(num_expansions):
-            if idx>0 and random.random() <= reuse:
-                r_idx = random.randint(0, idx-1)
-                self.layers.append(self.layers[r_idx])
-            else:
-                self.layers.append(grammar.initialise(self.module))
-
-       
-
-
-
-class Individual:
-   
-    def __init__(self, network_structure, macro_rules, output_rule, ind_id):
-     
-
-        self.network_structure = network_structure
-        self.output_rule = output_rule
-        self.macro_rules = macro_rules
-        self.modules = []
-        self.output = None
-        self.macro = []
-        self.phenotype = None
-        self.fitness = None
-        self.metrics = None
-        self.num_epochs = 0
-        self.trainable_parameters = None
-        self.total_parameters = None
-        self.time = None
-        self.current_time = 0
-        self.train_time = 0
-        self.id = ind_id
-        self.is_parent = False
-
-    def initialise(self, grammar, reuse, init_max):
-        """
-            Randomly creates a candidate solution
-
-            Parameters
-            ----------
-            grammar : Grammar
-                grammar instaces that stores the expansion rules
-
-
-            reuse : float
-                likelihood of reusing an existing layer
-
-            Returns
-            -------
-            candidate_solution : Individual
-                randomly created candidate solution
-        """
-
-        for non_terminal, min_expansions, max_expansions in self.network_structure:
-            new_module = Module(non_terminal, min_expansions, max_expansions)
-            new_module.initialise(grammar, reuse, init_max)
-
-            self.modules.append(new_module)
-
-        #Initialise output
-        self.output = grammar.initialise(self.output_rule)
-
-        # Initialise the macro structure: learning, data augmentation, etc.
-        for rule in self.macro_rules:
-            self.macro.append(grammar.initialise(rule))
-
-        return self
-
-
-    def decode(self, grammar):
-        """
-            Maps the genotype to the phenotype
-
-            Parameters
-            ----------
-            grammar : Grammar
-                grammar instaces that stores the expansion rules
-
-            Returns
-            -------
-            phenotype : str
-                phenotype of the individual to be used in the mapping to the keras model.
-        """
-
-        phenotype = ''
-        offset = 0
-        layer_counter = 0
-        for module in self.modules:
-            offset = layer_counter
-            for layer_idx, layer_genotype in enumerate(module.layers):
-                layer_counter += 1
-                phenotype += ' ' + grammar.decode(module.module, layer_genotype)
-
-        phenotype += ' '+grammar.decode(self.output_rule, self.output)
-     
-        for rule_idx, macro_rule in enumerate(self.macro_rules):
-            phenotype += ' '+grammar.decode(macro_rule, self.macro[rule_idx])
-
-        self.phenotype = phenotype.rstrip().lstrip()
-        return self.phenotype
-
-    def evaluate(self, grammar, cnn_eval, weights_save_path, parent_weights_path=''): #pragma: no cover
-  
-        if DEBUG:
-            print(torch.cuda.memory_allocated(),torch.cuda.max_memory_allocated())
-        
-        phenotype = self.decode(grammar)
-        return_val = Queue()
-        
-        #print(f"Begin training individual {self.id}.\n")
-        process = Process(target=evaluate, args=[(return_val, cnn_eval, phenotype,
-                            weights_save_path, parent_weights_path,\
-                            self.num_epochs)])
-        # run the process
-        process.start()
-        # wait for the process to finish
-        #print('Waiting for the process...')
-        process.join()
-        if DEBUG:
-            print("Process terminated")
-        metrics = return_val.get()
-        
-        '''
-        num_pool_workers=1 
-        set_start_method('spawn')
-        
-        with contextlib.closing(Pool(num_pool_workers)) as po: 
-        #metrics = evaluate((cnn_eval, phenotype,
-        #                    weights_save_path, parent_weights_path,\
-        #                    self.num_epochs))
-            pool_results = po.map_async(evaluate,[(cnn_eval, phenotype,
-                            weights_save_path, parent_weights_path,\
-                            self.num_epochs)])
-            metrics = pool_results.get()[0]
-        '''
-        
-        if not self.metrics:
-            self.metrics = {}
-        
-        if metrics is not None:
-            if self.num_epochs == 0 and self.metrics is not None:
-                if 'accuracy_test' in metrics:
-                    if type(metrics['accuracy_test']) is float:
-                        self.fitness = metrics['accuracy_test']
-                    else:
-                        self.fitness = metrics['accuracy_test'].item()
-            else:
-                if 'accuracy' in metrics:
-                    if type(metrics['accuracy']) is list:
-                        self.metrics['accuracy'] = [i for i in metrics['accuracy']]
-                    else:
-                        self.metrics['accuracy'] = [i.item() for i in metrics['accuracy']]
-                
-                if 'loss' in metrics:
-                    if type(metrics['loss']) is list:
-                        self.metrics['loss'] = [i for i in metrics['loss']]
-                    else:
-                        self.metrics['loss'] = [i.item() for i in metrics['loss']]
-
-
-                #self.metrics = metrics
-
-                if 'accuracy_test' in metrics:
-                    if type(metrics['accuracy_test']) is float:
-                        self.fitness = metrics['accuracy_test']
-                    else:
-                        self.fitness = metrics['accuracy_test'].item()
-                if 'time_stats' in metrics:
-                    time_stats = metrics['time_stats']
-                    self.metrics['time_stats'] = time_stats
-                    if 'total_time' in time_stats:
-                        self.time = time_stats['total_time']
-                    if 'training_time' in time_stats:
-                        self.train_time = time_stats['training_time']
-                self.trainable_parameters = metrics['trainable_parameters']
-                self.total_parameters = metrics['total_parameters']
-
-            #del metrics
-        else:
-            self.metrics = None
-            self.fitness = -1
-            self.num_epochs = 0
-            self.trainable_parameters = -1
-            self.current_time = 0
-        
-        # print("Finished. Press to see garbage")
-        # input()
-        # for obj in gc.get_objects():
-        #         try:
-        #             if torch.is_tensor(obj) or (hasattr(obj, 'data') and torch.is_tensor(obj.data)):
-        #                 print(obj,type(obj), obj.size())
-        #         except:
-        #             pass
-        # #print("Garbage finished")
-        #input()
-        return self.fitness
-
