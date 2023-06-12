@@ -6,7 +6,7 @@ KEYWORDS: spiking neural networks, neuroevolution, SPENSER, computer vision
 
 If you want to use this work, please cite us:
 
-Henrique Branquinho, Nuno Lourenço, and Ernesto Costa. 2023.** SPENSER:Towards a NeuroEvolutionary Approach for Convolutional Spiking Neural Networks**. In _Genetic and Evolutionary Computation Conference Companion (GECCO ’23 Companion), July 15–19, 2023, Lisbon, Portugal_.
+Henrique Branquinho, Nuno Lourenço, and Ernesto Costa. 2023. ** SPENSER:Towards a NeuroEvolutionary Approach for Convolutional Spiking Neural Networks** . In _Genetic and Evolutionary Computation Conference Companion (GECCO ’23 Companion), July 15–19, 2023, Lisbon, Portugal_.
 https://arxiv.org/abs/2305.10987
 ```
 python main.py -c config.json -g cnn.grammar -d [mnist|fashion_mnist|cifar-10]
