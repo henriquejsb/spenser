@@ -1,8 +1,6 @@
 jsmin==3.0.1
-matplotlib==3.5.2
-numpy==1.21.5
-snntorch==0.5.3
-tonic==1.2.4
+numpy==1.21.6
+scikit_learn==1.0.2
+snntorch==0.6.4
 torch==1.13.1
 torchvision==0.14.1
-tqdm==4.64.1
