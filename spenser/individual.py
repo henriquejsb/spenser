@@ -45,10 +45,10 @@ def evaluate(args): #pragma: no cover
 
     
 
-    return_val, scnn_eval, phenotype, weights_save_path, parent_weights_path, num_epochs = args
+    return_val, scnn_eval, phenotype, weights_save_path, parent_weights_path, num_epochs, cmaes_iterations = args
     
     try:
-        history = scnn_eval.evaluate(phenotype, weights_save_path, parent_weights_path, num_epochs)
+        history = scnn_eval.evaluate(phenotype, weights_save_path, parent_weights_path, num_epochs, cmaes_iterations)
         
     except KeyboardInterrupt:
         # quit
@@ -90,6 +90,7 @@ class Individual:
         self.fitness = None
         self.metrics = None
         self.num_epochs = 0
+        self.cmaes_iterations = 0
         self.trainable_parameters = None
         self.total_parameters = None
         self.time = None
@@ -176,7 +177,7 @@ class Individual:
         #print(f"Begin training individual {self.id}.\n")
         process = Process(target=evaluate, args=[(return_val, cnn_eval, phenotype,
                             weights_save_path, parent_weights_path,\
-                            self.num_epochs)])
+                            self.num_epochs, self.cmaes_iterations)])
         # run the process
         process.start()
 

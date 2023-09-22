@@ -328,6 +328,7 @@ def main(run, dataset, config_file, grammar_path, evaluate_test, retrain_epochs)
             for idx, ind in enumerate(population):
                 ind.current_time = 0
                 ind.num_epochs = int(config["TRAINING"]["epochs"])
+                ind.cmaes_iterations = int(config["TRAINING"]["CMA-ES"]["n_iterations"])
                 population_fits.append(ind.evaluate(grammar, cnn_eval,'%s/run_%d/best_%d_%d' % (config["EVOLUTIONARY"]["save_path"], run, gen, idx)))
                 ind.id = idx
 
@@ -347,6 +348,7 @@ def main(run, dataset, config_file, grammar_path, evaluate_test, retrain_epochs)
             
             
             population[0].num_epochs = 0
+            population[0].cmaes_iterations = 0
             population[0].is_parent = True
             parent_id = parent.id
             parent.is_parent = True
@@ -358,8 +360,10 @@ def main(run, dataset, config_file, grammar_path, evaluate_test, retrain_epochs)
                     #continue
                     #print("Is parent")
                     ind.num_epochs = 0
+                    ind.cmaes_iterations = 0
                 else:
                     #print("Not parent")
+                    ind.cmaes_iterations = int(config["TRAINING"]["CMA-ES"]["n_iterations"])
                     ind.num_epochs = int(config["TRAINING"]["epochs"])
                 
                 #input()

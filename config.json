@@ -11,7 +11,7 @@
     "num_generations": 200,
 
     //lambda, i.e., number of offspring
-    "lambda": 10,
+    "lambda": 3,
 
     //maximum of epochs to perform. Evolution is halted when the current number of epochs surpasses this value
     "max_epochs": 10000000,
@@ -57,7 +57,14 @@
     "num_steps":10,
     "epochs":1,
     "batch_size":64,
-    "subset":1 
+    "subset":1 ,
+    "loss_fn": "snntorch.functional.mse_count_loss(correct_rate=.8, incorrect_rate=.2)",
+    "CMA-ES": {
+      "popsize":50,
+      "subbatch":50,
+      "num_actors":4,
+      "n_iterations":50
+    }
   }
   
 }

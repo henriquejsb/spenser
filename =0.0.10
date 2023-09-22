@@ -1,0 +1,5 @@
+Collecting pickle5
+  Downloading pickle5-0.0.12-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.whl (256 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 256.4/256.4 kB 4.4 MB/s eta 0:00:00
+Installing collected packages: pickle5
+Successfully installed pickle5-0.0.12
