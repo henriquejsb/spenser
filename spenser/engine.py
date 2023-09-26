@@ -309,7 +309,7 @@ def main(run, dataset, config_file, grammar_path, evaluate_test, retrain_epochs)
         with open(accuracy_log_file, 'w') as f:
             f.write(str(test_accuracy))
         return
-
+    
     for gen in range(last_gen+1, config["EVOLUTIONARY"]["num_generations"]):
 
         #check the total number of epochs (stop criteria)

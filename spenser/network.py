@@ -198,7 +198,7 @@ def forward_pass(net, data):
         spk_rec.append(spk_out)
         
     '''    
-    utils.reset(net)  # resets hidden states for all LIF neurons in net
+    #utils.reset(net)  # resets hidden states for all LIF neurons in net
     spk_rec = net(data)
     return spk_rec
 
@@ -243,10 +243,11 @@ def train_with_cmaes(problem,optimizer,cmaes_iterations):
     start = t()
     if DEBUG:
         from evotorch.logging import StdOutLogger, PandasLogger
-        stdout_logger = StdOutLogger(optimizer, interval = 25)
-        #pandas_logger = PandasLogger(optimizer, interval = 25)
+        stdout_logger = StdOutLogger(optimizer, interval = 1)
+        pandas_logger = PandasLogger(optimizer, interval = 1)
     optimizer.run(cmaes_iterations)
     training_time = t()-start
+    print(pandas_logger.to_dataframe())
     final_sol = torch.squeeze(optimizer.status["center"])
     print(final_sol.size())
     model = problem.parameterize_net(final_sol).to(device)
@@ -260,19 +261,26 @@ def train_with_cmaes(problem,optimizer,cmaes_iterations):
     }
     if DEBUG:
         print("Training time (s): ",training_time)
-    return model,[],[],time_stats
+    return model, time_stats, pandas_logger.to_dataframe()
 
 
 def train_network(model,dataset,dataloader,optimizer_genotype,loss_fn,num_epochs=0,cmaes_iterations=0,config=None):
     optimizer,problem = assemble_optimizer(optimizer_genotype, model, dataset=dataset, config=config, loss_fn=loss_fn)
+    acc_hist=[]
+    loss_val=[]
+    cmaes_logger=None
+    
+    
     if optimizer.is_backprop:
         acc_hist, loss_val, time_stats = train_with_backprop(model,dataloader,optimizer,loss_fn,num_epochs)
+    
+
     elif optimizer.is_cma_es:
         del model
-        model,acc_hist, loss_val, time_stats = train_with_cmaes(problem,optimizer,cmaes_iterations)
-        problem.kill_actors()
-    #del optimizer
-    return model,acc_hist, loss_val, time_stats
+        model,time_stats,cmaes_logger = train_with_cmaes(problem,optimizer,cmaes_iterations)
+        
+
+    return model,acc_hist, loss_val, time_stats,cmaes_logger
 
 
 

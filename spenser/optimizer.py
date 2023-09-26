@@ -1,8 +1,8 @@
 import torch
 from evotorch.algorithms import CMAES
 from evotorch.neuroevolution import SupervisedNE
-
-
+from evotorch.neuroevolution.net import count_parameters
+from math import log
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -35,21 +35,31 @@ def assemble_optimizer(learning, model, dataset=None, config=None, loss_fn=None)
         optimizer.is_backprop = True
         optimizer.is_cma_es = False
     elif learning['learning'] == 'cma-es':
+        #N = count_parameters(model)
+        #pop = int(4+3*log(N))
+        
+        #model.eval()
         problem = SupervisedNE( 
                         dataset,  # Using the dataset specified earlier
                         model,  # Training the SNN module designed earlier
                         loss_fn,  # Minimizing CrossEntropyLoss
                         minibatch_size = config["TRAINING"]["batch_size"],  # With a minibatch size of 32
+                        #minibatch_size = 128,
+                        num_minibatches = 1,
                         common_minibatch = True,  # Always using the same minibatch across all solutions on an actor
-                        num_actors = config["TRAINING"]["CMA-ES"]["num_actors"],  # The total number of CPUs used
+                        #num_actors = config["TRAINING"]["CMA-ES"]["num_actors"],  # The total number of CPUs used
+                        num_actors = 1,
                         num_gpus_per_actor = 'max',  # Dividing all available GPUs between the 4 actors
-                        subbatch_size = config["TRAINING"]["CMA-ES"]["subbatch"],  # Evaluating solutions in sub-batches of size 50 ensures we won't run out of GPU memory for individual workers
+                        #subbatch_size = config["TRAINING"]["CMA-ES"]["subbatch"],  # Evaluating solutions in sub-batches of size 50 ensures we won't run out of GPU memory for individual workers
                         device=device
                     )
         #print(learning['center_init'],type(learning['center_init']))
+
+        #print(pop)
         optimizer = CMAES(problem,
                             stdev_init = float(learning['stdev_init']),
-                            popsize = int(config["TRAINING"]["CMA-ES"]["popsize"]),
+                            popsize = None,
+                            #popsize = int(config["TRAINING"]["CMA-ES"]["popsize"]),
                             #center_init=learning['center_init'],
                             #center_learning_rate=float(learning['center_lr']),
                             #cov_learning_rate=float(learning['cov_lr']),
@@ -60,5 +70,5 @@ def assemble_optimizer(learning, model, dataset=None, config=None, loss_fn=None)
                             separable=learning['separable']
                         )
         optimizer.is_cma_es = True
-        optimizer.is_backprop = False
+        optimizer.is_backprop = False   
     return optimizer, problem

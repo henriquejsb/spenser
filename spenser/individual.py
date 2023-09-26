@@ -211,7 +211,8 @@ class Individual:
                     else:
                         self.metrics['loss'] = [i.item() for i in metrics['loss']]
 
-
+                if 'cmaes_logger' in metrics:
+                    self.metrics['cmaes_logger'] = metrics['cmaes_logger']
                 #self.metrics = metrics
 
                 if 'accuracy_test' in metrics:

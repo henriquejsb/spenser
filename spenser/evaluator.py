@@ -168,14 +168,11 @@ class Evaluator:
         torch_learning = checkpoint["torch_learning"]
         loss_fn = checkpoint["loss_fn"]
 
-        #Network.genotype_layers = torch_layers
-        #Network.input_size = input_size
+        
+        
         model = Network(torch_layers,input_size)
 
-        # = self.assemble_network(torch_layers, input_size)
-        
-        #optimizer = assemble_optimizer(torch_learning,model)
-
+  
         
         model.to(device)
         #print(checkpoint['model_state_dict'])
@@ -283,16 +280,17 @@ class Evaluator:
             model = Network(torch_layers,input_size)
             model.to(device)
             
-            get_fitness(model,testloader, num_steps)
+            #get_fitness(model,testloader, num_steps)
 
+            #TODO ADD LOSS FUNCTION AS EVOL PARAM
             loss_fn = eval(self.config["TRAINING"]["loss_fn"])
 
-            
-            
+            cmaes_iterations = len(train) // self.config["TRAINING"]["batch_size"] + 1
+            print("CMAES ITERATIONS",cmaes_iterations)
             #loss_fn = SF.ce_rate_loss()
             #print("Rate loss")
 
-            model,acc_hist, loss_hist, time_stats = train_network(model=model,
+            model,acc_hist, loss_hist, time_stats, cmaes_logger = train_network(model=model,
                                                             dataset=train,
                                                             dataloader=trainloader,
                                                             optimizer_genotype=torch_learning,
@@ -304,6 +302,7 @@ class Evaluator:
                 print("Finished training")
             history['accuracy'] = acc_hist
             history['loss'] = loss_hist
+            history['cmaes_logger'] = cmaes_logger
             
         
         else:
