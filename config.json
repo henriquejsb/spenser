@@ -63,7 +63,7 @@
       "popsize":2000,
       "subbatch":20,
       "num_actors":4,
-      "n_iterations":5
+      "n_iterations":50
     }
   }
   
