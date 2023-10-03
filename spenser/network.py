@@ -243,7 +243,7 @@ def train_with_cmaes(problem,optimizer,cmaes_iterations):
     start = t()
     if DEBUG:
         from evotorch.logging import StdOutLogger, PandasLogger
-        stdout_logger = StdOutLogger(optimizer, interval = 1)
+        stdout_logger = StdOutLogger(optimizer, interval = 5)
         pandas_logger = PandasLogger(optimizer, interval = 1)
     optimizer.run(cmaes_iterations)
     training_time = t()-start
