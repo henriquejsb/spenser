@@ -7,9 +7,16 @@ from time import time as t
 from snntorch import functional as SF
 from evotorch.neuroevolution.net.misc import fill_parameters
 from spenser.optimizer import assemble_optimizer
+import numpy as np
+
+
 DEBUG = True
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
+
+def logdet(K):
+    s, ld = np.linalg.slogdet(K)
+    return  ld
 
 class Network(nn.Module):
     
@@ -23,9 +30,12 @@ class Network(nn.Module):
         self.layers = nn.ModuleList([l[1] for l in aux_layers])
         #del aux_layers
         self.n_modules = len(self.layers)
-
+        self.K = None
+        self.num_actfun = 0
+        self.no_train = False
 
     def forward(self, x):
+
         membrane_potentials = {}
         #Hacking with indexes because ModuleList does not support iteration
 
@@ -204,36 +214,48 @@ def forward_pass(net, data):
 
 
 
-def get_fitness(model,testloader,num_steps):
+def get_fitness(model,testloader,batchsize):
     total = 0
     correct = 0
-  
-    
+    scores = []
+    i=0
     with torch.no_grad():
         model.eval()
+        
         for data, targets in testloader:
             #print("HEY!")
             #data = spikegen.rate(data.data, num_steps=num_steps).to(device)
             #data = data.transpose(0,1).to(device)
+            if i==2:
+                break
             data = data.to(device)
             targets = targets.to(device)
             
-            
+            if model.no_train:
+                model.K = np.zeros((batchsize, batchsize))
+                model.num_actfun = 0
+
             spk_rec = forward_pass(model, data)
             
             #aux_spike_rec += list(spk_rec)
             # calculate total accuracy
+            if model.no_train:
+                scores.append(logdet(model.K/ (model.num_actfun)))
             _, predicted = spk_rec.sum(dim=0).max(1)
             #acc = SF.accuracy_rate(spk_rec, targets)
             total += targets.size(0)
             correct += (predicted == targets).sum().item()
-            
+            i+=1
+    fitness_estimation = np.mean(scores)        
     accuracy_test = correct / total
 
     if DEBUG:
+        print(f"FITNESS ESTIMATION: {fitness_estimation}")
         print(f"Total correctly classified test set images: {correct}/{total}")
         print(f"Test Set Accuracy: {100*accuracy_test:.2f}%")
-    return accuracy_test
+    #return accuracy_test
+    return fitness_estimation
+
 
 def train_with_cmaes(problem,optimizer,cmaes_iterations):
     dataloading_time = 0
@@ -268,6 +290,7 @@ def train_network(model,dataset,dataloader,optimizer_genotype,loss_fn,num_epochs
     optimizer,problem = assemble_optimizer(optimizer_genotype, model, dataset=dataset, config=config, loss_fn=loss_fn)
     acc_hist=[]
     loss_val=[]
+    time_stats={}
     cmaes_logger=None
     
     
@@ -279,8 +302,12 @@ def train_network(model,dataset,dataloader,optimizer_genotype,loss_fn,num_epochs
         del model
         model,time_stats,cmaes_logger = train_with_cmaes(problem,optimizer,cmaes_iterations)
         
+    elif optimizer.no_train:
+        pass
 
     return model,acc_hist, loss_val, time_stats,cmaes_logger
+
+
 
 
 
