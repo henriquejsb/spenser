@@ -212,7 +212,17 @@ class Individual:
                         self.metrics['loss'] = [i.item() for i in metrics['loss']]
 
                 if 'cmaes_logger' in metrics:
-                    self.metrics['cmaes_logger'] = metrics['cmaes_logger']
+                    if metrics['cmaes_logger']:
+                        aux_logger = {}
+                        #aux_logger["iter"] = metrics['cmaes_logger']['iter'].tolist()
+                        aux_logger["stepsize"] = metrics['cmaes_logger']['stepsize'].tolist()
+                        aux_logger["mean_eval"] = metrics['cmaes_logger']["mean_eval"].tolist()
+                        aux_logger["median_eval"] = metrics['cmaes_logger']["median_eval"].tolist()
+                        aux_logger["pop_best_eval"] = metrics['cmaes_logger']["pop_best_eval"].tolist()
+                        self.metrics['cmaes_logger'] = aux_logger
+
+                    #print(self.metrics['cmaes_logger'])
+
                 #self.metrics = metrics
 
                 if 'accuracy_test' in metrics:
