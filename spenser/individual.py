@@ -212,7 +212,7 @@ class Individual:
                         self.metrics['loss'] = [i.item() for i in metrics['loss']]
 
                 if 'cmaes_logger' in metrics:
-                    if metrics['cmaes_logger']:
+                    if metrics['cmaes_logger'] is not None:
                         aux_logger = {}
                         #aux_logger["iter"] = metrics['cmaes_logger']['iter'].tolist()
                         aux_logger["stepsize"] = metrics['cmaes_logger']['stepsize'].tolist()
