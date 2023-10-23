@@ -23,4 +23,4 @@
 <adam> ::= learning:adam [lr,float,1,0.0001,0.1] [beta1,float,1,0.5,0.9999] [beta2,float,1,0.5,0.9999] [decay,float,1,0.000001,0.001] <amsgrad> 
 <amsgrad> ::= amsgrad:True | amsgrad:False
 <rmsprop> ::= learning:rmsprop [lr,float,1,0.0001,0.1] [rho,float,1,0.5,1] [decay,float,1,0.000001,0.001]
-<cma-es> ::= learning:cma-es [stdev_init,float,1,0.01,1.0] separable:True 
+<cma-es> ::= learning:cma-es [stdev_init,float,1,0.01,0.1] separable:True 
