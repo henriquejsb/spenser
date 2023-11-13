@@ -174,7 +174,7 @@ class Evaluator:
 
   
         
-        model.to(device)
+        model = model.to(device)
         #print(checkpoint['model_state_dict'])
         model.load_state_dict(checkpoint['model_state_dict'])
         #optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
@@ -190,9 +190,8 @@ class Evaluator:
 
     def retrain_longer(self, weights_save_path, num_epochs, save_path):
 
-        print("NOT IMPLEMENTED YET")
-        exit(0)
-        '''
+       
+        
         model, loss_fn, torch_layers, torch_learning = self.load(weights_save_path)
         #model.to(device)
 
@@ -211,29 +210,45 @@ class Evaluator:
         history['time_stats'] = []
         num_steps = int(self.config["TRAINING"]["num_steps"])
         
-        
-        for epoch in range(num_epochs):
+        #loss_fn = eval(self.config["TRAINING"]["loss_fn"])
+
+        cmaes_iterations = (len(train) // self.config["TRAINING"]["batch_size"] + 1) * num_epochs
+        print("CMAES ITERATIONS",cmaes_iterations)
+        torch_learning["stdev_init"] = 0.1
+        train_sets = torch.utils.data.ConcatDataset([train, test])
+        train_sets_loader = None
+        #for epoch in range(num_epochs):
             #(model,dataset,dataloader,optimizer_genotype,loss_fn,num_epochs=0,cmaes_iterations=0,config=None):
-            acc_hist, loss_hist, time_stats = train_network(model=model,
-                                                            dataset = train,
-                                                            dataloader = trainloader,
-                                                            optimizer_genotype = torch_learning
-                                                            loss_fn=loss_fn,
-                                                            num_epochs=1,
-                                                            cmaes_iterations=config["TRAINING"]["CMA-ES"][])
-            history['accuracy'] += acc_hist
-            history['loss'] += loss_hist
-            history['time_stats'] += [time_stats]
+        model, acc_hist, loss_hist, time_stats, cmaes_logger = train_network(model=model,
+                                                        dataset = train_sets,
+                                                        dataloader = train_sets_loader,
+                                                        optimizer_genotype = torch_learning,
+                                                        loss_fn=loss_fn,
+                                                        num_epochs=num_epochs,
+                                                        cmaes_iterations=cmaes_iterations,
+                                                        config=self.config)
+        history['accuracy'] += acc_hist
+        history['loss'] += loss_hist
+        history['time_stats'] += [time_stats]
+        history['cmaes_logger'] = cmaes_logger
 
-
-            acc_hist, loss_hist, time_stats = train_network(model,testloader,optimizer,loss_fn,1)
-            history['accuracy'] += acc_hist
-            history['loss'] += loss_hist
-            history['time_stats'] += [time_stats]
-
-        self.save(model, optimizer, loss_fn, torch_layers, torch_learning, input_size, save_path)
-        return history
         '''
+        model, acc_hist, loss_hist, time_stats, cmaes_logger = train_network(model=model,
+                                                        dataset = test,
+                                                        dataloader = testloader,
+                                                        optimizer_genotype = torch_learning
+                                                        loss_fn=loss_fn,
+                                                        num_epochs=1,
+                                                        cmaes_iterations=config["TRAINING"]["CMA-ES"][])
+        
+        history['accuracy'] += acc_hist
+        history['loss'] += loss_hist
+        history['time_stats'] += [time_stats]
+        '''
+        #self.save(model, optimizer, loss_fn, torch_layers, torch_learning, input_size, save_path)
+        self.save(model, loss_fn, torch_layers, torch_learning, input_size, save_path)
+        return history
+        
     def evaluate(self, phenotype, weights_save_path, parent_weights_path,\
                 num_epochs, cmaes_iterations): #pragma: no cover
         
@@ -289,6 +304,8 @@ class Evaluator:
             print("CMAES ITERATIONS",cmaes_iterations)
             #loss_fn = SF.ce_rate_loss()
             #print("Rate loss")
+
+            
 
             model,acc_hist, loss_hist, time_stats, cmaes_logger = train_network(model=model,
                                                             dataset=train,

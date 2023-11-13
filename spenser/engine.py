@@ -288,7 +288,7 @@ def main(run, dataset, config_file, grammar_path, evaluate_test, retrain_epochs)
 
     if evaluate_test or retrain_epochs:
         best_path = str(Path('%s' % config["EVOLUTIONARY"]["save_path"], 
-                             'run_%d' % run, 'best'))
+                             'run_%d' % run, 'best_retrained_50'))
         accuracy_log_file = str(Path('%s' % config["EVOLUTIONARY"]["save_path"], 
                              'run_%d' % run, 'best_test_accuracy.txt'))
         if retrain_epochs:
@@ -296,7 +296,17 @@ def main(run, dataset, config_file, grammar_path, evaluate_test, retrain_epochs)
                              'run_%d' % run, 'best_retrained_%d' % retrain_epochs))
             retrain_log_file = str(Path('%s' % config["EVOLUTIONARY"]["save_path"], 
                              'run_%d' % run, 'best_retrained_%d_log.txt' % retrain_epochs))
+            
             history = cnn_eval.retrain_longer(best_path, retrain_epochs, retrain_path)
+            if 'cmaes_logger' in history:
+                    if history['cmaes_logger'] is not None:
+                        aux_logger = {}
+                        #aux_logger["iter"] = history['cmaes_logger']['iter'].tolist()
+                        aux_logger["stepsize"] = history['cmaes_logger']['stepsize'].tolist()
+                        aux_logger["mean_eval"] = history['cmaes_logger']["mean_eval"].tolist()
+                        aux_logger["median_eval"] = history['cmaes_logger']["median_eval"].tolist()
+                        aux_logger["pop_best_eval"] = history['cmaes_logger']["pop_best_eval"].tolist()
+                        history['cmaes_logger'] = aux_logger
             with open(retrain_log_file, 'w') as f:
                 f.write(str(history)+'\n')
             
