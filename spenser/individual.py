@@ -7,7 +7,7 @@ import torch, torch.nn as nn
 import traceback
 
 DEBUG = True
-
+TESTING = True
 def evaluate(args): #pragma: no cover
     """
         Function used to deploy a new process to train a candidate solution.
@@ -170,7 +170,7 @@ class Individual:
   
         if DEBUG:
             print(torch.cuda.memory_allocated(),torch.cuda.max_memory_allocated())
-        
+    
         phenotype = self.decode(grammar)
         return_val = Queue()
         

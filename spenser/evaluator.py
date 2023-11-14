@@ -258,6 +258,7 @@ class Evaluator:
         optimizer = None
         loss_fn = None
 
+       
 
         if num_epochs > 0:
             model_phenotype, learning_phenotype = phenotype.split('learning:')

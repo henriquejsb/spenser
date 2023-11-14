@@ -186,7 +186,12 @@ def mutation(individual, grammar, add_layer, re_use_layer, remove_layer, dsge_la
     ind.is_parent = False
     ind.metrics = None
     for module in ind.modules:
-
+        print(module)
+        print(module.min_expansions, module.max_expansions, len(module.layers))
+        for l in module.layers:
+            print(l)
+        print("---")
+        input()
         #add-layer (duplicate or new)
         for _ in range(random.randint(1,2)):
             if len(module.layers) < module.max_expansions and random.random() <= add_layer:
