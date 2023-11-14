@@ -3,6 +3,8 @@ from evotorch.algorithms import CMAES
 from evotorch.neuroevolution import SupervisedNE
 from evotorch.neuroevolution.net import count_parameters, parameter_vector
 from math import log
+from spenser.no_training import FitnessEstimator
+import snntorch as snn
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -11,6 +13,7 @@ def assemble_optimizer(learning, model, dataset=None, config=None, loss_fn=None)
     print("IN OPTIMIZER")
     #print(Network.genotype_layers)
     #exit(0)
+    model.K = None
     if learning['learning'] == 'rmsprop':
         optimizer = torch.optim.RMSprop(model.parameters(),
                                     lr = float(learning['lr']),
@@ -18,6 +21,7 @@ def assemble_optimizer(learning, model, dataset=None, config=None, loss_fn=None)
                                     weight_decay = float(learning['decay']))
         optimizer.is_backprop = True
         optimizer.is_cma_es = False
+        optimizer.no_train = False
     elif learning['learning'] == 'gradient-descent':
         optimizer = torch.optim.SGD(model.parameters(),
                                 lr = float(learning['lr']),
@@ -26,6 +30,7 @@ def assemble_optimizer(learning, model, dataset=None, config=None, loss_fn=None)
                                 nesterov = bool(learning['nesterov']))
         optimizer.is_backprop = True
         optimizer.is_cma_es = False
+        optimizer.no_train = False
     elif learning['learning'] == 'adam':
         optimizer = torch.optim.Adam(model.parameters(),
                                 lr = float(learning['lr']),
@@ -34,6 +39,7 @@ def assemble_optimizer(learning, model, dataset=None, config=None, loss_fn=None)
                                 amsgrad = bool(learning['amsgrad']))
         optimizer.is_backprop = True
         optimizer.is_cma_es = False
+        optimizer.no_train = False
     elif learning['learning'] == 'cma-es':
         #N = count_parameters(model)
         #pop = int(4+3*log(N))
@@ -70,5 +76,15 @@ def assemble_optimizer(learning, model, dataset=None, config=None, loss_fn=None)
                             separable=learning['separable']
                         )
         optimizer.is_cma_es = True
-        optimizer.is_backprop = False   
+        optimizer.is_backprop = False 
+        optimizer.no_train = False
+    elif learning['learning'] == 'no-train':
+        optimizer = FitnessEstimator(model, config["TRAINING"]["batch_size"])
+        for layer in model.modules():
+            if isinstance(layer, snn.Leaky):
+                layer.register_forward_hook(optimizer)
+        optimizer.is_cma_es = False
+        optimizer.is_backprop = False 
+        optimizer.no_train = True
+        model.no_train = True
     return optimizer, problem

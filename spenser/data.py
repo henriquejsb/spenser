@@ -54,8 +54,8 @@ def prepare_dataset(trainset,testset,subset,batch_size,num_steps):
     print(f"Evo train dataset has {len(evo_train_original)} samples")
     print(f"Evo test dataset has {len(evo_test_original)} samples")
  
-    evo_train = DataLoader(evo_train_original,batch_size=batch_size,shuffle=True,num_workers=8)
-    evo_test = DataLoader(evo_test_original,batch_size=batch_size,shuffle=True,num_workers=8)
+    evo_train = DataLoader(evo_train_original,batch_size=batch_size,shuffle=True,num_workers=0)
+    evo_test = DataLoader(evo_test_original,batch_size=batch_size,shuffle=True,num_workers=0)
     test = DataLoader(testset,batch_size=batch_size,shuffle=True)
 
     dataset = {

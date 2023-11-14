@@ -301,7 +301,7 @@ class Evaluator:
             #TODO ADD LOSS FUNCTION AS EVOL PARAM
             loss_fn = eval(self.config["TRAINING"]["loss_fn"])
 
-            cmaes_iterations = len(train) // self.config["TRAINING"]["batch_size"] + 1
+            cmaes_iterations = (len(train) // self.config["TRAINING"]["batch_size"] + 1) * num_epochs
             print("CMAES ITERATIONS",cmaes_iterations)
             #loss_fn = SF.ce_rate_loss()
             #print("Rate loss")
@@ -337,7 +337,7 @@ class Evaluator:
         start_fitness = t()
 
         
-        accuracy_test = get_fitness(model,testloader,num_steps)
+        accuracy_test = get_fitness(model,testloader, self.config["TRAINING"]["batch_size"])
         #accuracy_test = 0.8
         if DEBUG:
             print("Exited get_fitness")

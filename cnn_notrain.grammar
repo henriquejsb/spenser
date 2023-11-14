@@ -17,10 +17,11 @@
 <bias> ::= bias:True | bias:False
 <output> ::= <fully-last> <activation>
 <fully-last> ::= layer:fc num-units:10 bias:True
-<learning> ::= <cma-es>
+<learning> ::= <no-train>
 <gradient-descent> ::= learning:gradient-descent [lr,float,1,0.0001,0.1] [momentum,float,1,0.68,0.99] [decay,float,1,0.000001,0.001] <nesterov>
 <nesterov> ::= nesterov:True | nesterov:False
 <adam> ::= learning:adam [lr,float,1,0.0001,0.1] [beta1,float,1,0.5,0.9999] [beta2,float,1,0.5,0.9999] [decay,float,1,0.000001,0.001] <amsgrad> 
 <amsgrad> ::= amsgrad:True | amsgrad:False
 <rmsprop> ::= learning:rmsprop [lr,float,1,0.0001,0.1] [rho,float,1,0.5,1] [decay,float,1,0.000001,0.001]
-<cma-es> ::= learning:cma-es [stdev_init,float,1,0.01,0.1] separable:True 
+<cma-es> ::= learning:cma-es stdev_init:0.1 popsize:100 center_init:None center_lr:1.0 cov_lr:1.0 rankmu_lr:1.0 rankone_lr:1.0 stdev_min:None stdev_max:None separable:True 
+<no-train> ::= learning:no-train
