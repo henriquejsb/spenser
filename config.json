@@ -58,7 +58,7 @@
     "epochs":1,
     "batch_size":256,
     "subset":1 ,
-    "loss_fn": "snntorch.functional.mse_count_loss(correct_rate=.8, incorrect_rate=.2)",
+    "loss_fn": "snntorch.functional.mse_count_loss(correct_rate=1.0, incorrect_rate=0.0)",
     "CMA-ES": {
       "popsize":2000,
       "subbatch":20,

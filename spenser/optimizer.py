@@ -1,7 +1,7 @@
 import torch
 from evotorch.algorithms import CMAES
 from evotorch.neuroevolution import SupervisedNE
-from evotorch.neuroevolution.net import count_parameters
+from evotorch.neuroevolution.net import count_parameters, parameter_vector
 from math import log
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -60,7 +60,7 @@ def assemble_optimizer(learning, model, dataset=None, config=None, loss_fn=None)
                             stdev_init = float(learning['stdev_init']),
                             popsize = None,
                             #popsize = int(config["TRAINING"]["CMA-ES"]["popsize"]),
-                            #center_init=learning['center_init'],
+                            center_init=parameter_vector(model),
                             #center_learning_rate=float(learning['center_lr']),
                             #cov_learning_rate=float(learning['cov_lr']),
                             #rankmu_learning_rate=float(learning['rankmu_lr']),
