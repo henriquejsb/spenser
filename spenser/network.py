@@ -226,7 +226,7 @@ def get_fitness(model,testloader,batchsize):
             #print("HEY!")
             #data = spikegen.rate(data.data, num_steps=num_steps).to(device)
             #data = data.transpose(0,1).to(device)
-            if i==2:
+            if model.no_train and i==2:
                 break
             data = data.to(device)
             targets = targets.to(device)
@@ -253,8 +253,10 @@ def get_fitness(model,testloader,batchsize):
         print(f"FITNESS ESTIMATION: {fitness_estimation}")
         print(f"Total correctly classified test set images: {correct}/{total}")
         print(f"Test Set Accuracy: {100*accuracy_test:.2f}%")
-    #return accuracy_test
-    return fitness_estimation
+    if model.no_train:
+        return fitness_estimation
+    else:
+        return accuracy_test
 
 
 def train_with_cmaes(problem,optimizer,cmaes_iterations):

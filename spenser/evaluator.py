@@ -334,6 +334,9 @@ class Evaluator:
         if DEBUG:
             print("Saved model")
         #measure test performance
+
+        if num_epochs == 0:
+            return {}
         start_fitness = t()
 
         

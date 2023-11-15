@@ -25,6 +25,18 @@ class ImgToSpikeTrain(object):
         #print("SAMPLE",sample)
         return spikegen.rate(sample, num_steps=self.time_steps)
 
+class RepeatImage(object):
+
+    def __init__(self,time_steps):
+        self.time_steps = time_steps
+    
+    def __call__(self,sample):
+        #print("SAMPLE",sample)
+        #return spikegen.rate(sample, num_steps=self.time_steps)
+        return np.broadcast_to(sample,(self.time_steps,)+sample.shape)
+
+
+
 
 
 def load_MNIST(train=True,transform=None):
@@ -83,10 +95,17 @@ def load_dataset(dataset, config):
 
     transform_cifar =  transforms.Compose([
                     transforms.Resize((32,32)),
-                    transforms.Grayscale(),
+                    #transforms.Grayscale(),
                     transforms.ToTensor(),
                     transforms.Normalize((0,), (1,)),
                     ImgToSpikeTrain(num_steps)])
+
+    transform_cifar_original =  transforms.Compose([
+                    transforms.Resize((32,32)),
+                    #transforms.Grayscale(),
+                    transforms.ToTensor(),
+                    transforms.Normalize((0,), (1,)),
+                    RepeatImage(num_steps)])
 
     if dataset == 'mnist':
         trainset = load_MNIST(train=True,transform=transform)
@@ -99,7 +118,11 @@ def load_dataset(dataset, config):
     elif dataset == 'cifar-10':
         trainset = load_CIFAR10(train=True,transform=transform_cifar)
         testset = load_CIFAR10(train=False,transform=transform_cifar)
-        input_size = (1,32,32)
+        input_size = (3,32,32)
+    elif dataset == 'cifar-10-original':
+        trainset = load_CIFAR10(train=True,transform=transform_cifar_original)
+        testset = load_CIFAR10(train=False,transform=transform_cifar_original)
+        input_size = (3,32,32)
     else:
         print("Error: the dataset is not valid")
         exit(-1)

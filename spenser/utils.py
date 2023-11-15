@@ -6,7 +6,7 @@ import random
 import numpy as np
 import json
 import os
-
+import torch
 def save_pop(population, save_path, run, gen):
     """
         Save the current population statistics in json.
@@ -144,6 +144,9 @@ def pickle_population(population, parent, best_fitness, save_path, run):
 
     with open(Path('%s/run_%d/numpy.pkl' % (save_path, run)), 'wb') as handle_numpy:
         pickle.dump(np.random.get_state(), handle_numpy, protocol=pickle.HIGHEST_PROTOCOL)
+    
+    with open(Path('%s/run_%d/torch.pkl' % (save_path, run)), 'wb') as handle_torch:
+        pickle.dump(torch.get_rng_state(), handle_torch, protocol=pickle.HIGHEST_PROTOCOL)
 
     with open(Path('%s/run_%d/best_fitness.pkl' % (save_path, run)), 'wb') as handle_best:
         pickle.dump(best_fitness, handle_best, protocol=pickle.HIGHEST_PROTOCOL)
@@ -216,11 +219,14 @@ def unpickle_population(save_path, run):
 
         with open(Path('%s' % save_path, 'run_%d' % run, 'numpy.pkl'), 'rb') as handle_numpy:
             pickle_numpy = pickle.load(handle_numpy)
+        
+        with open(Path('%s' % save_path, 'run_%d' % run, 'torch.pkl'), 'rb') as handle_torch:
+            pickle_torch = pickle.load(handle_torch)
 
         total_epochs = get_total_epochs(save_path, run, last_generation)
 
         return last_generation, pickle_evaluator, pickle_population, pickle_parent, \
-               pickle_population_fitness, pickle_random, pickle_numpy, total_epochs, pickle_best_fitness
+               pickle_population_fitness, pickle_random, pickle_numpy, pickle_torch, total_epochs, pickle_best_fitness
 
     else:
         return None

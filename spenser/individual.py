@@ -242,7 +242,7 @@ class Individual:
 
         else:
             self.metrics = None
-            self.fitness = -1
+            self.fitness = -10**10
             self.num_epochs = 0
             self.trainable_parameters = -1
             self.current_time = 0

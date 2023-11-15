@@ -6,6 +6,8 @@ from spenser.utils import save_pop, pickle_population, unpickle_population, load
 from spenser.evaluator import Evaluator
 from spenser.individual import Individual
 
+import torch
+
 from pathlib import Path
 from os import makedirs
 import random
@@ -186,12 +188,7 @@ def mutation(individual, grammar, add_layer, re_use_layer, remove_layer, dsge_la
     ind.is_parent = False
     ind.metrics = None
     for module in ind.modules:
-        print(module)
-        print(module.min_expansions, module.max_expansions, len(module.layers))
-        for l in module.layers:
-            print(l)
-        print("---")
-        input()
+    
         #add-layer (duplicate or new)
         for _ in range(random.randint(1,2)):
             if len(module.layers) < module.max_expansions and random.random() <= add_layer:
@@ -274,7 +271,9 @@ def main(run, dataset, config_file, grammar_path, evaluate_test, retrain_epochs)
         #set random seeds
         random.seed(config["EVOLUTIONARY"]["random_seeds"][run])
         np.random.seed(config["EVOLUTIONARY"]["numpy_seeds"][run])
-
+        torch.manual_seed(config["EVOLUTIONARY"]["numpy_seeds"][run])
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
         #create evaluator
         cnn_eval = Evaluator(dataset, config)
 
@@ -287,9 +286,10 @@ def main(run, dataset, config_file, grammar_path, evaluate_test, retrain_epochs)
 
     #in case there is a previous population, load it
     else:
-        last_gen, cnn_eval, population, parent, population_fits, pkl_random, pkl_numpy, total_epochs,best_fitness = unpickle
+        last_gen, cnn_eval, population, parent, population_fits, pkl_random, pkl_numpy, pkl_torch, total_epochs,best_fitness = unpickle
         random.setstate(pkl_random)
         np.random.set_state(pkl_numpy)
+        torch.set_rng_state(pkl_torch)
 
     if evaluate_test or retrain_epochs:
         best_path = str(Path('%s' % config["EVOLUTIONARY"]["save_path"], 

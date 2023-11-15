@@ -1,0 +1,70 @@
+{
+  //Evolutionary algorithm parameters
+  "EVOLUTIONARY": {
+
+    //Seeds for setting the initial random and numpy seeds. Enable reproducibility.
+    //Warining: the current seeds only enable performing runs from 0 to 14.
+    "random_seeds": [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000],
+    "numpy_seeds": [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000],
+
+    //Maximum number of generations
+    "num_generations": 200,
+
+    //lambda, i.e., number of offspring
+    "lambda": 5,
+
+    //maximum of epochs to perform. Evolution is halted when the current number of epochs surpasses this value
+    "max_epochs": 10000000,
+
+    //place where the experiment is saved
+    "save_path": "./experiments_cifar_no_train",
+    
+    "skip_parent": "True",
+
+    //rates of the different mutations [0, 1]
+    "MUTATIONS": {
+      "add_layer": 0.25,
+      "reuse_layer": 0.15,
+      "remove_layer": 0.25,
+      "add_connection": 0,
+      "remove_connection": 0,
+      "dsge_layer": 0.15,
+      "macro_layer": 0.3,
+      "train_longer": 0.2
+    }
+  },
+
+  //network specific parameters
+  "NETWORK": {
+    //structure to the hidden layers of the network [[non-terminal, min, max], ...]
+    "network_structure": [["features", 1, 4], ["classification", 1, 3]],
+
+    //number of layers on initialisation
+    "network_structure_init": {"features":[1,2,3], "classification":[1,2]},
+
+    //output layer
+    "output": "output",
+
+    //macro blocks: currently only learning
+    "macro_structure": ["learning"]
+
+  },
+
+  //training parameters
+  "TRAINING": {
+    //maximum training time for each network (in seconds)
+    "default_train_time": 600,
+    "num_steps":4,
+    "epochs":1,
+    "batch_size":256,
+    "subset":1 ,
+    "loss_fn": "snntorch.functional.mse_count_loss(correct_rate=1.0, incorrect_rate=0.0)",
+    "CMA-ES": {
+      "popsize":2000,
+      "subbatch":20,
+      "num_actors":4,
+      "n_iterations":50
+    }
+  }
+  
+}
