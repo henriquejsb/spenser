@@ -6,6 +6,8 @@ from spenser.utils import save_pop, pickle_population, unpickle_population, load
 from spenser.evaluator import Evaluator
 from spenser.individual import Individual
 
+import torch
+
 from pathlib import Path
 from os import makedirs
 import random
@@ -186,7 +188,7 @@ def mutation(individual, grammar, add_layer, re_use_layer, remove_layer, dsge_la
     ind.is_parent = False
     ind.metrics = None
     for module in ind.modules:
-
+    
         #add-layer (duplicate or new)
         for _ in range(random.randint(1,2)):
             if len(module.layers) < module.max_expansions and random.random() <= add_layer:
@@ -269,7 +271,9 @@ def main(run, dataset, config_file, grammar_path, evaluate_test, retrain_epochs)
         #set random seeds
         random.seed(config["EVOLUTIONARY"]["random_seeds"][run])
         np.random.seed(config["EVOLUTIONARY"]["numpy_seeds"][run])
-
+        torch.manual_seed(config["EVOLUTIONARY"]["numpy_seeds"][run])
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
         #create evaluator
         cnn_eval = Evaluator(dataset, config)
 
@@ -282,13 +286,14 @@ def main(run, dataset, config_file, grammar_path, evaluate_test, retrain_epochs)
 
     #in case there is a previous population, load it
     else:
-        last_gen, cnn_eval, population, parent, population_fits, pkl_random, pkl_numpy, total_epochs,best_fitness = unpickle
+        last_gen, cnn_eval, population, parent, population_fits, pkl_random, pkl_numpy, pkl_torch, total_epochs,best_fitness = unpickle
         random.setstate(pkl_random)
         np.random.set_state(pkl_numpy)
+        torch.set_rng_state(pkl_torch)
 
     if evaluate_test or retrain_epochs:
         best_path = str(Path('%s' % config["EVOLUTIONARY"]["save_path"], 
-                             'run_%d' % run, 'best'))
+                             'run_%d' % run, 'best_retrained_50'))
         accuracy_log_file = str(Path('%s' % config["EVOLUTIONARY"]["save_path"], 
                              'run_%d' % run, 'best_test_accuracy.txt'))
         if retrain_epochs:
@@ -296,7 +301,17 @@ def main(run, dataset, config_file, grammar_path, evaluate_test, retrain_epochs)
                              'run_%d' % run, 'best_retrained_%d' % retrain_epochs))
             retrain_log_file = str(Path('%s' % config["EVOLUTIONARY"]["save_path"], 
                              'run_%d' % run, 'best_retrained_%d_log.txt' % retrain_epochs))
+            
             history = cnn_eval.retrain_longer(best_path, retrain_epochs, retrain_path)
+            if 'cmaes_logger' in history:
+                    if history['cmaes_logger'] is not None:
+                        aux_logger = {}
+                        #aux_logger["iter"] = history['cmaes_logger']['iter'].tolist()
+                        aux_logger["stepsize"] = history['cmaes_logger']['stepsize'].tolist()
+                        aux_logger["mean_eval"] = history['cmaes_logger']["mean_eval"].tolist()
+                        aux_logger["median_eval"] = history['cmaes_logger']["median_eval"].tolist()
+                        aux_logger["pop_best_eval"] = history['cmaes_logger']["pop_best_eval"].tolist()
+                        history['cmaes_logger'] = aux_logger
             with open(retrain_log_file, 'w') as f:
                 f.write(str(history)+'\n')
             
@@ -309,7 +324,7 @@ def main(run, dataset, config_file, grammar_path, evaluate_test, retrain_epochs)
         with open(accuracy_log_file, 'w') as f:
             f.write(str(test_accuracy))
         return
-
+    
     for gen in range(last_gen+1, config["EVOLUTIONARY"]["num_generations"]):
 
         #check the total number of epochs (stop criteria)
@@ -328,6 +343,7 @@ def main(run, dataset, config_file, grammar_path, evaluate_test, retrain_epochs)
             for idx, ind in enumerate(population):
                 ind.current_time = 0
                 ind.num_epochs = int(config["TRAINING"]["epochs"])
+                ind.cmaes_iterations = int(config["TRAINING"]["CMA-ES"]["n_iterations"])
                 population_fits.append(ind.evaluate(grammar, cnn_eval,'%s/run_%d/best_%d_%d' % (config["EVOLUTIONARY"]["save_path"], run, gen, idx)))
                 ind.id = idx
 
@@ -347,6 +363,7 @@ def main(run, dataset, config_file, grammar_path, evaluate_test, retrain_epochs)
             
             
             population[0].num_epochs = 0
+            population[0].cmaes_iterations = 0
             population[0].is_parent = True
             parent_id = parent.id
             parent.is_parent = True
@@ -358,8 +375,10 @@ def main(run, dataset, config_file, grammar_path, evaluate_test, retrain_epochs)
                     #continue
                     #print("Is parent")
                     ind.num_epochs = 0
+                    ind.cmaes_iterations = 0
                 else:
                     #print("Not parent")
+                    ind.cmaes_iterations = int(config["TRAINING"]["CMA-ES"]["n_iterations"])
                     ind.num_epochs = int(config["TRAINING"]["epochs"])
                 
                 #input()

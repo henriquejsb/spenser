@@ -4,3 +4,4 @@ scikit_learn==1.0.2
 snntorch==0.6.4
 torch==1.13.1
 torchvision==0.14.1
+pickle5

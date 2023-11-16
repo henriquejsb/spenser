@@ -7,7 +7,7 @@ import torch, torch.nn as nn
 import traceback
 
 DEBUG = True
-
+TESTING = True
 def evaluate(args): #pragma: no cover
     """
         Function used to deploy a new process to train a candidate solution.
@@ -45,10 +45,10 @@ def evaluate(args): #pragma: no cover
 
     
 
-    return_val, scnn_eval, phenotype, weights_save_path, parent_weights_path, num_epochs = args
+    return_val, scnn_eval, phenotype, weights_save_path, parent_weights_path, num_epochs, cmaes_iterations = args
     
     try:
-        history = scnn_eval.evaluate(phenotype, weights_save_path, parent_weights_path, num_epochs)
+        history = scnn_eval.evaluate(phenotype, weights_save_path, parent_weights_path, num_epochs, cmaes_iterations)
         
     except KeyboardInterrupt:
         # quit
@@ -90,6 +90,7 @@ class Individual:
         self.fitness = None
         self.metrics = None
         self.num_epochs = 0
+        self.cmaes_iterations = 0
         self.trainable_parameters = None
         self.total_parameters = None
         self.time = None
@@ -169,14 +170,14 @@ class Individual:
   
         if DEBUG:
             print(torch.cuda.memory_allocated(),torch.cuda.max_memory_allocated())
-        
+    
         phenotype = self.decode(grammar)
         return_val = Queue()
         
         #print(f"Begin training individual {self.id}.\n")
         process = Process(target=evaluate, args=[(return_val, cnn_eval, phenotype,
                             weights_save_path, parent_weights_path,\
-                            self.num_epochs)])
+                            self.num_epochs, self.cmaes_iterations)])
         # run the process
         process.start()
 
@@ -210,6 +211,17 @@ class Individual:
                     else:
                         self.metrics['loss'] = [i.item() for i in metrics['loss']]
 
+                if 'cmaes_logger' in metrics:
+                    if metrics['cmaes_logger'] is not None:
+                        aux_logger = {}
+                        #aux_logger["iter"] = metrics['cmaes_logger']['iter'].tolist()
+                        aux_logger["stepsize"] = metrics['cmaes_logger']['stepsize'].tolist()
+                        aux_logger["mean_eval"] = metrics['cmaes_logger']["mean_eval"].tolist()
+                        aux_logger["median_eval"] = metrics['cmaes_logger']["median_eval"].tolist()
+                        aux_logger["pop_best_eval"] = metrics['cmaes_logger']["pop_best_eval"].tolist()
+                        self.metrics['cmaes_logger'] = aux_logger
+
+                    #print(self.metrics['cmaes_logger'])
 
                 #self.metrics = metrics
 
@@ -230,7 +242,7 @@ class Individual:
 
         else:
             self.metrics = None
-            self.fitness = -1
+            self.fitness = -10**10
             self.num_epochs = 0
             self.trainable_parameters = -1
             self.current_time = 0

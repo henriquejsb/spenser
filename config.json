@@ -11,13 +11,13 @@
     "num_generations": 200,
 
     //lambda, i.e., number of offspring
-    "lambda": 10,
+    "lambda": 5,
 
     //maximum of epochs to perform. Evolution is halted when the current number of epochs surpasses this value
     "max_epochs": 10000000,
 
     //place where the experiment is saved
-    "save_path": "./experiments_mnist_t_10_epochs_1_pop_10",
+    "save_path": "./experiments_mnist_no_train",
     
     "skip_parent": "True",
 
@@ -37,10 +37,10 @@
   //network specific parameters
   "NETWORK": {
     //structure to the hidden layers of the network [[non-terminal, min, max], ...]
-    "network_structure": [["features", 1, 6], ["classification", 1, 4]],
+    "network_structure": [["features", 1, 4], ["classification", 1, 3]],
 
     //number of layers on initialisation
-    "network_structure_init": {"features":[1,3,5], "classification":[1]},
+    "network_structure_init": {"features":[1,2,3], "classification":[1,2]},
 
     //output layer
     "output": "output",
@@ -56,8 +56,15 @@
     "default_train_time": 600,
     "num_steps":10,
     "epochs":1,
-    "batch_size":64,
-    "subset":1 
+    "batch_size":256,
+    "subset":1 ,
+    "loss_fn": "snntorch.functional.mse_count_loss(correct_rate=1.0, incorrect_rate=0.0)",
+    "CMA-ES": {
+      "popsize":2000,
+      "subbatch":20,
+      "num_actors":4,
+      "n_iterations":50
+    }
   }
   
 }
