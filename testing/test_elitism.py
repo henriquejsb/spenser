@@ -72,10 +72,13 @@ iterations = (len(train_dataset)//batch_size + 1) * EPOCHS
 for _ in range(iterations // 10 + 1):
     #if (_+1)*10 > iterations: break
     searcher.run(10)
-
+    print(searcher.status)
     final_sol = torch.squeeze(searcher.status["center"])
     
-    print("SOL SIZE: ",final_sol.size())
+    
+    
+    
+    #print("SOL SIZE: ",final_sol.size())
     #input()
     net = mnist_problem.parameterize_net(final_sol).to(device)
 

@@ -214,9 +214,15 @@ class Evaluator:
 
         cmaes_iterations = (len(train) // self.config["TRAINING"]["batch_size"] + 1) * num_epochs
         print("CMAES ITERATIONS",cmaes_iterations)
+        
         torch_learning["stdev_init"] = 0.1
+        
+        
         train_sets = torch.utils.data.ConcatDataset([train, test])
         train_sets_loader = None
+        
+        
+        
         #for epoch in range(num_epochs):
             #(model,dataset,dataloader,optimizer_genotype,loss_fn,num_epochs=0,cmaes_iterations=0,config=None):
         model, acc_hist, loss_hist, time_stats, cmaes_logger = train_network(model=model,

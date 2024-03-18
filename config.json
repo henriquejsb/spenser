@@ -54,8 +54,8 @@
   "TRAINING": {
     //maximum training time for each network (in seconds)
     "default_train_time": 600,
-    "num_steps":10,
-    "epochs":1,
+    "num_steps":5,
+    "epochs":6,
     "batch_size":256,
     "subset":1 ,
     "loss_fn": "snntorch.functional.mse_count_loss(correct_rate=1.0, incorrect_rate=0.0)",

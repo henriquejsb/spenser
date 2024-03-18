@@ -8,16 +8,16 @@
     "numpy_seeds": [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000],
 
     //Maximum number of generations
-    "num_generations": 200,
+    "num_generations": 400,
 
     //lambda, i.e., number of offspring
-    "lambda": 5,
+    "lambda": 20,
 
     //maximum of epochs to perform. Evolution is halted when the current number of epochs surpasses this value
     "max_epochs": 10000000,
 
     //place where the experiment is saved
-    "save_path": "./experiments_cifar_no_train",
+    "save_path": "./experiments_cifar_original_no_train",
     
     "skip_parent": "True",
 
@@ -40,7 +40,7 @@
     "network_structure": [["features", 1, 4], ["classification", 1, 3]],
 
     //number of layers on initialisation
-    "network_structure_init": {"features":[1,2,3], "classification":[1,2]},
+    "network_structure_init": {"features":[1,2,3], "classification":[1,2,3]},
 
     //output layer
     "output": "output",
@@ -54,7 +54,7 @@
   "TRAINING": {
     //maximum training time for each network (in seconds)
     "default_train_time": 600,
-    "num_steps":4,
+    "num_steps":5,
     "epochs":1,
     "batch_size":256,
     "subset":1 ,

@@ -1,5 +1,6 @@
 <features> ::=  <aux-convolution> | <aux-convolution> | <aux-convolution> | <dropout>
-<aux-convolution> ::= <convolution> <pooling> <activation>
+<aux-convolution> ::= <convolution> <pooling> <batch-norm> <activation>
+<batch-norm> ::= layer:batch-norm | layer:no-op
 <activation> ::= layer:act <beta> <threshold> <surr-grad> <reset-mechanism> 
 <reset-mechanism> ::= reset:subtract | reset:zero
 <beta> ::= [beta,float,1,0,1] <beta-trainable>

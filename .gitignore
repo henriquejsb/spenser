@@ -132,3 +132,5 @@ cache/
 data/
 
 experiments*/
+*.checkpoint
+

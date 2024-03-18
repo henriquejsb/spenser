@@ -159,7 +159,12 @@ def assemble_network(torch_layers,input_size):
             else:
                 new_dim = last_output[1]
             last_output = (NF,new_dim,new_dim)
-
+        elif layer_type == 'batch-norm':
+            
+            C = last_output[0]
+            batch_norm_layer = nn.BatchNorm2d(C)
+            layers += [(str(idx),batch_norm_layer)]
+            idx += 1
 
         elif layer_type == 'pool-max' or layer_type == 'pool-avg':
             K = int(layer_params['kernel-size'][0])
